@@ -74,6 +74,7 @@ const CajaTitulo = styled.div`
   -webkit-box-shadow: 3px 7px 11px 0px rgba(0, 0, 0, 0.75);
   box-shadow: 3px 7px 11px 0px rgba(0, 0, 0, 0.75);
   padding-left: 15px;
+  background-color: green;
 `;
 const TituloH1 = styled.h1`
   font-size: 6rem;
