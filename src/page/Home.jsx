@@ -10,6 +10,8 @@ import ImgVilla4 from "./../assets/store/villa4.jpg";
 import ImgVilla5 from "./../assets/store/villa5.jpg";
 import ImgVilla6 from "./../assets/store/villa6.jpg";
 import Carrusel from "../components/Carrusel";
+import CardPropiedades from "../components/CardPropiedades";
+import { BtnGeneral } from "../components/BtnGeneral";
 
 export default function Home() {
   const arrayImg = [
@@ -33,11 +35,13 @@ export default function Home() {
             <Span>Koi</Span>
           </TituloH1>
           <Subtitulo>Punta Cana te espera...</Subtitulo>
+          <BtnSimple>Reservar</BtnSimple>
         </CajaTitulo>
       </ContainerHeader>
       <ContenedorPrincipal>
         <Seccion>
           <TituloSeccion>Propiedades</TituloSeccion>
+          <CardPropiedades />
         </Seccion>
       </ContenedorPrincipal>
     </Container>
@@ -74,7 +78,7 @@ const CajaTitulo = styled.div`
   -webkit-box-shadow: 3px 7px 11px 0px rgba(0, 0, 0, 0.75);
   box-shadow: 3px 7px 11px 0px rgba(0, 0, 0, 0.75);
   padding-left: 15px;
-  background-color: green;
+  /* background-color: green; */
 `;
 const TituloH1 = styled.h1`
   font-size: 6rem;
@@ -90,11 +94,15 @@ const Subtitulo = styled.h2`
 `;
 
 // ***** RESTO CONTENIDO ******
-const Seccion = styled.section``;
+const Seccion = styled.section`
+  margin-bottom: 80px;
+`;
 const TituloSeccion = styled.h2`
   color: ${theme.primary.turquoise};
   width: 100%;
   text-align: center;
   font-size: 2.5rem;
   text-decoration: underline;
+  margin-bottom: 40px;
 `;
+const BtnSimple = styled(BtnGeneral)``;
