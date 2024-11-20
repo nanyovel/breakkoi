@@ -5,12 +5,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil } from "@fortawesome/free-solid-svg-icons";
 import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
+import ImgLogo from "./../../public/img/logo.png";
 
 export default function Header() {
   return (
     <ContenedorHeader>
       <NavBar>
         <CajaInternaHeader>
+          <Img src={ImgLogo} />
           <WrapTel>
             <TextoTel className="tel">
               <Ancla
@@ -59,7 +61,7 @@ const ContenedorHeader = styled.header`
   color: ${theme.primary.white};
   /* padding: 16px; */
   height: 60px;
-  padding: 0 80px;
+  padding: 0 150px;
   z-index: 2;
   position: absolute;
 `;
@@ -130,4 +132,9 @@ const Icono = styled(FontAwesomeIcon)`
       cursor: pointer;
     }
   }
+`;
+const Img = styled.img`
+  height: 75%;
+  margin-right: 10px;
+  cursor: pointer;
 `;

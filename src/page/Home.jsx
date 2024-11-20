@@ -12,6 +12,7 @@ import ImgVilla6 from "./../assets/store/villa6.jpg";
 import Carrusel from "../components/Carrusel";
 import CardPropiedades from "../components/CardPropiedades";
 import { BtnGeneral } from "../components/BtnGeneral";
+import FormContact from "../components/FormContact";
 
 export default function Home() {
   const arrayImg = [
@@ -42,6 +43,13 @@ export default function Home() {
         <Seccion>
           <TituloSeccion>Propiedades</TituloSeccion>
           <CardPropiedades />
+        </Seccion>
+        <Seccion>
+          <TituloSeccion>Contactos</TituloSeccion>
+          <FormContact />
+        </Seccion>
+        <Seccion>
+          <TituloSeccion>Quienes Somos</TituloSeccion>
         </Seccion>
       </ContenedorPrincipal>
     </Container>
@@ -104,5 +112,6 @@ const TituloSeccion = styled.h2`
   font-size: 2.5rem;
   text-decoration: underline;
   margin-bottom: 40px;
+  font-weight: normal;
 `;
 const BtnSimple = styled(BtnGeneral)``;
