@@ -5,6 +5,8 @@ export const theme = {
     sand: "#F3E5AB", // Color de la arena
     // Evoca la playa y la arena, excelente para fondos o áreas extensas.
     white: "#FFFFFF", // Blanco puro
+    turquoiseTenue: "#1f8e78",
+    turquoiseBrillante: "#55f9d8",
   },
   secondary: {
     coral: "#FF6F61", // Coral cálido

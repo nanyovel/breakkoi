@@ -9,5 +9,5 @@ const Container = styled.div`
   /* background-color: red; */
   width: 100%;
   z-index: 5000;
-  padding: 0 80px;
+  padding: 0 150px;
 `;
