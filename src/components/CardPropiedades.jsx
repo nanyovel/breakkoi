@@ -20,14 +20,21 @@ export default function CardPropiedades() {
   );
 }
 const Container = styled.div`
-  height: 200px;
-  width: 300px;
+  height: 300px;
+  width: 400px;
   border: 1px solid ${theme.primary.turquoise};
   border-radius: 5px;
   cursor: pointer;
   -moz-box-shadow: 3px 7px 11px 0px rgba(0, 0, 0, 0.75);
   -webkit-box-shadow: 3px 7px 11px 0px rgba(0, 0, 0, 0.75);
   box-shadow: 3px 7px 11px 0px rgba(0, 0, 0, 0.75);
+  transition: all ease 0.2s;
+  &:hover {
+    /* -moz-box-shadow: 3px 7px 11px 0px rgba(0, 0, 0, 0.75); */
+    /* -webkit-box-shadow: 3px 7px 11px 0px rgba(0, 0, 0, 0.75); */
+    box-shadow: 2px 4px 11px 0px ${theme.primary.turquoise};
+    border: 1px solid #423f3f9e;
+  }
 `;
 const CajaInterna = styled.div`
   width: 100%;
@@ -51,6 +58,9 @@ const Titulo = styled.h2`
   color: white;
   height: 100%;
   text-align: center;
+  vertical-align: center;
+  align-content: center;
+  font-size: 2rem;
   /* display: inline; */
   &:hover {
     text-decoration: underline;

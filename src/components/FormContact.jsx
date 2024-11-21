@@ -19,7 +19,7 @@ export default function FormContact() {
         <Input type="text" />
       </CajaInput>
       <CajaInput>
-        <TituloInput>Correo</TituloInput>
+        <TituloInput>Mensaje</TituloInput>
         <TextArea type="text" />
       </CajaInput>
       <BtnSimple>Enviar</BtnSimple>
@@ -48,7 +48,8 @@ const CajaInput = styled.div`
   width: 100%;
 `;
 const TituloInput = styled.p`
-  color: ${theme.primary.turquoise};
+  color: ${theme.complementary.midnightBlue};
+  /* color: red; */
 `;
 const Input = styled.input`
   width: 100%;

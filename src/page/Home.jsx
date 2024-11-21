@@ -49,12 +49,20 @@ export default function Home() {
           <FormContact />
         </Seccion>
         <Seccion>
-          <TituloSeccion>Quienes Somos</TituloSeccion>
+          <TituloSeccion>Sobre nosotros</TituloSeccion>
+          <TituloLess></TituloLess>
         </Seccion>
       </ContenedorPrincipal>
     </Container>
   );
 }
+// ¿Quienes somos?
+// ¿Porque elegirnos?
+// ¿Que dicen nuestros clientes?
+// Lo que nos hace diferente
+// Tu refugio perfecto en Punta Cana
+// Nuestros valores
+//
 const Container = styled.div``;
 
 // ***** HERO ******
@@ -106,7 +114,7 @@ const Seccion = styled.section`
   margin-bottom: 80px;
 `;
 const TituloSeccion = styled.h2`
-  color: ${theme.primary.turquoise};
+  color: ${theme.primary.turquoiseTenue};
   width: 100%;
   text-align: center;
   font-size: 2.5rem;
@@ -115,3 +123,5 @@ const TituloSeccion = styled.h2`
   font-weight: normal;
 `;
 const BtnSimple = styled(BtnGeneral)``;
+
+const TituloLess = styled.h3``;
