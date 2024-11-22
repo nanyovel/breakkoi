@@ -4,23 +4,23 @@ import { theme } from "../config/theme";
 import ImgVilla1 from "./../assets/store/villa1.jpg";
 import { BtnGeneral } from "./BtnGeneral";
 
-export default function CardPropiedades() {
+export default function CardPropiedades({ imgMain, nombre }) {
   return (
     <Container>
       <CajaInterna>
-        <Img src={ImgVilla1} />
+        <Img src={imgMain} />
         <BtnSimple>Reservar</BtnSimple>
       </CajaInterna>
       <CajaInterna className="titulo">
         <Titulo>
-          <Ancla>Villa Koi</Ancla>
+          <Ancla>{nombre}</Ancla>
         </Titulo>
       </CajaInterna>
     </Container>
   );
 }
 const Container = styled.div`
-  height: 300px;
+  height: 200px;
   width: 400px;
   border: 1px solid ${theme.primary.turquoise};
   border-radius: 5px;
@@ -69,6 +69,7 @@ const Titulo = styled.h2`
 const Ancla = styled.a``;
 const BtnSimple = styled(BtnGeneral)`
   position: absolute;
+  background-color: ${theme.secondary.coral};
   bottom: 0;
   right: 0;
 `;

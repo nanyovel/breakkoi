@@ -9,10 +9,21 @@ import ImgVilla3 from "./../assets/store/villa3.jpg";
 import ImgVilla4 from "./../assets/store/villa4.jpg";
 import ImgVilla5 from "./../assets/store/villa5.jpg";
 import ImgVilla6 from "./../assets/store/villa6.jpg";
+import ImgWorkRead from "./../../public/img/trabajoEscrito.jpg";
+import ImgKidPool from "./../../public/img/kidPool.jpg";
+import ImgMujerPlaya from "./../../public/img/mujerPlaya.svg";
 import Carrusel from "../components/Carrusel";
 import CardPropiedades from "../components/CardPropiedades";
 import { BtnGeneral } from "../components/BtnGeneral";
 import FormContact from "../components/FormContact";
+import CardResennia from "../components/CardResennia";
+import RostroMujer1 from "./../../public/img/rostroMujer1.jpg";
+import RostroMujer2 from "./../../public/img/rostroMujer2.jpg";
+import RostroHombre1 from "./../../public/img/rostroHombre1.jpg";
+import EEUU from "./../../public/img/estados-unidos.png";
+import ALEMANIA from "./../../public/img/alemania.png";
+import CANADA from "./../../public/img/canada.png";
+import wave from "./../../public/img/wave.svg";
 
 export default function Home() {
   const arrayImg = [
@@ -36,33 +47,170 @@ export default function Home() {
             <Span>Koi</Span>
           </TituloH1>
           <Subtitulo>Punta Cana te espera...</Subtitulo>
-          <BtnSimple>Reservar</BtnSimple>
+          <BtnSimple className="ctaMain">Reservar</BtnSimple>
         </CajaTitulo>
+        <CajaWave>
+          <ImgWave src={wave} />
+        </CajaWave>
       </ContainerHeader>
       <ContenedorPrincipal>
         <Seccion>
           <TituloSeccion>Propiedades</TituloSeccion>
-          <CardPropiedades />
+          <WrapPropiedades>
+            <CardPropiedades imgMain={ImgVilla1} nombre="Villa Koi" />
+            <CardPropiedades imgMain={ImgVilla4} nombre="Arena Gorda" />
+            <CardPropiedades imgMain={ImgVilla6} nombre="Arrollo Salado" />
+          </WrapPropiedades>
         </Seccion>
         <Seccion>
-          <TituloSeccion>Contactos</TituloSeccion>
+          <TituloSeccion>Envianos un mensaje</TituloSeccion>
           <FormContact />
         </Seccion>
         <Seccion>
           <TituloSeccion>Sobre nosotros</TituloSeccion>
-          <TituloLess></TituloLess>
+
+          <WrapTextoImg>
+            <CajaInterna className="texto">
+              <TituloLess>¿Quienes somos?</TituloLess>
+              <br />
+              <Parrafo>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Adipisci eius qui, velit quas similique inventore! Saepe eos
+                nobis repellat, dolores, dicta ab corrupti odio nostrum eius
+                quisquam necessitatibus hic ullam.
+              </Parrafo>
+              <br />
+              <Parrafo>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Adipisci eius qui, velit quas similique inventore! Saepe eos
+                nobis repellat, dolores, dicta ab corrupti odio nostrum eius
+                quisquam necessitatibus hic ullam.
+              </Parrafo>
+              <br />
+              <Parrafo>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Adipisci eius qui, velit quas similique inventore! Saepe eos
+                nobis repellat, dolores, dicta ab corrupti odio nostrum eius
+                quisquam necessitatibus hic ullam.
+              </Parrafo>
+            </CajaInterna>
+            <CajaInterna className="cajaImg">
+              <Img src={ImgWorkRead} />
+              <CajaHover className="hover">
+                Somos una excelente opcion de alquileres vacacionales de Punta
+                Cana.
+              </CajaHover>
+            </CajaInterna>
+          </WrapTextoImg>
+          <WrapTextoImg className="reverse">
+            <CajaInterna className="texto">
+              <TituloLess>¿Por que elegirnos?</TituloLess>
+              <br />
+              <Parrafo>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Adipisci eius qui, velit quas similique inventore! Saepe eos
+                nobis repellat, dolores, dicta ab corrupti odio nostrum eius
+                quisquam necessitatibus hic ullam.
+              </Parrafo>
+              <br />
+              <Parrafo>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Adipisci eius qui, velit quas similique inventore! Saepe eos
+                nobis repellat, dolores, dicta ab corrupti odio nostrum eius
+                quisquam necessitatibus hic ullam.
+              </Parrafo>
+              <br />
+              <Parrafo>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Adipisci eius qui, velit quas similique inventore! Saepe eos
+                nobis repellat, dolores, dicta ab corrupti odio nostrum eius
+                quisquam necessitatibus hic ullam.
+              </Parrafo>
+            </CajaInterna>
+            <CajaInterna className="cajaImg">
+              <Img src={ImgKidPool} />
+              <CajaHover className="hover">
+                Tu refugio perfecto, Punta Cana.
+              </CajaHover>
+            </CajaInterna>
+          </WrapTextoImg>
         </Seccion>
+        <Seccion>
+          <TituloSeccion>Lo que nos hace diferentes</TituloSeccion>
+          <WrapTextoImg className="reverse">
+            <CajaInterna className="texto">
+              <TituloLess>Factor diferenciador</TituloLess>
+              <br />
+              <Parrafo>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Adipisci eius qui, velit quas similique inventore! Saepe eos
+                nobis repellat, dolores, dicta ab corrupti odio nostrum eius
+                quisquam necessitatibus hic ullam.
+              </Parrafo>
+              <br />
+              <Parrafo>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Adipisci eius qui, velit quas similique inventore! Saepe eos
+                nobis repellat, dolores, dicta ab corrupti odio nostrum eius
+                quisquam necessitatibus hic ullam.
+              </Parrafo>
+              <br />
+              <TituloLess>Nuestros valores</TituloLess>
+              <Parrafo>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Adipisci eius qui, velit quas similique inventore! Saepe eos
+                nobis repellat, dolores, dicta ab corrupti odio nostrum eius
+                quisquam necessitatibus hic ullam.
+              </Parrafo>
+              <br />
+              <Parrafo>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Adipisci eius qui, velit quas similique inventore! Saepe eos
+                nobis repellat, dolores, dicta ab corrupti odio nostrum eius
+                quisquam necessitatibus hic ullam.
+              </Parrafo>
+              <br />
+            </CajaInterna>
+            <CajaInterna className="cajaImg">
+              <Img src={ImgMujerPlaya} className="svg" />
+            </CajaInterna>
+          </WrapTextoImg>
+        </Seccion>
+        <Seccion>
+          <TituloSeccion>¿Que dicen nuestros clientes?</TituloSeccion>
+          <WrapTextoImg>
+            <CardResennia
+              nombre="Mirian Smith"
+              ImgPerson={RostroMujer1}
+              ImgBandera={EEUU}
+              texto="Me encanto el lugar, todo limpio, ordenado, buen ambiente y la
+              ubicacion geografica es lo maravilloso del sitio."
+            />
+            <CardResennia
+              nombre="Nolan Sandler"
+              ImgPerson={RostroHombre1}
+              ImgBandera={ALEMANIA}
+              texto="Este sitio me encanta, es la tarcera vez que voy y no sera la ultima."
+            />
+            <CardResennia
+              nombre="Mary Diaz"
+              ImgPerson={RostroMujer2}
+              ImgBandera={CANADA}
+              texto="Mi esposo y mis hijos quedaron encantado con el lugar y la zona, siempre es un placer visitar Punta Cana."
+            />
+          </WrapTextoImg>
+        </Seccion>
+        <TituloSeccion>Noticias (Blog)</TituloSeccion>
+        <Seccion></Seccion>
       </ContenedorPrincipal>
     </Container>
   );
 }
-// ¿Quienes somos?
-// ¿Porque elegirnos?
-// ¿Que dicen nuestros clientes?
-// Lo que nos hace diferente
-// Tu refugio perfecto en Punta Cana
-// Nuestros valores
+//FAQ (Preguntas frecuentes)
 //
+//
+// Noticias
+
 const Container = styled.div``;
 
 // ***** HERO ******
@@ -71,6 +219,7 @@ const ContainerHeader = styled.div`
   width: 100%;
   height: 100vh;
   margin-bottom: 80px;
+  overflow: hidden;
 `;
 const ContainerHero = styled.div`
   width: 100%;
@@ -123,4 +272,78 @@ const TituloSeccion = styled.h2`
 `;
 const BtnSimple = styled(BtnGeneral)``;
 
-const TituloLess = styled.h3``;
+const TituloLess = styled.h3`
+  font-size: 1.8rem;
+  color: ${theme.secondary.coral};
+`;
+const WrapTextoImg = styled.div`
+  display: flex;
+  margin-bottom: 30px;
+  gap: 30px;
+  &.reverse {
+    flex-direction: row-reverse;
+  }
+`;
+const CajaInterna = styled.div`
+  width: 50%;
+  &.texto {
+    align-content: center;
+  }
+  &.cajaImg {
+    position: relative;
+    overflow: hidden;
+    border-radius: 5px;
+
+    &:hover .hover {
+      transform: translateX(0%);
+    }
+  }
+`;
+const Img = styled.img`
+  width: 100%;
+  -moz-box-shadow: 3px 7px 11px 0px rgba(0, 0, 0, 0.75);
+  -webkit-box-shadow: 3px 7px 11px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 3px 7px 11px 0px rgba(0, 0, 0, 0.75);
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  &.svg {
+    width: 80%;
+  }
+`;
+const Parrafo = styled.p``;
+const CajaHover = styled.div`
+  color: #fff;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 1.8rem;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  font-weight: 600;
+  background-color: #dc143c8c;
+  padding: 10px;
+  left: 0;
+  top: 0;
+  transform: translateX(100%);
+  transition: transform ease-in-out 0.3s;
+`;
+
+const CajaWave = styled.div`
+  /* border: 2px solid red; */
+  position: absolute;
+  bottom: -100px;
+  width: 100%;
+  /* overflow: hidden; */
+`;
+const ImgWave = styled.img`
+  position: absolute;
+  bottom: -5px;
+`;
+
+const WrapPropiedades = styled.div`
+  display: flex;
+  gap: 50px;
+`;
