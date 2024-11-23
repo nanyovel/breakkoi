@@ -30,8 +30,8 @@ const Container = styled.div`
   box-shadow: 3px 7px 11px 0px rgba(0, 0, 0, 0.75);
   transition: all ease 0.2s;
   &:hover {
-    /* -moz-box-shadow: 3px 7px 11px 0px rgba(0, 0, 0, 0.75); */
-    /* -webkit-box-shadow: 3px 7px 11px 0px rgba(0, 0, 0, 0.75); */
+    -moz-box-box-shadow: 2px 4px 11px 0px ${theme.primary.turquoise};
+    -webkit-box-shadow: 2px 4px 11px 0px ${theme.primary.turquoise};
     box-shadow: 2px 4px 11px 0px ${theme.primary.turquoise};
     border: 1px solid #423f3f9e;
   }

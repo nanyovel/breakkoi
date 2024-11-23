@@ -24,6 +24,7 @@ import EEUU from "./../../public/img/estados-unidos.png";
 import ALEMANIA from "./../../public/img/alemania.png";
 import CANADA from "./../../public/img/canada.png";
 import wave from "./../../public/img/wave.svg";
+import CardBlog from "../components/SeccionBlog";
 
 export default function Home() {
   const arrayImg = [
@@ -97,7 +98,7 @@ export default function Home() {
             <CajaInterna className="cajaImg">
               <Img src={ImgWorkRead} />
               <CajaHover className="hover">
-                Somos una excelente opcion de alquileres vacacionales de Punta
+                Somos una excelente opcion de alquileres vacacionales en Punta
                 Cana.
               </CajaHover>
             </CajaInterna>
@@ -200,15 +201,19 @@ export default function Home() {
             />
           </WrapTextoImg>
         </Seccion>
-        <TituloSeccion>Noticias (Blog)</TituloSeccion>
-        <Seccion></Seccion>
+        <Seccion>
+          <TituloSeccion>Noticias (Blog)</TituloSeccion>
+          <WrapTextoImg>
+            <CardBlog />
+          </WrapTextoImg>
+        </Seccion>
       </ContenedorPrincipal>
     </Container>
   );
 }
 //FAQ (Preguntas frecuentes)
-//
-//
+//Registrate para recibir precio especial
+//5 razones q
 // Noticias
 
 const Container = styled.div``;
@@ -259,7 +264,8 @@ const Subtitulo = styled.h2`
 
 // ***** RESTO CONTENIDO ******
 const Seccion = styled.section`
-  margin-bottom: 80px;
+  margin-bottom: 100px;
+  /* border: 1px solid red; */
 `;
 const TituloSeccion = styled.h2`
   color: ${theme.primary.turquoiseTenue};
