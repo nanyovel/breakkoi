@@ -10,4 +10,5 @@ const Container = styled.div`
   width: 100%;
   z-index: 5000;
   padding: 0 200px;
+  overflow-x: hidden;
 `;

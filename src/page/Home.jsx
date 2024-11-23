@@ -10,6 +10,7 @@ import ImgVilla4 from "./../assets/store/villa4.jpg";
 import ImgVilla5 from "./../assets/store/villa5.jpg";
 import ImgVilla6 from "./../assets/store/villa6.jpg";
 import ImgWorkRead from "./../../public/img/trabajoEscrito.jpg";
+import ImgGirlPool from "./../../public/img/girlPool.jpg";
 import ImgKidPool from "./../../public/img/kidPool.jpg";
 import ImgMujerPlaya from "./../../public/img/mujerPlaya.svg";
 import Carrusel from "../components/Carrusel";
@@ -129,12 +130,28 @@ export default function Home() {
               </Parrafo>
             </CajaInterna>
             <CajaInterna className="cajaImg">
-              <Img src={ImgKidPool} />
+              <Img src={ImgGirlPool} />
               <CajaHover className="hover">
                 Tu refugio perfecto, Punta Cana.
               </CajaHover>
             </CajaInterna>
           </WrapTextoImg>
+        </Seccion>
+
+        <Seccion className="parallax">
+          <SeccionParralla>
+            <CajaParallax></CajaParallax>
+            <BarraParallax className="top">
+              <TituloParallax>
+                El único estrés aquí es decidir entre playa o piscina.
+              </TituloParallax>
+            </BarraParallax>
+            <BarraParallax className="bottom">
+              <TituloParallax>
+                Ven por las vistas, quédate por la paz mental.
+              </TituloParallax>
+            </BarraParallax>
+          </SeccionParralla>
         </Seccion>
         <Seccion>
           <TituloSeccion>Lo que nos hace diferentes</TituloSeccion>
@@ -213,8 +230,6 @@ export default function Home() {
 }
 //FAQ (Preguntas frecuentes)
 //Registrate para recibir precio especial
-//5 razones q
-// Noticias
 
 const Container = styled.div``;
 
@@ -263,10 +278,7 @@ const Subtitulo = styled.h2`
 `;
 
 // ***** RESTO CONTENIDO ******
-const Seccion = styled.section`
-  margin-bottom: 100px;
-  /* border: 1px solid red; */
-`;
+
 const TituloSeccion = styled.h2`
   color: ${theme.primary.turquoiseTenue};
   width: 100%;
@@ -352,4 +364,59 @@ const ImgWave = styled.img`
 const WrapPropiedades = styled.div`
   display: flex;
   gap: 50px;
+`;
+
+const Seccion = styled.section`
+  margin-bottom: 100px;
+  /* border: 1px solid red; */
+  &.parallax {
+    height: 100vh;
+    width: 100vw;
+  }
+`;
+
+// Parallax
+const SeccionParralla = styled(Seccion)`
+  /* border: 2px solid red; */
+  /* position: relative; */
+  width: 100%;
+  height: 100vh;
+  left: 0;
+  position: absolute;
+`;
+const BarraParallax = styled.div`
+  height: 100px;
+  width: 100vw;
+  background-color: ${theme.secondary.coral};
+  position: absolute;
+  left: 0;
+  &.top {
+    top: 0;
+  }
+  &.bottom {
+    bottom: 0;
+  }
+`;
+const TituloParallax = styled.h2`
+  color: ${theme.primary.turquoise};
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  align-content: center;
+  font-size: 3rem;
+  color: white;
+`;
+const CajaParallax = styled.div`
+  /* position: absolute; */
+  height: 90vh;
+  width: 100%;
+  position: absolute;
+  border: 1px solid red;
+  left: 0;
+  background-image: url(${ImgKidPool});
+  /* Ajuste del fondo */
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 `;
