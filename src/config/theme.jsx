@@ -2,11 +2,13 @@ export const theme = {
   primary: {
     turquoise: "#1ABC9C", // Color del mar Caribe
     // Representa el color del mar caribeño. Ideal para acentos o fondos.
-    sand: "#F3E5AB", // Color de la arena
+    sand: "#f3e5ab", // Color de la arena
     // Evoca la playa y la arena, excelente para fondos o áreas extensas.
     white: "#FFFFFF", // Blanco puro
     turquoiseTenue: "#1f8e78",
     turquoiseBrillante: "#55f9d8",
+    neutral600: "#3e3e3e",
+    neutral300: "#eee",
   },
   secondary: {
     coral: "#FF6F61", // Coral cálido

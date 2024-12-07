@@ -9,6 +9,7 @@ import ImgVilla3 from "./../assets/store/villa3.jpg";
 import ImgVilla4 from "./../assets/store/villa4.jpg";
 import ImgVilla5 from "./../assets/store/villa5.jpg";
 import ImgVilla6 from "./../assets/store/villa6.jpg";
+import ImgNinniaPool from "./../assets/store/ninniaPool.png";
 import ImgWorkRead from "./../../public/img/trabajoEscrito.jpg";
 import ImgGirlPool from "./../../public/img/girlPool.jpg";
 import ImgKidPool from "./../../public/img/kidPool.jpg";
@@ -26,6 +27,7 @@ import ALEMANIA from "./../../public/img/alemania.png";
 import CANADA from "./../../public/img/canada.png";
 import wave from "./../../public/img/wave.svg";
 import CardBlog from "../components/SeccionBlog";
+import Footer from "../components/Footer";
 
 export default function Home() {
   const arrayImg = [
@@ -55,18 +57,74 @@ export default function Home() {
           <ImgWave src={wave} />
         </CajaWave>
       </ContainerHeader>
+      <BarraPieHero>
+        <TituloPieHero>
+          ¿Preocupado por el Wi-Fi? Aquí solo necesitas conectarte con el sol y
+          el mar.
+        </TituloPieHero>
+      </BarraPieHero>
       <ContenedorPrincipal>
         <Seccion>
-          <TituloSeccion>Propiedades</TituloSeccion>
-          <WrapPropiedades>
-            <CardPropiedades imgMain={ImgVilla1} nombre="Villa Koi" />
-            <CardPropiedades imgMain={ImgVilla4} nombre="Arena Gorda" />
-            <CardPropiedades imgMain={ImgVilla6} nombre="Arrollo Salado" />
-          </WrapPropiedades>
+          <CajaVideo>
+            <CajaInternaVideo className="izquierda">
+              <TituloH2Video>
+                Break Koi: Una escapada de lujo en Punta Cana.
+              </TituloH2Video>
+              <ParrafoVideo>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum
+                necessitatibus, ipsam hic eaque iusto nemo accusantium. Eos
+                dolorem, temporibus adipisci placeat magnam nostrum animi
+                veritatis dicta. Atque est libero assumenda.
+              </ParrafoVideo>
+              <ParrafoVideo>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum
+                necessitatibus, ipsam hic eaque iusto nemo accusantium. Eos
+                dolorem, temporibus adipisci placeat magnam nostrum animi
+                veritatis dicta. Atque est libero assumenda.
+              </ParrafoVideo>
+            </CajaInternaVideo>
+            <CajaInternaVideo className="derecha">
+              <CajaYouTube>
+                <iframe
+                  width="560"
+                  height="315"
+                  src="https://www.youtube.com/embed/S7gJV3Jwmh4?si=2jlzF4_GiNiLP7o0"
+                  title="YouTube video player"
+                  frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerpolicy="strict-origin-when-cross-origin"
+                  allowfullscreen
+                ></iframe>
+              </CajaYouTube>
+            </CajaInternaVideo>
+          </CajaVideo>
         </Seccion>
         <Seccion>
-          <TituloSeccion>Envianos un mensaje</TituloSeccion>
-          <FormContact />
+          <TituloSeccion className="sinMarginBottom">Propiedades</TituloSeccion>
+          <SubtituloSeccion>
+            4 villas lujosas, en zonas estrategicas de Punta Cana.
+          </SubtituloSeccion>
+          <WrapPropiedades>
+            <CardPropiedades imgMain={ImgNinniaPool} nombre="Villa Koi" />
+            <CardPropiedades
+              imgMain={
+                "	https://cdn.pixabay.com/photo/2021/08/06/21/25/woman-6527238_960_720.jpg"
+              }
+              nombre="Arena Gorda"
+            />
+            <CardPropiedades
+              imgMain={
+                "		https://cdn.pixabay.com/photo/2014/07/08/21/39/cocktail-387902_960_720.jpg"
+              }
+              nombre="Arrollo Salado"
+            />
+            <CardPropiedades
+              imgMain={
+                "	https://cdn.pixabay.com/photo/2021/11/17/15/22/swimming-pool-6803839_960_720.jpg"
+              }
+              nombre="Playa Macao"
+            />
+          </WrapPropiedades>
         </Seccion>
         <Seccion>
           <TituloSeccion>Sobre nosotros</TituloSeccion>
@@ -137,7 +195,6 @@ export default function Home() {
             </CajaInterna>
           </WrapTextoImg>
         </Seccion>
-
         <Seccion className="parallax">
           <SeccionParralla>
             <CajaParallax></CajaParallax>
@@ -223,8 +280,15 @@ export default function Home() {
           <WrapTextoImg>
             <CardBlog />
           </WrapTextoImg>
+        </Seccion>{" "}
+        <Seccion>
+          <TituloSeccion>Envianos un mensaje</TituloSeccion>
+          <FormContact />
         </Seccion>
+        {/* <Seccion> */}
+        {/* </Seccion> */}
       </ContenedorPrincipal>
+      <Footer />
     </Container>
   );
 }
@@ -238,7 +302,7 @@ const ContainerHeader = styled.div`
   position: relative;
   width: 100%;
   height: 100vh;
-  margin-bottom: 80px;
+  /* margin-bottom: 80px; */
   overflow: hidden;
 `;
 const ContainerHero = styled.div`
@@ -256,7 +320,7 @@ const CajaTitulo = styled.div`
   right: 100px;
   z-index: 2;
   border: 2px solid ${theme.primary.turquoise};
-  background-color: rgba(243, 229, 171, 0.9);
+  background-color: ${theme.primary.neutral300};
   border-radius: 5px;
 
   -moz-box-shadow: 3px 7px 11px 0px rgba(0, 0, 0, 0.75);
@@ -272,13 +336,77 @@ const TituloH1 = styled.h1`
 `;
 const Span = styled.span`
   color: ${theme.primary.white};
+  color: ${theme.primary.neutral600};
 `;
 const Subtitulo = styled.h2`
   color: ${theme.secondary.coral};
 `;
 
 // ***** RESTO CONTENIDO ******
+const BarraPieHero = styled.div`
+  margin-bottom: 80px;
+  background-color: ${theme.primary.turquoiseTenue};
+  width: 100%;
+  height: 80px;
+`;
 
+const TituloPieHero = styled.h2`
+  color: ${theme.primary.turquoise};
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  align-content: center;
+  font-size: 2.5rem;
+  color: white;
+`;
+const CajaVideo = styled.div`
+  /* border: 1px solid red; */
+  min-height: 300px;
+  display: flex;
+  border-radius: 15px;
+  background-color: white;
+  overflow: hidden;
+  -moz-box-shadow: 3px 7px 11px 0px rgba(0, 0, 0, 0.75);
+  -webkit-box-shadow: 3px 7px 11px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 3px 7px 11px 0px rgba(0, 0, 0, 0.75);
+`;
+const CajaInternaVideo = styled.div`
+  /* width: 50%; */
+  min-height: 300px;
+  padding: 20px 40px;
+  &.izquierda {
+    width: auto;
+    /* border: 1px solid red; */
+    align-items: center;
+  }
+  &.derecha {
+    /* background-color: blue; */
+    box-shadow: 0 2px 20px #0003;
+    padding: 15px 25px;
+    display: flex;
+    justify-content: center;
+    width: auto;
+    align-items: center;
+  }
+`;
+const CajaYouTube = styled.div`
+  box-shadow: 0 2px 20px #0003;
+  /* width: 80%; */
+  /* border: 1px solid red; */
+`;
+const TituloH2Video = styled.h2`
+  text-align: center;
+  color: ${theme.primary.turquoise};
+  color: black;
+  font-size: 2.5rem;
+  font-weight: 400;
+  margin-bottom: 15px;
+`;
+const ParrafoVideo = styled.p`
+  color: ${theme.primary.neutral600};
+  font-size: 18px;
+  margin-bottom: 15px;
+`;
 const TituloSeccion = styled.h2`
   color: ${theme.primary.turquoiseTenue};
   width: 100%;
@@ -287,6 +415,16 @@ const TituloSeccion = styled.h2`
   text-decoration: underline;
   margin-bottom: 40px;
   font-weight: normal;
+  &.sinMarginBottom {
+    margin-bottom: 0;
+  }
+`;
+const SubtituloSeccion = styled.h3`
+  color: ${theme.primary.neutral600};
+  font-size: 2rem;
+  width: 100%;
+  text-align: center;
+  margin-bottom: 20px;
 `;
 const BtnSimple = styled(BtnGeneral)``;
 
@@ -364,6 +502,10 @@ const ImgWave = styled.img`
 const WrapPropiedades = styled.div`
   display: flex;
   gap: 50px;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  /* border: 1px solid red; */
 `;
 
 const Seccion = styled.section`
