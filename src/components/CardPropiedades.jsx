@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { theme } from "../config/theme";
 import ImgVilla1 from "./../assets/store/villa1.jpg";
-import { BtnGeneral } from "./BtnGeneral";
+import { BtnGeneral } from "./ElementosGenerales";
 
 export default function CardPropiedades({ imgMain, nombre }) {
   return (
@@ -13,7 +13,7 @@ export default function CardPropiedades({ imgMain, nombre }) {
       </CajaInterna>
       <CajaInterna className="titulo">
         <Titulo>
-          <Ancla>{nombre}</Ancla>
+          <>{nombre}</>
         </Titulo>
         <Parrafo>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit

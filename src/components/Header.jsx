@@ -6,13 +6,16 @@ import { faPencil } from "@fortawesome/free-solid-svg-icons";
 import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
 import ImgLogo from "./../../public/img/logo.png";
+import { Link } from "react-router";
 
-export default function Header() {
+export default function Header({ noFixed }) {
   return (
-    <ContenedorHeader>
+    <ContenedorHeader className={noFixed ? "noFixed" : ""}>
       <NavBar>
         <CajaInternaHeader>
-          <Img src={ImgLogo} />
+          <Enlaces to={`/`}>
+            <Img src={ImgLogo} />
+          </Enlaces>
           <WrapTel>
             <TextoTel className="tel">
               <Ancla
@@ -64,6 +67,9 @@ const ContenedorHeader = styled.header`
   padding: 0 150px;
   z-index: 2;
   position: absolute;
+  &.noFixed {
+    position: static;
+  }
 `;
 const NavBar = styled.nav`
   display: flex;
@@ -103,6 +109,18 @@ const Ancla = styled.a`
     text-decoration: underline;
   }
 `;
+const Enlaces = styled(Link)`
+  color: inherit;
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 const SpanTel = styled.span``;
 const NavList = styled.ul`
   display: flex;

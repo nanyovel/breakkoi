@@ -8,7 +8,9 @@ export const theme = {
     turquoiseTenue: "#1f8e78",
     turquoiseBrillante: "#55f9d8",
     neutral600: "#3e3e3e",
+    neutral500: "#7a7a7a",
     neutral300: "#eee",
+    neutral200: "#dddddd",
   },
   secondary: {
     coral: "#FF6F61", // Coral cálido
@@ -17,16 +19,22 @@ export const theme = {
     // Inspirado en la vegetación tropical, adecuado para iconos o elementos decorativos.
     gold: "#F1C40F", // Dorado tenue
     // Sugiere lujo y exclusividad, ideal para destacar secciones importantes.
+    sandDark: "#f4a261",
   },
   complementary: {
     midnightBlue: "#34495E", // Azul noche
     // Para crear contraste elegante en textos o encabezados.
     woodBrown: "#8B572A", // Marrón madera
     // Inspirado en materiales naturales, puede usarse en los elementos que representen calidez y sostenibilidad.
+    boxShadow: " 3px 7px 11px 0px rgba(0, 0, 0, 0.75)",
   },
   success: "#28a745",
   warning: "#ffc107",
   danger: "#dc3545",
+  config: {
+    paddingLateral: "200px",
+    sombra: "3px 7px 11px 0px rgba(0, 0, 0, 0.75)",
+  },
 };
 
 // Aplicaciones sugeridas:

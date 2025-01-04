@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { theme } from "../config/theme";
-import { BtnGeneral } from "./BtnGeneral";
+import { BtnGeneral } from "./ElementosGenerales";
 
 export default function FormContact() {
   return (

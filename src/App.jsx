@@ -3,59 +3,17 @@ import "./app.css";
 import { theme } from "./config/theme";
 import styled from "styled-components";
 import Header from "./components/Header";
-import ContenedorPrincipal from "./components/ContenedorPrincipal";
 import Home from "./page/Home";
+import Footer from "./components/Footer";
+import MasterRoutes from "./routes/MasterRoutes";
+import ScrollToTop from "./components/ScrollTop";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
-    <Home />
-
-    // <ContenedorPrincipal>
-    //   <Header />
-    //   <HeroSection>
-    //     <HeroTitle>Bienvenidos a las Villas en Punta Cana</HeroTitle>
-    //     <p>
-    //       Disfruta del lujo y la tranquilidad en nuestras exclusivas villas
-    //       frente al mar.
-    //     </p>
-    //     <HeroButton>Ver Villas</HeroButton>
-    //   </HeroSection>
-
-    //   <VillasSection>
-    //     <div style={{ textAlign: "center", marginBottom: "32px" }}>
-    //       <h2>Nuestras Villas</h2>
-    //     </div>
-    //     <VillasGrid>
-    //       <VillaCard>
-    //         <VillaImage src="https://via.placeholder.com/300" alt="Villa 1" />
-    //         <VillaContent>
-    //           <VillaTitle>Villa Tropical</VillaTitle>
-    //           <VillaDescription>
-    //             Una villa perfecta para disfrutar con tu familia y amigos,
-    //             rodeada de vegetación tropical.
-    //           </VillaDescription>
-    //           <VillaButton>Ver Detalles</VillaButton>
-    //         </VillaContent>
-    //       </VillaCard>
-    //       {/* Agrega más tarjetas de villas aquí */}
-    //     </VillasGrid>
-    //   </VillasSection>
-
-    //   <ContactSection>
-    //     <h2>Contáctanos</h2>
-    //     <p>
-    //       ¿Estás listo para tu próxima escapada? Contáctanos para reservar tu
-    //       villa.
-    //     </p>
-    //     <ContactButton>Reserva Ahora</ContactButton>
-    //   </ContactSection>
-
-    //   <Footer>
-    //     <p>&copy; 2024 Villas Punta Cana. Todos los derechos reservados.</p>
-    //   </Footer>
-    // </ContenedorPrincipal>
+    <>
+      <ScrollToTop />
+      <MasterRoutes />
+    </>
   );
 }
 
@@ -165,9 +123,9 @@ const ContactButton = styled.button`
 `;
 
 // Footer
-const Footer = styled.footer`
-  background-color: ${theme.complementary.midnightBlue};
-  color: ${theme.primary.white};
-  padding: 16px;
-  text-align: center;
-`;
+// const Footer = styled.footer`
+//   background-color: ${theme.complementary.midnightBlue};
+//   color: ${theme.primary.white};
+//   padding: 16px;
+//   text-align: center;
+// `;

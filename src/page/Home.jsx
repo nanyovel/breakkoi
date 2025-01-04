@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { theme } from "../config/theme";
-import ContenedorPrincipal from "../components/ContenedorPrincipal";
+// import ContenedorPrincipal from "../components/ContenedorPrincipal";
 import Header from "../components/Header";
 import ImgVilla1 from "./../assets/store/villa1.jpg";
 import ImgVilla2 from "./../assets/store/villa2.jpg";
@@ -16,7 +16,6 @@ import ImgKidPool from "./../../public/img/kidPool.jpg";
 import ImgMujerPlaya from "./../../public/img/mujerPlaya.svg";
 import Carrusel from "../components/Carrusel";
 import CardPropiedades from "../components/CardPropiedades";
-import { BtnGeneral } from "../components/BtnGeneral";
 import FormContact from "../components/FormContact";
 import CardResennia from "../components/CardResennia";
 import RostroMujer1 from "./../../public/img/rostroMujer1.jpg";
@@ -28,6 +27,8 @@ import CANADA from "./../../public/img/canada.png";
 import wave from "./../../public/img/wave.svg";
 import CardBlog from "../components/SeccionBlog";
 import Footer from "../components/Footer";
+import { Link } from "react-router";
+import { BtnGeneral } from "../components/ElementosGenerales";
 
 export default function Home() {
   const arrayImg = [
@@ -39,263 +40,273 @@ export default function Home() {
     ImgVilla6,
   ];
   return (
-    <Container>
-      <ContainerHeader>
-        <Header />
-        <ContainerHero>
-          <Carrusel arrayImg={arrayImg} />
-        </ContainerHero>
-        <CajaTitulo>
-          <TituloH1>
-            Break
-            <Span>Koi</Span>
-          </TituloH1>
-          <Subtitulo>Punta Cana te espera...</Subtitulo>
-          <BtnSimple className="ctaMain">Reservar</BtnSimple>
-        </CajaTitulo>
-        <CajaWave>
-          <ImgWave src={wave} />
-        </CajaWave>
-      </ContainerHeader>
-      <BarraPieHero>
-        <TituloPieHero>
-          ¿Preocupado por el Wi-Fi? Aquí solo necesitas conectarte con el sol y
-          el mar.
-        </TituloPieHero>
-      </BarraPieHero>
-      <ContenedorPrincipal>
-        <Seccion>
-          <CajaVideo>
-            <CajaInternaVideo className="izquierda">
-              <TituloH2Video>
-                Break Koi: Una escapada de lujo en Punta Cana.
-              </TituloH2Video>
-              <ParrafoVideo>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum
-                necessitatibus, ipsam hic eaque iusto nemo accusantium. Eos
-                dolorem, temporibus adipisci placeat magnam nostrum animi
-                veritatis dicta. Atque est libero assumenda.
-              </ParrafoVideo>
-              <ParrafoVideo>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum
-                necessitatibus, ipsam hic eaque iusto nemo accusantium. Eos
-                dolorem, temporibus adipisci placeat magnam nostrum animi
-                veritatis dicta. Atque est libero assumenda.
-              </ParrafoVideo>
-            </CajaInternaVideo>
-            <CajaInternaVideo className="derecha">
-              <CajaYouTube>
-                <iframe
-                  width="560"
-                  height="315"
-                  src="https://www.youtube.com/embed/S7gJV3Jwmh4?si=2jlzF4_GiNiLP7o0"
-                  title="YouTube video player"
-                  frameborder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  referrerpolicy="strict-origin-when-cross-origin"
-                  allowfullscreen
-                ></iframe>
-              </CajaYouTube>
-            </CajaInternaVideo>
-          </CajaVideo>
-        </Seccion>
-        <Seccion>
-          <TituloSeccion className="sinMarginBottom">Propiedades</TituloSeccion>
-          <SubtituloSeccion>
-            4 villas lujosas, en zonas estrategicas de Punta Cana.
-          </SubtituloSeccion>
-          <WrapPropiedades>
-            <CardPropiedades imgMain={ImgNinniaPool} nombre="Villa Koi" />
-            <CardPropiedades
-              imgMain={
-                "	https://cdn.pixabay.com/photo/2021/08/06/21/25/woman-6527238_960_720.jpg"
-              }
-              nombre="Arena Gorda"
-            />
-            <CardPropiedades
-              imgMain={
-                "		https://cdn.pixabay.com/photo/2014/07/08/21/39/cocktail-387902_960_720.jpg"
-              }
-              nombre="Arrollo Salado"
-            />
-            <CardPropiedades
-              imgMain={
-                "	https://cdn.pixabay.com/photo/2021/11/17/15/22/swimming-pool-6803839_960_720.jpg"
-              }
-              nombre="Playa Macao"
-            />
-          </WrapPropiedades>
-        </Seccion>
-        <Seccion>
-          <TituloSeccion>Sobre nosotros</TituloSeccion>
+    <>
+      <Header />
+      <Container2>
+        <ContainerHeader>
+          <ContainerHero>
+            <Carrusel arrayImg={arrayImg} />
+          </ContainerHero>
+          <CajaTitulo>
+            <TituloH1>
+              Break
+              <Span>Koi</Span>
+            </TituloH1>
+            <Subtitulo>Punta Cana te espera...</Subtitulo>
+            <BtnSimple className="ctaMain">Reservar</BtnSimple>
+          </CajaTitulo>
+          <CajaWave>
+            <ImgWave src={wave} />
+          </CajaWave>
+        </ContainerHeader>
+        <BarraPieHero>
+          <TituloPieHero>
+            ¿Preocupado por el Wi-Fi? Aquí solo necesitas conectarte con el sol
+            y el mar.
+          </TituloPieHero>
+        </BarraPieHero>
+        <ContainerSemi>
+          <Seccion>
+            <CajaVideo>
+              <CajaInternaVideo className="izquierda">
+                <TituloH2Video>
+                  Break Koi: Una escapada de lujo en Punta Cana.
+                </TituloH2Video>
+                <ParrafoVideo>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum
+                  necessitatibus, ipsam hic eaque iusto nemo accusantium. Eos
+                  dolorem, temporibus adipisci placeat magnam nostrum animi
+                  veritatis dicta. Atque est libero assumenda.
+                </ParrafoVideo>
+                <ParrafoVideo>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum
+                  necessitatibus, ipsam hic eaque iusto nemo accusantium. Eos
+                  dolorem, temporibus adipisci placeat magnam nostrum animi
+                  veritatis dicta. Atque est libero assumenda.
+                </ParrafoVideo>
+              </CajaInternaVideo>
+              <CajaInternaVideo className="derecha">
+                <CajaYouTube>
+                  <iframe
+                    width="560"
+                    height="315"
+                    src="https://www.youtube.com/embed/S7gJV3Jwmh4?si=2jlzF4_GiNiLP7o0"
+                    title="YouTube video player"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    allowFullScreen
+                  ></iframe>
+                </CajaYouTube>
+              </CajaInternaVideo>
+            </CajaVideo>
+          </Seccion>
+          <Seccion>
+            <TituloSeccion className="sinMarginBottom">
+              Propiedades
+            </TituloSeccion>
+            <SubtituloSeccion>
+              4 villas lujosas, en zonas estrategicas de Punta Cana.
+            </SubtituloSeccion>
+            <WrapPropiedades>
+              <EnlacePrincipal to="/propiedades/villaKoi">
+                <CardPropiedades imgMain={ImgNinniaPool} nombre="Villa Koi" />
+              </EnlacePrincipal>
+              <CardPropiedades
+                imgMain={
+                  "	https://cdn.pixabay.com/photo/2021/08/06/21/25/woman-6527238_960_720.jpg"
+                }
+                nombre="Arena Gorda"
+              />
+              <CardPropiedades
+                imgMain={
+                  "		https://cdn.pixabay.com/photo/2014/07/08/21/39/cocktail-387902_960_720.jpg"
+                }
+                nombre="Arrollo Salado"
+              />
+              <CardPropiedades
+                imgMain={
+                  "	https://cdn.pixabay.com/photo/2021/11/17/15/22/swimming-pool-6803839_960_720.jpg"
+                }
+                nombre="Playa Macao"
+              />
+            </WrapPropiedades>
+          </Seccion>
+          <Seccion>
+            <TituloSeccion>Sobre nosotros</TituloSeccion>
 
-          <WrapTextoImg>
-            <CajaInterna className="texto">
-              <TituloLess>¿Quienes somos?</TituloLess>
-              <br />
-              <Parrafo>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Adipisci eius qui, velit quas similique inventore! Saepe eos
-                nobis repellat, dolores, dicta ab corrupti odio nostrum eius
-                quisquam necessitatibus hic ullam.
-              </Parrafo>
-              <br />
-              <Parrafo>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Adipisci eius qui, velit quas similique inventore! Saepe eos
-                nobis repellat, dolores, dicta ab corrupti odio nostrum eius
-                quisquam necessitatibus hic ullam.
-              </Parrafo>
-              <br />
-              <Parrafo>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Adipisci eius qui, velit quas similique inventore! Saepe eos
-                nobis repellat, dolores, dicta ab corrupti odio nostrum eius
-                quisquam necessitatibus hic ullam.
-              </Parrafo>
-            </CajaInterna>
-            <CajaInterna className="cajaImg">
-              <Img src={ImgWorkRead} />
-              <CajaHover className="hover">
-                Somos una excelente opcion de alquileres vacacionales en Punta
-                Cana.
-              </CajaHover>
-            </CajaInterna>
-          </WrapTextoImg>
-          <WrapTextoImg className="reverse">
-            <CajaInterna className="texto">
-              <TituloLess>¿Por que elegirnos?</TituloLess>
-              <br />
-              <Parrafo>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Adipisci eius qui, velit quas similique inventore! Saepe eos
-                nobis repellat, dolores, dicta ab corrupti odio nostrum eius
-                quisquam necessitatibus hic ullam.
-              </Parrafo>
-              <br />
-              <Parrafo>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Adipisci eius qui, velit quas similique inventore! Saepe eos
-                nobis repellat, dolores, dicta ab corrupti odio nostrum eius
-                quisquam necessitatibus hic ullam.
-              </Parrafo>
-              <br />
-              <Parrafo>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Adipisci eius qui, velit quas similique inventore! Saepe eos
-                nobis repellat, dolores, dicta ab corrupti odio nostrum eius
-                quisquam necessitatibus hic ullam.
-              </Parrafo>
-            </CajaInterna>
-            <CajaInterna className="cajaImg">
-              <Img src={ImgGirlPool} />
-              <CajaHover className="hover">
-                Tu refugio perfecto, Punta Cana.
-              </CajaHover>
-            </CajaInterna>
-          </WrapTextoImg>
-        </Seccion>
-        <Seccion className="parallax">
-          <SeccionParralla>
-            <CajaParallax></CajaParallax>
-            <BarraParallax className="top">
-              <TituloParallax>
-                El único estrés aquí es decidir entre playa o piscina.
-              </TituloParallax>
-            </BarraParallax>
-            <BarraParallax className="bottom">
-              <TituloParallax>
-                Ven por las vistas, quédate por la paz mental.
-              </TituloParallax>
-            </BarraParallax>
-          </SeccionParralla>
-        </Seccion>
-        <Seccion>
-          <TituloSeccion>Lo que nos hace diferentes</TituloSeccion>
-          <WrapTextoImg className="reverse">
-            <CajaInterna className="texto">
-              <TituloLess>Factor diferenciador</TituloLess>
-              <br />
-              <Parrafo>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Adipisci eius qui, velit quas similique inventore! Saepe eos
-                nobis repellat, dolores, dicta ab corrupti odio nostrum eius
-                quisquam necessitatibus hic ullam.
-              </Parrafo>
-              <br />
-              <Parrafo>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Adipisci eius qui, velit quas similique inventore! Saepe eos
-                nobis repellat, dolores, dicta ab corrupti odio nostrum eius
-                quisquam necessitatibus hic ullam.
-              </Parrafo>
-              <br />
-              <TituloLess>Nuestros valores</TituloLess>
-              <Parrafo>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Adipisci eius qui, velit quas similique inventore! Saepe eos
-                nobis repellat, dolores, dicta ab corrupti odio nostrum eius
-                quisquam necessitatibus hic ullam.
-              </Parrafo>
-              <br />
-              <Parrafo>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Adipisci eius qui, velit quas similique inventore! Saepe eos
-                nobis repellat, dolores, dicta ab corrupti odio nostrum eius
-                quisquam necessitatibus hic ullam.
-              </Parrafo>
-              <br />
-            </CajaInterna>
-            <CajaInterna className="cajaImg">
-              <Img src={ImgMujerPlaya} className="svg" />
-            </CajaInterna>
-          </WrapTextoImg>
-        </Seccion>
-        <Seccion>
-          <TituloSeccion>¿Que dicen nuestros clientes?</TituloSeccion>
-          <WrapTextoImg>
-            <CardResennia
-              nombre="Mirian Smith"
-              ImgPerson={RostroMujer1}
-              ImgBandera={EEUU}
-              texto="Me encanto el lugar, todo limpio, ordenado, buen ambiente y la
+            <WrapTextoImg>
+              <CajaInterna className="texto">
+                <TituloLess>¿Quienes somos?</TituloLess>
+                <br />
+                <Parrafo>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Adipisci eius qui, velit quas similique inventore! Saepe eos
+                  nobis repellat, dolores, dicta ab corrupti odio nostrum eius
+                  quisquam necessitatibus hic ullam.
+                </Parrafo>
+                <br />
+                <Parrafo>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Adipisci eius qui, velit quas similique inventore! Saepe eos
+                  nobis repellat, dolores, dicta ab corrupti odio nostrum eius
+                  quisquam necessitatibus hic ullam.
+                </Parrafo>
+                <br />
+                <Parrafo>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Adipisci eius qui, velit quas similique inventore! Saepe eos
+                  nobis repellat, dolores, dicta ab corrupti odio nostrum eius
+                  quisquam necessitatibus hic ullam.
+                </Parrafo>
+              </CajaInterna>
+              <CajaInterna className="cajaImg">
+                <Img src={ImgWorkRead} />
+                <CajaHover className="hover">
+                  Somos una excelente opcion de alquileres vacacionales en Punta
+                  Cana.
+                </CajaHover>
+              </CajaInterna>
+            </WrapTextoImg>
+            <WrapTextoImg className="reverse">
+              <CajaInterna className="texto">
+                <TituloLess>¿Por que elegirnos?</TituloLess>
+                <br />
+                <Parrafo>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Adipisci eius qui, velit quas similique inventore! Saepe eos
+                  nobis repellat, dolores, dicta ab corrupti odio nostrum eius
+                  quisquam necessitatibus hic ullam.
+                </Parrafo>
+                <br />
+                <Parrafo>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Adipisci eius qui, velit quas similique inventore! Saepe eos
+                  nobis repellat, dolores, dicta ab corrupti odio nostrum eius
+                  quisquam necessitatibus hic ullam.
+                </Parrafo>
+                <br />
+                <Parrafo>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Adipisci eius qui, velit quas similique inventore! Saepe eos
+                  nobis repellat, dolores, dicta ab corrupti odio nostrum eius
+                  quisquam necessitatibus hic ullam.
+                </Parrafo>
+              </CajaInterna>
+              <CajaInterna className="cajaImg">
+                <Img src={ImgGirlPool} />
+                <CajaHover className="hover">
+                  Tu refugio perfecto, Punta Cana.
+                </CajaHover>
+              </CajaInterna>
+            </WrapTextoImg>
+          </Seccion>
+          <Seccion className="parallax">
+            <SeccionParralla>
+              <CajaParallax></CajaParallax>
+              <BarraParallax className="top">
+                <TituloParallax>
+                  El único estrés aquí es decidir entre playa o piscina.
+                </TituloParallax>
+              </BarraParallax>
+              <BarraParallax className="bottom">
+                <TituloParallax>
+                  Ven por las vistas, quédate por la paz mental.
+                </TituloParallax>
+              </BarraParallax>
+            </SeccionParralla>
+          </Seccion>
+          <Seccion>
+            <TituloSeccion>Lo que nos hace diferentes</TituloSeccion>
+            <WrapTextoImg className="reverse">
+              <CajaInterna className="texto">
+                <TituloLess>Factor diferenciador</TituloLess>
+                <br />
+                <Parrafo>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Adipisci eius qui, velit quas similique inventore! Saepe eos
+                  nobis repellat, dolores, dicta ab corrupti odio nostrum eius
+                  quisquam necessitatibus hic ullam.
+                </Parrafo>
+                <br />
+                <Parrafo>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Adipisci eius qui, velit quas similique inventore! Saepe eos
+                  nobis repellat, dolores, dicta ab corrupti odio nostrum eius
+                  quisquam necessitatibus hic ullam.
+                </Parrafo>
+                <br />
+                <TituloLess>Nuestros valores</TituloLess>
+                <Parrafo>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Adipisci eius qui, velit quas similique inventore! Saepe eos
+                  nobis repellat, dolores, dicta ab corrupti odio nostrum eius
+                  quisquam necessitatibus hic ullam.
+                </Parrafo>
+                <br />
+                <Parrafo>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Adipisci eius qui, velit quas similique inventore! Saepe eos
+                  nobis repellat, dolores, dicta ab corrupti odio nostrum eius
+                  quisquam necessitatibus hic ullam.
+                </Parrafo>
+                <br />
+              </CajaInterna>
+              <CajaInterna className="cajaImg">
+                <Img src={ImgMujerPlaya} className="svg" />
+              </CajaInterna>
+            </WrapTextoImg>
+          </Seccion>
+          <Seccion>
+            <TituloSeccion>¿Que dicen nuestros clientes?</TituloSeccion>
+            <WrapTextoImg>
+              <CardResennia
+                nombre="Mirian Smith"
+                ImgPerson={RostroMujer1}
+                ImgBandera={EEUU}
+                texto="Me encanto el lugar, todo limpio, ordenado, buen ambiente y la
               ubicacion geografica es lo maravilloso del sitio."
-            />
-            <CardResennia
-              nombre="Nolan Sandler"
-              ImgPerson={RostroHombre1}
-              ImgBandera={ALEMANIA}
-              texto="Este sitio me encanta, es la tarcera vez que voy y no sera la ultima."
-            />
-            <CardResennia
-              nombre="Mary Diaz"
-              ImgPerson={RostroMujer2}
-              ImgBandera={CANADA}
-              texto="Mi esposo y mis hijos quedaron encantado con el lugar y la zona, siempre es un placer visitar Punta Cana."
-            />
-          </WrapTextoImg>
-        </Seccion>
-        <Seccion>
-          <TituloSeccion>Noticias (Blog)</TituloSeccion>
-          <WrapTextoImg>
-            <CardBlog />
-          </WrapTextoImg>
-        </Seccion>{" "}
-        <Seccion>
-          <TituloSeccion>Envianos un mensaje</TituloSeccion>
-          <FormContact />
-        </Seccion>
-        {/* <Seccion> */}
-        {/* </Seccion> */}
-      </ContenedorPrincipal>
+              />
+              <CardResennia
+                nombre="Nolan Sandler"
+                ImgPerson={RostroHombre1}
+                ImgBandera={ALEMANIA}
+                texto="Este sitio me encanta, es la tarcera vez que voy y no sera la ultima."
+              />
+              <CardResennia
+                nombre="Mary Diaz"
+                ImgPerson={RostroMujer2}
+                ImgBandera={CANADA}
+                texto="Mi esposo y mis hijos quedaron encantado con el lugar y la zona, siempre es un placer visitar Punta Cana."
+              />
+            </WrapTextoImg>
+          </Seccion>
+          <Seccion>
+            <TituloSeccion>Noticias (Blog)</TituloSeccion>
+            <WrapTextoImg>
+              <CardBlog />
+            </WrapTextoImg>
+          </Seccion>{" "}
+          <Seccion>
+            <TituloSeccion>Envianos un mensaje</TituloSeccion>
+            <FormContact />
+          </Seccion>
+          {/* <Seccion> */}
+          {/* </Seccion> */}
+        </ContainerSemi>
+      </Container2>
       <Footer />
-    </Container>
+    </>
   );
 }
 //FAQ (Preguntas frecuentes)
 //Registrate para recibir precio especial
 
-const Container = styled.div``;
+const Container2 = styled.div``;
+const ContainerSemi = styled.div`
+  padding-left: ${theme.config.paddingLateral};
+  padding-right: ${theme.config.paddingLateral};
+`;
 
 // ***** HERO ******
 const ContainerHeader = styled.div`
@@ -561,4 +572,24 @@ const CajaParallax = styled.div`
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+`;
+const EnlacePrincipal = styled(Link)`
+  text-decoration: none;
+  /* opacity: 0.5; */
+  position: relative;
+
+  &:hover {
+    opacity: 1;
+    animation: arroz 1s;
+    animation-direction: normal;
+  }
+
+  @keyframes arroz {
+    0% {
+      opacity: 0.6;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
 `;

@@ -5,10 +5,30 @@ import RostroMujer1 from "./../../public/img/rostroMujer1.jpg";
 import RostroMujer2 from "./../../public/img/rostroMujer2.jpg";
 import RostroHombre1 from "./../../public/img/rostroHombre1.jpg";
 import EEUU from "./../../public/img/estados-unidos.png";
+import ImgStar from "./../../public/img/estrella.png";
 
-export default function CardResennia({ nombre, ImgPerson, ImgBandera, texto }) {
+export default function CardResennia({
+  nombre,
+  ImgPerson,
+  ImgBandera,
+  texto,
+  filasDeDos,
+  puntuacion,
+  modal,
+}) {
+  const qtyEstrella = [];
+  let contador = 0;
+  while (contador < puntuacion) {
+    qtyEstrella.push("");
+    contador++;
+  }
   return (
-    <CajaPersona>
+    <CajaPersona
+      className={`
+      ${filasDeDos ? " filasDeDos " : ""}
+      ${modal ? "modal" : ""}
+      `}
+    >
       <CajaInterna className="persona">
         <CajaImg>
           <Img src={ImgPerson} />
@@ -20,10 +40,15 @@ export default function CardResennia({ nombre, ImgPerson, ImgBandera, texto }) {
           <Nombre>{nombre}</Nombre>
         </CajaNombre>
       </CajaInterna>
-      <CajaInterna>
+      <CajaInterna className="texto">
         <CajaSubtitulo>
           <Subtitulo>{texto}</Subtitulo>
         </CajaSubtitulo>
+        <CajaPuntuacion>
+          {qtyEstrella.map((star, index) => {
+            return <ImgEstrella key={index} src={ImgStar} />;
+          })}
+        </CajaPuntuacion>
       </CajaInterna>
     </CajaPersona>
   );
@@ -43,12 +68,24 @@ const CajaPersona = styled.article`
   width: 400px;
   background-color: ${theme.primary.turquoise};
   color: white;
+  &.filasDeDos {
+    flex: 1 1 calc(50% - 10px);
+    /* margin-bottom: 15px; */
+  }
+  &.modal {
+    margin: auto;
+    margin-bottom: 15px;
+    width: 100%;
+  }
 `;
 const CajaInterna = styled.div`
   &.persona {
     width: 150px;
     /* border: 2px solid blue; */
     text-align: center;
+  }
+  &.texto {
+    height: 100%;
   }
 `;
 const CajaImg = styled.div`
@@ -58,6 +95,7 @@ const Img = styled.img`
   border-radius: 50%;
   width: 60%;
   aspect-ratio: 1/1;
+  object-fit: cover;
   /* object-fit: cover; */
   &.bandera {
     width: 20px;
@@ -80,5 +118,15 @@ const CajaNombre = styled.div`
 const Nombre = styled.h3`
   font-size: 1rem;
 `;
-const CajaSubtitulo = styled.div``;
+const CajaSubtitulo = styled.div`
+  /* border: 1px solid red; */
+  height: 80%;
+  align-content: center;
+`;
 const Subtitulo = styled.p``;
+const CajaPuntuacion = styled.div`
+  height: 20%;
+`;
+const ImgEstrella = styled.img`
+  width: 20px;
+`;
