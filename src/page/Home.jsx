@@ -41,7 +41,7 @@ export default function Home() {
   ];
   return (
     <>
-      <Header />
+      <Header absolute={true} />
       <Container2>
         <ContainerHeader>
           <ContainerHero>

@@ -7,11 +7,12 @@ import ImgStar from "./../../../public/img/estrella.png";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-export default function DescripcionVilla({ hacerScroll }) {
+export default function DescripcionVilla({ hacerScroll, resumido }) {
   // const [position, setPosition] = useState("static"); // 'absolute' o 'fixed'
   const [position, setPosition] = useState("absolute"); // 'absolute' o 'fixed'
   // const [top, setTop] = useState("100px"); // Valor de la posición superior
-  const [top, setTop] = useState("600px"); // Valor de la posición superior
+  const initialTop = "573px";
+  const [top, setTop] = useState(initialTop); // Valor de la posición superior
 
   // Para fijar calendario y demas en forma de header
   const [hasHeaderCal, setHasHeaderCal] = useState(false);
@@ -37,7 +38,7 @@ export default function DescripcionVilla({ hacerScroll }) {
         }
       } else {
         setPosition("absolute");
-        setTop("600px");
+        setTop(initialTop);
         setHasHeaderCal(false);
       }
     };
@@ -48,12 +49,12 @@ export default function DescripcionVilla({ hacerScroll }) {
     };
   }, []);
   return (
-    <ContainerCalDetail>
+    <ContainerCalDetail className={resumido ? "resumido" : ""}>
       <CajaDetail>
-        <CajaResumenValoraciones>
+        <CajaResumenValoraciones className={resumido ? "resumido" : ""}>
           <ContenedorIntValor>
-            <Texto5Star>5.0</Texto5Star>
-            <CajaEstrellas>
+            {!resumido && <Texto5Star>5.0</Texto5Star>}
+            <CajaEstrellas className={resumido ? "resumido" : ""}>
               <ImgEstrella className="star" src={ImgStar} />
               <ImgEstrella className="star" src={ImgStar} />
               <ImgEstrella className="star" src={ImgStar} />
@@ -70,16 +71,21 @@ export default function DescripcionVilla({ hacerScroll }) {
             <Texto5Star className="review">Reseñas</Texto5Star>
           </ContenedorIntValor>
           <ContenedorIntValor>
-            <CajaAnfitrion title="Anfitrion: Kostia Kindelan">
+            <CajaAnfitrion
+              title="Anfitrion: Kostia Kindelan"
+              className={resumido ? "resumido" : ""}
+            >
               <ImgAvatar src="https://a0.muscache.com/im/pictures/user/a177079f-9e70-4575-b089-b39a82ea87a2.jpg?im_w=240&im_format=avif" />
               <NombreAnfitrion>Kostia Kindelan</NombreAnfitrion>
             </CajaAnfitrion>
           </ContenedorIntValor>
         </CajaResumenValoraciones>
       </CajaDetail>
-      <CajaBox>
-        <CajaCalendario position={position} top={top} />
-      </CajaBox>
+      {!resumido && (
+        <CajaBox>
+          <CajaCalendario position={position} top={top} />
+        </CajaBox>
+      )}
       {hasHeaderCal && (
         <CajaCalHeader>
           <BoxCalendario>
@@ -111,26 +117,37 @@ export default function DescripcionVilla({ hacerScroll }) {
 }
 
 const ContainerCalDetail = styled.div`
-  display: flex;
+  display: inline-block;
+  width: 65%;
+  &.resumido {
+    width: 100%;
+    /* border: 2px solid blue; */
+  }
+  /* border: 2px solid blue; */
 `;
 const CajaDetail = styled.div`
-  width: 70%;
+  /* width: 70%; */
+  width: 100%;
 `;
 const CajaBox = styled.div`
   display: flex;
   justify-content: end;
-  width: 400px;
+  width: 30%;
 `;
 const CajaResumenValoraciones = styled.div`
+  padding: 10px;
   width: 100%;
   border: 1px solid ${theme.primary.neutral600};
   border-radius: 5px;
   min-height: 50px;
   display: flex;
   justify-content: center;
+  &.resumido {
+    padding: 0;
+  }
 `;
 const ContenedorIntValor = styled.div`
-  padding: 10px;
+  /* padding: 10px; */
   display: flex;
   text-align: center;
   flex-direction: column;
@@ -144,6 +161,10 @@ const ContenedorIntValor = styled.div`
 const CajaEstrellas = styled.div`
   display: inline;
   width: auto;
+  &.resumido {
+    display: flex;
+    /* margin-right: 200px; */
+  }
 `;
 const Texto5Star = styled.h3`
   font-size: 1.6rem;
@@ -163,7 +184,14 @@ const CajitaFlex = styled.div`
   justify-content: center;
   align-items: center;
 `;
-const CajaAnfitrion = styled.div``;
+const CajaAnfitrion = styled.div`
+  &.resumido {
+    /* border: 1px solid red; */
+    display: flex;
+    align-items: center;
+    padding: 2px;
+  }
+`;
 const ImgAvatar = styled.img`
   border-radius: 50%;
   width: 60px;

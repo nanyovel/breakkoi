@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { theme } from "../../config/theme";
 import ImgWork from "./../../../public/icon/trabajo.png";
@@ -9,8 +9,13 @@ import ImgCuba from "./../../../public/icon/cuba.png";
 import ImgUbicacion from "./../../../public/icon/ubicacion.png";
 import ImgColegio from "./../../../public/icon/colegio.png";
 import ImgCorazon from "./../../../public/icon/corazon.png";
+import { BtnGeneral } from "../../components/ElementosGenerales";
+import Modal from "../../components/Modal";
+import { Villas } from "../../DB/Villas";
 
 export default function CajaAnfritrion() {
+  const [hasModal, setHasModal] = useState(false);
+  const [anfitrion, setAnfitrion] = useState(Villas[0].anfitrion);
   return (
     <Container>
       <WrapPerfil>
@@ -18,14 +23,10 @@ export default function CajaAnfritrion() {
           <Img src="https://a0.muscache.com/im/pictures/user/a177079f-9e70-4575-b089-b39a82ea87a2.jpg?im_w=240&im_format=avif" />
         </CajaFoto>
         <CajaNombre>
-          <Nombre>Kostia Kindelan</Nombre>
+          <Nombre>{anfitrion.nombre}</Nombre>
         </CajaNombre>
         <CajaPresentacion>
-          <ParrafoPresentacion>
-            ¡Hola y bienvenido! Estoy encantado de ser tu anfitrión durante tu
-            estancia aquí. Me llamo Kostia y es un placer asegurarme de que tu
-            tiempo con nosotros sea nada menos que excepcional.
-          </ParrafoPresentacion>
+          <ParrafoPresentacion>{anfitrion.textoBienvenida}</ParrafoPresentacion>
         </CajaPresentacion>
       </WrapPerfil>
       <ContenedorAcerca>
@@ -38,28 +39,28 @@ export default function CajaAnfritrion() {
                   <Icono src={ImgWork} />
                   <TituloItem className="titulo">Profesion:</TituloItem>
                 </CajaTituloItem>
-                <TituloItem>Empresario</TituloItem>
+                <TituloItem>{anfitrion.profesion}</TituloItem>
               </Item>
               <Item>
                 <CajaTituloItem>
                   <Icono src={ImgReloj} />
                   <TituloItem className="titulo">Edad:</TituloItem>
                 </CajaTituloItem>
-                <TituloItem>+45 años</TituloItem>
+                <TituloItem>{anfitrion.edad}</TituloItem>
               </Item>
               <Item>
                 <CajaTituloItem>
                   <Icono src={ImgReloj2} />
                   <TituloItem className="titulo">Pasa tiempo:</TituloItem>
                 </CajaTituloItem>
-                <TituloItem>Superacion</TituloItem>
+                <TituloItem>{anfitrion.pasaTiempo}</TituloItem>
               </Item>
               <Item>
                 <CajaTituloItem>
                   <Icono src={ImgIdioma} />
                   <TituloItem className="titulo">Idiomas:</TituloItem>
                 </CajaTituloItem>
-                <TituloItem>Español,Ingles,Frances.</TituloItem>
+                <TituloItem>{anfitrion.idiomas}</TituloItem>
               </Item>
             </Lista>
           </CajaInterna>
@@ -69,21 +70,21 @@ export default function CajaAnfritrion() {
                 <Icono src={ImgCuba} />
                 <TituloItem className="titulo">Nacionalidad:</TituloItem>
               </CajaTituloItem>
-              <TituloItem>Cubano</TituloItem>
+              <TituloItem>{anfitrion.nacionalidad}</TituloItem>
             </Item>
             <Item>
               <CajaTituloItem>
                 <Icono src={ImgUbicacion} />
                 <TituloItem className="titulo">Recidencia:</TituloItem>
               </CajaTituloItem>
-              <TituloItem>Punta Cana</TituloItem>
+              <TituloItem>{anfitrion.residencia}</TituloItem>
             </Item>
             <Item>
               <CajaTituloItem>
                 <Icono src={ImgColegio} />
                 <TituloItem className="titulo">Estudio en:</TituloItem>
               </CajaTituloItem>
-              <TituloItem>Cuba</TituloItem>
+              <TituloItem>{anfitrion.estudioEn}</TituloItem>
             </Item>
             <Item className="column">
               <CajaTituloItem className="column">
@@ -91,17 +92,53 @@ export default function CajaAnfritrion() {
                 <TituloItem className="titulo">Filosofia de vida:</TituloItem>
               </CajaTituloItem>
               <TituloItem className="detalle">
-                Valoro la honestidad y la transparencia es base en mis
-                relaciones personales y profesionales.
+                {anfitrion.filosofiaDeVida}
               </TituloItem>
             </Item>
           </CajaInterna>
         </CajaDetalles>
       </ContenedorAcerca>
+      <ContenedorContact>
+        <TituloAcerca>Contactar a Kostia</TituloAcerca>
+        <CajaDetalles>
+          <BtnSimple onClick={() => setHasModal(true)}>
+            Contacto y RRSS
+          </BtnSimple>
+          {hasModal && (
+            <Modal
+              titulo={"Conctato y redes sociales de Kostia"}
+              setHasModal={setHasModal}
+            >
+              <WrapModal>
+                <TextoModal>
+                  Para visualizar los contactos y redes sociales de Kostia
+                  Kindelan, primero debes iniciar sesion o registrarte.
+                </TextoModal>
+                <BtnSimple>Iniciar sesion</BtnSimple>
+                <BtnSimple>Registrarse</BtnSimple>
+              </WrapModal>
+            </Modal>
+          )}
+        </CajaDetalles>
+      </ContenedorContact>
     </Container>
   );
 }
-
+const BtnSimple = styled(BtnGeneral)`
+  height: 30px;
+`;
+const WrapModal = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 80%;
+  margin: auto;
+  /* gap: 15px; */
+`;
+const TextoModal = styled.h2`
+  margin-bottom: 20px;
+  color: ${theme.secondary.coral};
+`;
 const Container = styled.div`
   width: 80%;
   margin: auto;
@@ -120,6 +157,7 @@ const CajaFoto = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
+  margin-bottom: 15px;
 `;
 const Img = styled.img`
   border-radius: 50%;
@@ -154,6 +192,7 @@ const ParrafoPresentacion = styled.p`
 const ContenedorAcerca = styled.div`
   width: 100%;
   min-height: 100px;
+  margin-bottom: 25px;
   /* background-color: red; */
   /* padding: 15px; */
 `;
@@ -223,4 +262,10 @@ const TituloItem = styled.p`
     /* font-size: ; */
     /* font-weight: 700; */
   }
+`;
+const ContenedorContact = styled.div`
+  width: 100%;
+  min-height: 100px;
+  /* background-color: red; */
+  /* padding: 15px; */
 `;

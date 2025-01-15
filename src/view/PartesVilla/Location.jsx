@@ -1,10 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 import { theme } from "../../config/theme";
+import { Villas } from "../../DB/Villas";
 
 export default function Location() {
-  const urlMapa =
-    'https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3781.442600111002!2d-68.390401!3d18.599152!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8ea893000c75cd5f%3A0xfd2f3e6f26b2ffb0!2sVilla%20Koi!5e0!3m2!1ses!2sdo!4v1735950696181!5m2!1ses!2sdo" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"';
+  const urlMapa = Villas[0].location;
+
   return (
     <CajaInterna>
       <MapaGoogle src={urlMapa}></MapaGoogle>

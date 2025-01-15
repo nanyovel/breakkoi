@@ -3,38 +3,27 @@ import styled from "styled-components";
 import { theme } from "../../config/theme";
 import { BtnGeneral } from "../../components/ElementosGenerales";
 import Modal from "../../components/Modal";
+import { Villas } from "../../DB/Villas";
 
-export default function CopyDescription() {
-  const TextoDB = {
-    tituloPrincipal: "Acerca del espacio",
-    parrafos: [
-      {
-        titulo: "",
-        texto:
-          "Descubre la elegancia y confort de nuestra villa en el exclusivo residencial Westside, ubicada en el corazón de Punta Cana. Este lugar privado te ofrece una piscina climatizada , rodeada de un entorno sereno y sofisticado. A solo minutos de los principales lugares de interés, tendrás a tu alcance playas paradisíacas, restaurantes de alta cocina, y actividades recreativas. Vive una experiencia de lujo y tranquilidad en nuestra villa, el refugio perfecto para unas vacaciones inolvidables.",
-      },
-      {
-        titulo: "El alojamiento",
-        texto:
-          "Esta elegante casa cuenta con 3 dormitorios, cada uno con una cómoda cama tamaño queen, con capacidad para un total de 6 huéspedes. Disfruta de dos baños completos, una zona de lavandería, un comedor, un rincón de desayuno y una cocina totalmente equipada. Además, el estacionamiento cubierto para dos autos y el espacioso patio privado con piscina de agua caliente garantizan la máxima comodidad durante tu estancia.",
-      },
-      {
-        titulo: "Acceso para huéspedes",
-        texto:
-          "Los huéspedes tendrán acceso total a todas las áreas de la casa, incluida la piscina privada y el patio. Además, Westside Residences ofrece seguridad las 24 horas para tu tranquilidad y comodidad durante tu estadía.",
-      },
-      {
-        titulo: "Otros aspectos destacables",
-        texto:
-          "Esta propiedad está diseñada para el máximo confort y lujo. Disfruta de servicios como aire acondicionado en todas partes, domótica para mayor comodidad, cortinas eléctricas y un sistema de filtración de agua para tu estado y bienestar.",
-      },
-    ],
-  };
+export default function CopyDescription({ resumido }) {
+  const TextoDB = Villas[0].textoCopyDescription;
+
   const [hasModal, setHasModal] = useState(false);
   return (
     <Container>
-      <CajaTextoView>{TextoDB.parrafos[0].texto}</CajaTextoView>
-      <BtnSimple onClick={() => setHasModal(true)}>Texto completo</BtnSimple>
+      <CajaTextoView className={resumido ? "resumido" : ""}>
+        {!resumido ? (
+          TextoDB.parrafos[0].texto
+        ) : (
+          <>
+            {TextoDB.parrafos[0].textoResumido}
+            <Vermas onClick={() => setHasModal(true)}>Ver mas.</Vermas>
+          </>
+        )}
+      </CajaTextoView>
+      {!resumido && (
+        <BtnSimple onClick={() => setHasModal(true)}>Texto completo</BtnSimple>
+      )}
       {hasModal && (
         <Modal titulo={TextoDB.tituloPrincipal} setHasModal={setHasModal}>
           <CajaTextoView>
@@ -62,6 +51,10 @@ const CajaTextoView = styled.div`
   color: ${theme.primary.neutral600};
   margin-bottom: 10px;
   padding: 8px;
+  &.resumido {
+    padding: 0;
+    margin-bottom: 0;
+  }
 `;
 const BtnSimple = styled(BtnGeneral)``;
 const CajaParrafo = styled.div`
@@ -73,4 +66,13 @@ const SubTitulo = styled.h2`
 `;
 const Parrafo = styled.p`
   /* margin-bottom: 15px; */
+`;
+const Vermas = styled.span`
+  color: ${theme.secondary.coral};
+  margin-left: 10px;
+  text-decoration: underline;
+  cursor: pointer;
+  &:hover {
+    color: ${theme.secondary.sandDark};
+  }
 `;

@@ -13,12 +13,9 @@ import ControlesDetalles from "./PartesVilla/ControlesDetalles";
 import CopyDescription from "./PartesVilla/CopyDescription";
 import Principal from "./PartesVilla/Principal";
 import Location from "./PartesVilla/Location";
-import CardResennia from "../components/CardResennia";
-
 import { BtnGeneral } from "../components/ElementosGenerales";
 import CajaResennias from "./PartesVilla/CajaResennias";
 import LugaresCercanos from "./PartesVilla/LugaresCercanos";
-import { IconoGel } from "../components/ConjuntoIconos";
 import CajaAnfritrion from "./PartesVilla/CajaAnfritrion";
 
 export default function DetalleVilla() {

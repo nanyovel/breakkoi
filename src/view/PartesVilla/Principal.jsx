@@ -6,7 +6,7 @@ import ImgHabitacion from "./../../../public/icon/habitacion.png";
 import ImgPeople from "./../../../public/icon/people.png";
 import ImgDucha from "./../../../public/icon/ducha.png";
 
-export default function Principal() {
+export default function Principal({ resumido }) {
   const Principal = [
     {
       texto: "6 Huespedes",
@@ -25,12 +25,20 @@ export default function Principal() {
       icono: ImgDucha,
     },
   ];
+  console.log(Principal.length);
   return (
-    <Container>
+    <Container className={resumido ? "resumido" : ""}>
       {Principal.map((pri, index) => {
         return (
-          <CajaItem key={index}>
-            <Img src={pri.icono} />
+          <CajaItem
+            key={index}
+            className={`
+            ${resumido ? " resumido " : ""}
+            ${index < Principal.length - 1 ? " borderRight " : ""}
+          
+          `}
+          >
+            {!resumido && <Img src={pri.icono} />}
             <Titulo>{pri.texto}</Titulo>
           </CajaItem>
         );
@@ -39,12 +47,28 @@ export default function Principal() {
   );
 }
 
-const Container = styled.div``;
+const Container = styled.div`
+  &.resumido {
+    display: flex;
+    /* border: 1px solid blue; */
+    border-bottom: 1px solid ${theme.primary.neutral600};
+    justify-content: center;
+  }
+`;
 const CajaItem = styled.div`
   display: flex;
   margin-bottom: 20px;
   gap: 10px;
   padding-left: 35px;
+  &.resumido {
+    padding-left: 0;
+    display: flex;
+    width: 25%;
+    justify-content: center;
+    &.borderRight {
+      border-right: 1px solid;
+    }
+  }
 `;
 const Img = styled.img`
   width: 25px;
@@ -52,4 +76,6 @@ const Img = styled.img`
 const Titulo = styled.h2`
   font-size: 1.2rem;
   color: ${theme.primary.neutral600};
+  /* border: 1px solid red; */
+  /* width: 100%; */
 `;

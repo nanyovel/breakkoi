@@ -41,3 +41,12 @@ export const BtnGeneral = styled.button`
     }
   }
 `;
+export const TituloSeccion = styled.h2`
+  color: ${theme.primary.turquoiseTenue};
+  width: 100%;
+  text-align: center;
+  font-size: 2.5rem;
+  text-decoration: underline;
+  margin-bottom: 40px;
+  font-weight: normal;
+`;
