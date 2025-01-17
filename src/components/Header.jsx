@@ -112,6 +112,11 @@ export default function Header({ absolute }) {
               </Enlaces>
             </NavItem>
             <NavItem>
+              <Enlaces className={"menu"} to={"/blog"}>
+                Blog
+              </Enlaces>
+            </NavItem>
+            <NavItem>
               <Enlaces className={"menu"} to={"/contactos"}>
                 Contactos
               </Enlaces>
@@ -123,7 +128,9 @@ export default function Header({ absolute }) {
             </NavItem>
           </NavList>
           <CajaLog>
-            <Icono className="user" icon={faUser} />
+            <Enlaces className={"menu login"} to={"/login"}>
+              <Icono className="user" icon={faUser} />
+            </Enlaces>
             {/* <TextoSingle>Login</TextoSingle> */}
           </CajaLog>
         </CajaInternaHeader>
@@ -246,6 +253,9 @@ const Enlaces = styled(NavLink)`
     &.active {
       /* color: red; */
       color: white;
+    }
+    &.login {
+      text-decoration: none;
     }
   }
   &.logo {

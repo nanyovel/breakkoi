@@ -75,40 +75,25 @@ const Container = styled.div`
   border-radius: 10px;
   display: flex;
   height: 550px;
-  /* overflow: hidden; */
-  /* gap: 15px; */
 `;
 
 const CajaInterna = styled.div`
-  /* height: 100%; */
   height: 550px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   &.izquieda {
-    /* gap: 30px; */
     width: 70%;
     margin-right: 15px;
-
-    /* margin-bottom: 15px; */
   }
   &.derecha {
-    /* gap: 20px; */
-    /* max-height: 550px; */
     width: 30%;
-    /* display: flex;
-    flex-direction: column; */
-    /* position: relative; */
-    /* grid-template-rows: 1fr 1fr 1fr; */
-    /* border: 2px solid blue; */
-    /* overflow: hidden; */
   }
 `;
 
 const WrapPost = styled.a`
   cursor: pointer;
   display: block;
-  /* overflow: hidden; */
   -moz-box-shadow: 3px 7px 11px 0px rgba(0, 0, 0, 0.75);
   -webkit-box-shadow: 3px 7px 11px 0px rgba(0, 0, 0, 0.75);
   box-shadow: 3px 7px 11px 0px rgba(0, 0, 0, 0.75);
@@ -116,14 +101,13 @@ const WrapPost = styled.a`
   width: 100%;
 
   &:hover {
-    -moz-box-box-shadow: 2px 4px 11px 0px ${theme.primary.turquoise};
-    -webkit-box-shadow: 2px 4px 11px 0px ${theme.primary.turquoise};
-    box-shadow: 2px 4px 11px 0px ${theme.primary.turquoise};
-    border: 1px solid #423f3f9e;
+    -moz-box-box-shadow: 2px 4px 11px 0px ${theme.secondary.coral};
+    -webkit-box-shadow: 2px 4px 11px 0px ${theme.secondary.coral};
+    box-shadow: 2px 4px 11px 0px ${theme.secondary.coral};
+    /* border: 1px solid #423f3f9e; */
   }
   &.destacada {
     height: 69%;
-    /* margin-bottom: 20px; */
   }
   &.subDestacada {
     height: 28%;
@@ -132,9 +116,7 @@ const WrapPost = styled.a`
   }
   &.itemsRigt {
     height: 32%;
-    /* margin-bottom: 15px; */
     width: 100%;
-    /* border: 2px solid red; */
     display: flex;
     flex-direction: column;
   }
@@ -145,7 +127,6 @@ const CajaImg = styled.div`
     width: 100%;
     height: 85%;
     position: relative;
-    /* overflow: hidden; */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -182,6 +163,7 @@ const Img = styled.img`
 `;
 const Titulo = styled.h2`
   color: ${theme.secondary.coral};
+  color: white;
   font-size: inherit;
   &:hover {
     text-decoration: underline;

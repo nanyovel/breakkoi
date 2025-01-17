@@ -9,6 +9,7 @@ import {
   faLinkedin,
   faYoutube,
 } from "@fortawesome/free-brands-svg-icons";
+import { NavLink } from "react-router";
 
 export default function Footer() {
   return (
@@ -16,7 +17,9 @@ export default function Footer() {
       <CajaInterna className="start">
         <CajitaInterna className="start">
           <CajaTituloLogo>
-            <Img src={ImgLogo} />
+            <Enlaces to={"/"}>
+              <Img src={ImgLogo} />
+            </Enlaces>
             <TituloLogo>
               Break
               <Span>Koi</Span>
@@ -33,11 +36,21 @@ export default function Footer() {
       </CajaInterna>
       <CajaInterna className="center">
         <CajitaInterna className="center">
-          <TituloUbicaciones>Home</TituloUbicaciones>
-          <TituloUbicaciones>Propiedades</TituloUbicaciones>
-          <TituloUbicaciones>Blog</TituloUbicaciones>
-          <TituloUbicaciones>Sobre nosotros</TituloUbicaciones>
-          <TituloUbicaciones>Contactos</TituloUbicaciones>
+          <TituloUbicaciones>
+            <Enlaces to={"/"}>Home</Enlaces>
+          </TituloUbicaciones>
+          <TituloUbicaciones>
+            <Enlaces to={"/propiedades"}>Propiedades</Enlaces>
+          </TituloUbicaciones>
+          <TituloUbicaciones>
+            <Enlaces to={"/blog"}>Blog</Enlaces>
+          </TituloUbicaciones>
+          <TituloUbicaciones>
+            <Enlaces to={"/nosotros"}>Sobre nosotros</Enlaces>
+          </TituloUbicaciones>
+          <TituloUbicaciones>
+            <Enlaces to={"/contactos"}>Contactos</Enlaces>
+          </TituloUbicaciones>
         </CajitaInterna>
       </CajaInterna>
       <CajaInterna>
@@ -46,6 +59,19 @@ export default function Footer() {
     </ContenedorFooter>
   );
 }
+const Enlaces = styled(NavLink)`
+  /* color: ${theme.primary.neutral600}; */
+  color: white;
+  display: block;
+  position: relative;
+  transition: color 25ms;
+  &:hover {
+    color: white;
+    /* border-bottom: 3px solid; */
+  }
+
+  text-decoration: none;
+`;
 const ContenedorFooter = styled.footer`
   height: 500px;
   background-color: ${theme.primary.neutral600};

@@ -27,7 +27,7 @@ import CANADA from "./../../public/img/canada.png";
 import wave from "./../../public/img/wave.svg";
 import CardBlog from "../components/SeccionBlog";
 import Footer from "../components/Footer";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { BtnGeneral } from "../components/ElementosGenerales";
 
 export default function Home() {
@@ -39,6 +39,10 @@ export default function Home() {
     ImgVilla5,
     ImgVilla6,
   ];
+  const navigate = useNavigate();
+  const goProperty = () => {
+    navigate("/propiedades");
+  };
   return (
     <>
       <Header absolute={true} />
@@ -53,7 +57,9 @@ export default function Home() {
               <Span>Koi</Span>
             </TituloH1>
             <Subtitulo>Punta Cana te espera...</Subtitulo>
-            <BtnSimple className="ctaMain">Reservar</BtnSimple>
+            <BtnSimple className="ctaMain" onClick={() => goProperty()}>
+              Reservar
+            </BtnSimple>
           </CajaTitulo>
           <CajaWave>
             <ImgWave src={wave} />
@@ -281,31 +287,34 @@ export default function Home() {
               />
             </WrapTextoImg>
           </Seccion>
+        </ContainerSemi>
+        <ContainerSemi2>
           <Seccion>
-            <TituloSeccion>Noticias (Blog)</TituloSeccion>
+            <TituloSeccion className="coral">Noticias (Blog)</TituloSeccion>
             <WrapTextoImg>
               <CardBlog />
             </WrapTextoImg>
-          </Seccion>{" "}
-          <Seccion>
-            <TituloSeccion>Envianos un mensaje</TituloSeccion>
-            <FormContact />
           </Seccion>
-          {/* <Seccion> */}
-          {/* </Seccion> */}
-        </ContainerSemi>
+        </ContainerSemi2>
+        <Seccion>
+          <TituloSeccion>Envianos un mensaje</TituloSeccion>
+          <FormContact />
+        </Seccion>
       </Container2>
       <Footer />
     </>
   );
 }
-//FAQ (Preguntas frecuentes)
-//Registrate para recibir precio especial
 
 const Container2 = styled.div``;
 const ContainerSemi = styled.div`
   padding-left: ${theme.config.paddingLateral};
   padding-right: ${theme.config.paddingLateral};
+`;
+const ContainerSemi2 = styled(ContainerSemi)`
+  background-color: ${theme.primary.turquoise};
+  padding: 80px ${theme.config.paddingLateral};
+  margin-bottom: 50px;
 `;
 
 // ***** HERO ******
@@ -429,6 +438,10 @@ const TituloSeccion = styled.h2`
   &.sinMarginBottom {
     margin-bottom: 0;
   }
+  &.coral {
+    color: ${theme.primary.sand};
+    color: white;
+  }
 `;
 const SubtituloSeccion = styled.h3`
   color: ${theme.primary.neutral600};
@@ -524,6 +537,10 @@ const Seccion = styled.section`
   /* border: 1px solid red; */
   &.parallax {
     height: 100vh;
+    width: 100vw;
+  }
+  &.fondo {
+    background-color: ${theme.primary.turquoise};
     width: 100vw;
   }
 `;

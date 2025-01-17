@@ -44,6 +44,8 @@ const Subtitulo = styled.h3`
   color: ${theme.secondary.coral};
   font-size: 1.4rem;
   text-decoration: underline;
+  text-align: center;
+  width: 100%;
 `;
 const WrapContenido = styled.div`
   display: flex;

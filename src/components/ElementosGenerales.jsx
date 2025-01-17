@@ -8,6 +8,7 @@ export const BtnGeneral = styled.button`
 
   border-radius: 5px;
   min-width: 100px;
+  height: 35px;
   padding: 5px;
   outline: none;
   border: 1px solid ${theme.primary.neutral200};
@@ -50,3 +51,16 @@ export const TituloSeccion = styled.h2`
   margin-bottom: 40px;
   font-weight: normal;
 `;
+
+export const InputGeneral = styled.input`
+  width: 100%;
+  height: 40px;
+  border-radius: 5px;
+  border: 1px solid #000;
+  outline: none;
+  padding: 10px;
+  color: ${theme.primary.turquoiseBrillante};
+  background-color: ${theme.complementary.midnightBlue};
+`;
+export const OpciongGneral = styled.option``;
+export const DataList = styled.datalist``;
