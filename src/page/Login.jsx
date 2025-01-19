@@ -3,7 +3,7 @@ import { theme } from "../config/theme";
 import styled from "styled-components";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import { BtnGeneral, TituloSeccion } from "../components/ElementosGenerales";
+import { BtnGeneral, TituloH1 } from "../components/ElementosGenerales";
 import { NavLink } from "react-router";
 
 export default function Login() {
@@ -38,7 +38,7 @@ export default function Login() {
 const CajaContenido = styled.div`
   min-height: 200px;
 `;
-const Titulo = styled(TituloSeccion)`
+const Titulo = styled(TituloH1)`
   padding-top: 30px;
 `;
 

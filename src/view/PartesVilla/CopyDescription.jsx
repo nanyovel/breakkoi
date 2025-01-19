@@ -5,18 +5,18 @@ import { BtnGeneral } from "../../components/ElementosGenerales";
 import Modal from "../../components/Modal";
 import { Villas } from "../../DB/Villas";
 
-export default function CopyDescription({ resumido }) {
-  const TextoDB = Villas[0].textoCopyDescription;
+export default function CopyDescription({ texto, resumido }) {
+  // const texto = Villas[0].textoCopyDescription;
 
   const [hasModal, setHasModal] = useState(false);
   return (
     <Container>
       <CajaTextoView className={resumido ? "resumido" : ""}>
         {!resumido ? (
-          TextoDB.parrafos[0].texto
+          texto.parrafos[0].texto
         ) : (
           <>
-            {TextoDB.parrafos[0].textoResumido}
+            {texto.parrafos[0].textoResumido}
             <Vermas onClick={() => setHasModal(true)}>Ver mas.</Vermas>
           </>
         )}
@@ -25,9 +25,9 @@ export default function CopyDescription({ resumido }) {
         <BtnSimple onClick={() => setHasModal(true)}>Texto completo</BtnSimple>
       )}
       {hasModal && (
-        <Modal titulo={TextoDB.tituloPrincipal} setHasModal={setHasModal}>
+        <Modal titulo={texto.tituloPrincipal} setHasModal={setHasModal}>
           <CajaTextoView>
-            {TextoDB.parrafos.map((parrafo, index) => {
+            {texto.parrafos.map((parrafo, index) => {
               return (
                 <CajaParrafo>
                   <SubTitulo>{parrafo.titulo}</SubTitulo>

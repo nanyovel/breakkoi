@@ -1,11 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import { theme } from "../../config/theme";
-import { Villas } from "../../DB/Villas";
 
-export default function Location() {
-  const urlMapa = Villas[0].location;
-
+export default function Location({ urlMapa }) {
   return (
     <CajaInterna>
       <MapaGoogle src={urlMapa}></MapaGoogle>

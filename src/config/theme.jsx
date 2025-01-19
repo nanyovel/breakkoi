@@ -13,11 +13,15 @@ export const theme = {
     neutral200: "#dddddd",
   },
   secondary: {
+    azulLink: "#418FEF", // azul enlace
+    azulText: "#003f72", // azul Texto sobre fondo blanco
     coral: "#FF6F61", // Coral cálido
+    rojoTerracota: "#ad453b", // Coral oscuro
     // Aporta un toque vibrante y moderno, perfecto para botones o detalles.
     palmGreen: "#2ECC71", // Verde palma
     // Inspirado en la vegetación tropical, adecuado para iconos o elementos decorativos.
     gold: "#F1C40F", // Dorado tenue
+    goldClear: "#F1C40F", // Dorado brillante
     // Sugiere lujo y exclusividad, ideal para destacar secciones importantes.
     sandDark: "#f4a261",
   },

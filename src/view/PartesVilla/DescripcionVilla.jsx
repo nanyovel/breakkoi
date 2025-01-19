@@ -6,8 +6,9 @@ import CajaCalendario from "../../components/CajaCalendario";
 import ImgStar from "./../../../public/img/estrella.png";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import BotonQuery from "../../components/BotonQuery";
 
-export default function DescripcionVilla({ hacerScroll, resumido }) {
+export default function DescripcionVilla({ villa, hacerScroll, resumido }) {
   // const [position, setPosition] = useState("static"); // 'absolute' o 'fixed'
   const [position, setPosition] = useState("absolute"); // 'absolute' o 'fixed'
   // const [top, setTop] = useState("100px"); // Valor de la posición superior
@@ -48,18 +49,28 @@ export default function DescripcionVilla({ hacerScroll, resumido }) {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
+  const [qtyEstrellas, setQtyEstrellas] = useState([]);
+  useEffect(() => {
+    console.log(villa);
+    const auxQtyEstrellas = [];
+    for (let i = 0; i < villa.calificacion; i++) {
+      auxQtyEstrellas.push(ImgStar);
+    }
+    setQtyEstrellas(auxQtyEstrellas);
+  }, [villa]);
   return (
     <ContainerCalDetail className={resumido ? "resumido" : ""}>
       <CajaDetail>
         <CajaResumenValoraciones className={resumido ? "resumido" : ""}>
           <ContenedorIntValor>
-            {!resumido && <Texto5Star>5.0</Texto5Star>}
+            {!resumido && (
+              <Texto5Star>{villa.calificacion.toString() + ".0"}</Texto5Star>
+            )}
             <CajaEstrellas className={resumido ? "resumido" : ""}>
-              <ImgEstrella className="star" src={ImgStar} />
-              <ImgEstrella className="star" src={ImgStar} />
-              <ImgEstrella className="star" src={ImgStar} />
-              <ImgEstrella className="star" src={ImgStar} />
-              <ImgEstrella className="star" src={ImgStar} />
+              {qtyEstrellas.map((star, index) => {
+                return <ImgEstrella key={index} className="star" src={star} />;
+              })}
             </CajaEstrellas>
           </ContenedorIntValor>
 
@@ -72,11 +83,11 @@ export default function DescripcionVilla({ hacerScroll, resumido }) {
           </ContenedorIntValor>
           <ContenedorIntValor>
             <CajaAnfitrion
-              title="Anfitrion: Kostia Kindelan"
+              title={"Anfitrion:" + villa.anfitrion.nombre}
               className={resumido ? "resumido" : ""}
             >
               <ImgAvatar src="https://a0.muscache.com/im/pictures/user/a177079f-9e70-4575-b089-b39a82ea87a2.jpg?im_w=240&im_format=avif" />
-              <NombreAnfitrion>Kostia Kindelan</NombreAnfitrion>
+              <NombreAnfitrion>{villa.anfitrion.nombre}</NombreAnfitrion>
             </CajaAnfitrion>
           </ContenedorIntValor>
         </CajaResumenValoraciones>
@@ -168,6 +179,7 @@ const CajaEstrellas = styled.div`
 `;
 const Texto5Star = styled.h3`
   font-size: 1.6rem;
+  color: black;
   &.review {
     text-decoration: underline;
     font-size: 0.9rem;
@@ -183,6 +195,7 @@ const CajitaFlex = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  color: black;
 `;
 const CajaAnfitrion = styled.div`
   &.resumido {
@@ -197,7 +210,9 @@ const ImgAvatar = styled.img`
   width: 60px;
   aspect-ratio: 1/1;
 `;
-const NombreAnfitrion = styled.p``;
+const NombreAnfitrion = styled.p`
+  color: black;
+`;
 const CajaCalHeader = styled.div`
   position: fixed;
   top: 0;
@@ -210,6 +225,7 @@ const CajaCalHeader = styled.div`
   display: flex;
   padding: 1px;
   justify-content: space-around;
+  color: black;
 `;
 const CajaNav = styled.div`
   /* background-color: green; */

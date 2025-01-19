@@ -29,6 +29,7 @@ import CardBlog from "../components/SeccionBlog";
 import Footer from "../components/Footer";
 import { Link, useNavigate } from "react-router";
 import { BtnGeneral } from "../components/ElementosGenerales";
+import { Villas } from "../DB/Villas";
 
 export default function Home() {
   const arrayImg = [
@@ -43,6 +44,7 @@ export default function Home() {
   const goProperty = () => {
     navigate("/propiedades");
   };
+  const villaDB = Villas[0];
   return (
     <>
       <Header absolute={true} />
@@ -72,41 +74,47 @@ export default function Home() {
           </TituloPieHero>
         </BarraPieHero>
         <ContainerSemi>
-          <Seccion>
-            <CajaVideo>
-              <CajaInternaVideo className="izquierda">
-                <TituloH2Video>
-                  Break Koi: Una escapada de lujo en Punta Cana.
-                </TituloH2Video>
-                <ParrafoVideo>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum
-                  necessitatibus, ipsam hic eaque iusto nemo accusantium. Eos
-                  dolorem, temporibus adipisci placeat magnam nostrum animi
-                  veritatis dicta. Atque est libero assumenda.
-                </ParrafoVideo>
-                <ParrafoVideo>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum
-                  necessitatibus, ipsam hic eaque iusto nemo accusantium. Eos
-                  dolorem, temporibus adipisci placeat magnam nostrum animi
-                  veritatis dicta. Atque est libero assumenda.
-                </ParrafoVideo>
-              </CajaInternaVideo>
-              <CajaInternaVideo className="derecha">
-                <CajaYouTube>
-                  <iframe
-                    width="560"
-                    height="315"
-                    src="https://www.youtube.com/embed/S7gJV3Jwmh4?si=2jlzF4_GiNiLP7o0"
-                    title="YouTube video player"
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    referrerPolicy="strict-origin-when-cross-origin"
-                    allowFullScreen
-                  ></iframe>
-                </CajaYouTube>
-              </CajaInternaVideo>
-            </CajaVideo>
-          </Seccion>
+          <WrapSeccion>
+            <WrapSeccion className="internal">
+              <Seccion className="video">
+                <CajaVideo>
+                  <CajaInternaVideo className="izquierda">
+                    <TituloH2Video>
+                      Break Koi: Una escapada de lujo en Punta Cana.
+                    </TituloH2Video>
+                    <ParrafoVideo>
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                      Cum necessitatibus, ipsam hic eaque iusto nemo
+                      accusantium. Eos dolorem, temporibus adipisci placeat
+                      magnam nostrum animi veritatis dicta. Atque est libero
+                      assumenda.
+                    </ParrafoVideo>
+                    <ParrafoVideo>
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                      Cum necessitatibus, ipsam hic eaque iusto nemo
+                      accusantium. Eos dolorem, temporibus adipisci placeat
+                      magnam nostrum animi veritatis dicta. Atque est libero
+                      assumenda.
+                    </ParrafoVideo>
+                  </CajaInternaVideo>
+                  <CajaInternaVideo className="derecha">
+                    <CajaYouTube>
+                      <iframe
+                        width="560"
+                        height="315"
+                        src="https://www.youtube.com/embed/S7gJV3Jwmh4?si=2jlzF4_GiNiLP7o0"
+                        title="YouTube video player"
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerPolicy="strict-origin-when-cross-origin"
+                        allowFullScreen
+                      ></iframe>
+                    </CajaYouTube>
+                  </CajaInternaVideo>
+                </CajaVideo>
+              </Seccion>
+            </WrapSeccion>
+          </WrapSeccion>
           <Seccion>
             <TituloSeccion className="sinMarginBottom">
               Propiedades
@@ -115,7 +123,7 @@ export default function Home() {
               4 villas lujosas, en zonas estrategicas de Punta Cana.
             </SubtituloSeccion>
             <WrapPropiedades>
-              <EnlacePrincipal to="/propiedades/villaKoi">
+              <EnlacePrincipal to={"propiedades/" + villaDB.url}>
                 <CardPropiedades imgMain={ImgNinniaPool} nombre="Villa Koi" />
               </EnlacePrincipal>
               <CardPropiedades
@@ -364,7 +372,7 @@ const Subtitulo = styled.h2`
 
 // ***** RESTO CONTENIDO ******
 const BarraPieHero = styled.div`
-  margin-bottom: 80px;
+  margin-bottom: 120px;
   background-color: ${theme.primary.turquoiseTenue};
   width: 100%;
   height: 80px;
@@ -534,7 +542,6 @@ const WrapPropiedades = styled.div`
 
 const Seccion = styled.section`
   margin-bottom: 100px;
-  /* border: 1px solid red; */
   &.parallax {
     height: 100vh;
     width: 100vw;
@@ -543,8 +550,30 @@ const Seccion = styled.section`
     background-color: ${theme.primary.turquoise};
     width: 100vw;
   }
+  &.video {
+    /* background-color: red; */
+  }
 `;
 
+const WrapSeccion = styled.div`
+  /* background-color: blue; */
+  /* width: 100vw; */
+  height: 90vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 40px;
+  &.internal {
+    width: 100vw;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: ${theme.secondary.coral};
+    padding-left: ${theme.config.paddingLateral};
+    padding-right: ${theme.config.paddingLateral};
+  }
+`;
 // Parallax
 const SeccionParralla = styled(Seccion)`
   /* border: 2px solid red; */

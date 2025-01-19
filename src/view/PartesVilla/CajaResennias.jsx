@@ -7,8 +7,8 @@ import { BtnGeneral } from "../../components/ElementosGenerales";
 import Modal from "../../components/Modal";
 import { Villas } from "../../DB/Villas";
 
-export default function CajaResennias() {
-  const resennias = Villas[0].resennias;
+export default function CajaResennias({ resennias }) {
+  // const resennias = Villas[0].resennias;
   const [hasModal, setHasModal] = useState(false);
   return (
     <Container>

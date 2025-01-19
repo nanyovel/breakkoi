@@ -13,9 +13,9 @@ import { BtnGeneral } from "../../components/ElementosGenerales";
 import Modal from "../../components/Modal";
 import { Villas } from "../../DB/Villas";
 
-export default function CajaAnfritrion() {
+export default function CajaAnfritrion({ anfitrion }) {
   const [hasModal, setHasModal] = useState(false);
-  const [anfitrion, setAnfitrion] = useState(Villas[0].anfitrion);
+  // const [anfitrion, setAnfitrion] = useState(Villas[0].anfitrion);
   return (
     <Container>
       <WrapPerfil>

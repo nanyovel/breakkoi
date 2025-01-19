@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { theme } from "../config/theme";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import { TituloSeccion } from "../components/ElementosGenerales";
+import { TituloH1 } from "../components/ElementosGenerales";
 import Card from "./partes03Blog/Card";
 import { BlogsDB } from "../DB/BlogsDB";
 
@@ -25,7 +25,7 @@ export default function ListaBlog() {
 const Container = styled.div`
   min-height: 200px;
 `;
-const Titulo = styled(TituloSeccion)`
+const Titulo = styled(TituloH1)`
   padding-top: 30px;
 `;
 const WrapBlogs = styled.div`

@@ -8,7 +8,7 @@ import { NavLink } from "react-router";
 export default function Card({ blog }) {
   console.log(blog);
   return (
-    <Enlace to={"/blog/" + blog.id}>
+    <Enlace to={"/blog/" + blog.url}>
       <Container>
         <CajaInterna className="izq">
           <Img src={blog.imgPrincipal} />
@@ -19,7 +19,7 @@ export default function Card({ blog }) {
           </CajaTitulo>
 
           <CajaParrafo>
-            <Parrafo>{blog.parrafos[0].texto}</Parrafo>
+            <Parrafo>{blog.parrafoPrincipalResumido}</Parrafo>
           </CajaParrafo>
           <CajaBtn>
             <BtnSimple>Ver mas</BtnSimple>

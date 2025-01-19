@@ -6,35 +6,35 @@ import ImgHabitacion from "./../../../public/icon/habitacion.png";
 import ImgPeople from "./../../../public/icon/people.png";
 import ImgDucha from "./../../../public/icon/ducha.png";
 
-export default function Principal({ resumido }) {
-  const Principal = [
-    {
-      texto: "6 Huespedes",
-      icono: ImgPeople,
-    },
-    {
-      texto: "3 habitaciones",
-      icono: ImgHabitacion,
-    },
-    {
-      texto: "3 Camas",
-      icono: ImgCama,
-    },
-    {
-      texto: "2 baños",
-      icono: ImgDucha,
-    },
-  ];
-  console.log(Principal.length);
+export default function Principal({ principal, resumido }) {
+  // const Principal = [
+  //   {
+  //     texto: "6 Huespedes",
+  //     icono: ImgPeople,
+  //   },
+  //   {
+  //     texto: "3 habitaciones",
+  //     icono: ImgHabitacion,
+  //   },
+  //   {
+  //     texto: "3 Camas",
+  //     icono: ImgCama,
+  //   },
+  //   {
+  //     texto: "2 baños",
+  //     icono: ImgDucha,
+  //   },
+  // ];
+  console.log(principal);
   return (
     <Container className={resumido ? "resumido" : ""}>
-      {Principal.map((pri, index) => {
+      {principal.map((pri, index) => {
         return (
           <CajaItem
             key={index}
             className={`
             ${resumido ? " resumido " : ""}
-            ${index < Principal.length - 1 ? " borderRight " : ""}
+            ${index < principal.length - 1 ? " borderRight " : ""}
           
           `}
           >

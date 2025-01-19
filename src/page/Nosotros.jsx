@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { theme } from "../config/theme";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import { TituloSeccion } from "../components/ElementosGenerales";
+import { TituloH1 } from "../components/ElementosGenerales";
 import ImgVilla6 from "./../assets/store/villa6.jpg";
 import ImgNinniaPool from "./../assets/store/ninniaPool.png";
 import ImgWorkRead from "./../../public/img/trabajoEscrito.jpg";
@@ -145,7 +145,7 @@ const CajaContenido = styled.div`
   padding-right: ${theme.config.paddingLateral};
   min-height: 200px;
 `;
-const Titulo = styled(TituloSeccion)`
+const Titulo = styled(TituloH1)`
   padding-top: 30px;
 `;
 const Subtitulo = styled.h3`

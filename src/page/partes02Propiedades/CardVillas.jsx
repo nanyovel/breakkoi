@@ -7,13 +7,12 @@ import Principal from "../../view/PartesVilla/Principal";
 import CopyDescription from "../../view/PartesVilla/CopyDescription";
 import IconoLugarCerca from "./../../../public/icon/restaurante.png";
 import IconoAmenidades from "./../../../public/icon/television.png";
-import { Villas } from "../../DB/Villas";
 import Modal from "../../components/Modal";
 import LugaresCercanos from "../../view/PartesVilla/LugaresCercanos";
 import Amenidades from "../../view/PartesVilla/Amenidades";
 
-export default function CardVillas() {
-  const [villa, setVilla] = useState(Villas[0]);
+export default function CardVillas({ villa }) {
+  // const [villa, setVilla] = useState(Villas[0]);
   const [hasModal, setHasModal] = useState(false);
   const [hasModal2, setHasModal2] = useState(false);
 
@@ -25,9 +24,9 @@ export default function CardVillas() {
       </CajaInt>
       <CajaInt className="der">
         <TituloCard>{villa.titulo}</TituloCard>
-        <DescripcionVilla resumido={true} />
-        <Principal resumido={true} />
-        <CopyDescription resumido={true} />
+        <DescripcionVilla resumido={true} villa={villa} />
+        <Principal resumido={true} principal={villa.principal} />
+        <CopyDescription resumido={true} texto={villa.textoCopyDescription} />
         <CajaBtnFinal>
           <CajaFinal onClick={() => setHasModal(true)}>
             <IconoSimple src={IconoLugarCerca} />
@@ -78,6 +77,12 @@ const WrapPropiedades = styled.div`
   border-radius: 10px;
   overflow: hidden;
   box-shadow: ${theme.config.sombra};
+  transition: ease all 0.2s;
+  &:hover {
+    -moz-box-shadow: 3px 7px 11px 0px ${theme.primary.turquoise};
+    -webkit-box-shadow: 3px 7px 11px 0px ${theme.primary.turquoise};
+    box-shadow: 3px 7px 11px 0px ${theme.primary.turquoise};
+  }
 `;
 const CajaInt = styled.div`
   height: 100%;

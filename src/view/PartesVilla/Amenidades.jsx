@@ -6,15 +6,14 @@ import { BtnGeneral } from "../../components/ElementosGenerales";
 import Modal from "../../components/Modal";
 import { Villas } from "../../DB/Villas";
 
-export default function Amenidades({ bntOff }) {
+export default function Amenidades({ amenidades, bntOff }) {
   const anchoIconos = "2rem";
-  const amenidadesDB = Villas[0].amenidades;
 
   const [hasModal, setHasModal] = useState(false);
   return (
     <Container>
       <Lista>
-        {amenidadesDB
+        {amenidades
           .filter((amenidad) => {
             if (amenidad.resumida) {
               return amenidad;
@@ -47,7 +46,7 @@ export default function Amenidades({ bntOff }) {
       {hasModal && (
         <Modal setHasModal={setHasModal} titulo="Amenidades">
           <Lista className="scroll">
-            {amenidadesDB.map((am, index) => {
+            {amenidades.map((am, index) => {
               return (
                 <Item key={index}>
                   {am.iconoImg ? (

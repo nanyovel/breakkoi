@@ -5,23 +5,27 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 
 import CardVillas from "./partes02Propiedades/CardVillas";
-import { TituloSeccion } from "../components/ElementosGenerales";
+import { TituloH1 } from "../components/ElementosGenerales";
+import { NavLink } from "react-router";
+import { Villas } from "../DB/Villas";
 
-export default function Propiedades() {
+export default function ListaPropiedades() {
   return (
     <>
       <Header />
       <Container>
         <Titulo>Propiedades</Titulo>
         <CajaVilla>
+          <Enlace to={Villas[0].url}>
+            <CardVillas villa={Villas[0]} />
+          </Enlace>
+        </CajaVilla>
+        {/* <CajaVilla>
           <CardVillas />
         </CajaVilla>
         <CajaVilla>
           <CardVillas />
-        </CajaVilla>
-        <CajaVilla>
-          <CardVillas />
-        </CajaVilla>
+        </CajaVilla> */}
       </Container>
       <Footer />
     </>
@@ -34,4 +38,15 @@ const Container = styled.div`
 const CajaVilla = styled.div`
   margin-bottom: 25px;
 `;
-const Titulo = styled(TituloSeccion)``;
+const Enlace = styled(NavLink)`
+  margin-bottom: 25px;
+  color: auto;
+  text-decoration: auto;
+  &:active {
+    color: auto;
+  }
+  &:target {
+    color: auto;
+  }
+`;
+const Titulo = styled(TituloH1)``;

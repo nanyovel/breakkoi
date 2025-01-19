@@ -1,62 +1,33 @@
 import Img1 from "./../../public/img/girlSand.jpg";
 import Img2 from "./../../public/img/playa.jpg";
 
+import ImgVilla1 from "./../assets/store/villa1.jpg";
+
 export const BlogsDB = [
   {
-    id: "15",
-    tipo: "lista",
     titulo:
-      "5 Razones por las que Hospedarte en una Villa es Mejor que un Hotel",
-    imgPrincipal: Img1,
-    parrafos: [
-      {
-        encabezado: "",
-        texto:
-          "Cuando planeas tus vacaciones en Punta Cana, probablemente lo primero que venga a tu mente sea reservar una habitación en un hotel todo incluido. Sin embargo, ¿te has preguntado si una villa privada podría ser una mejor opción? Hospedarte en una villa puede ofrecerte ventajas únicas que difícilmente encontrarás en un hotel. Aquí te damos 5 razones por las que deberías considerar esta opción para tu próxima escapada tropical.",
-      },
-      {
-        encabezado: "Privacidad Total: Tu Espacio, Tus Reglas",
-        texto:
-          "Imagina despertarte sin el ruido de otros huéspedes o el bullicio de un restaurante lleno. Al hospedarte en una villa, tienes un espacio exclusivamente para ti y tus acompañantes. Piscina privada, terrazas tranquilas y la libertad de disfrutar tus vacaciones a tu ritmo, sin interrupciones. Es la elección perfecta para quienes buscan paz y relajación.",
-      },
-      {
-        encabezado: "Espacio Amplio y Personalizado",
-        texto:
-          "Una villa ofrece mucho más que una simple habitación. Desde amplias salas de estar hasta cocinas totalmente equipadas y varias habitaciones, tendrás espacio de sobra para toda tu familia o grupo de amigos. Además, puedes personalizar tu experiencia: ¿Prefieres cocinar tus propios platos o contratar a un chef privado? ¡La elección es tuya!",
-      },
-      {
-        encabezado: "Experiencia Local Única",
-        texto:
-          "Hospedarte en una villa te permite vivir Punta Cana de una forma más auténtica. Muchas villas están ubicadas en zonas residenciales o exclusivas lejos del bullicio turístico, lo que te da la oportunidad de conectar con la cultura local. Podrás explorar mercados cercanos, probar comida típica y descubrir lugares que los hoteles muchas veces no mencionan.",
-      },
-      {
-        encabezado: "Costos Compartidos que Hacen la Diferencia",
-        texto:
-          "Aunque una villa puede parecer más costosa al principio, es una opción mucho más económica si viajas en grupo. Dividir el costo entre varias personas puede resultar más asequible que pagar varias habitaciones de hotel. Además, ahorrarás en comidas al tener la opción de cocinar tus propios platillos.",
-      },
-      {
-        encabezado: "Flexibilidad y Personalización Total",
-        texto:
-          "En un hotel, estás sujeto a horarios de check-in, comidas y actividades. En una villa, tú decides todo. ¿Quieres desayunar a mediodía? ¿Hacer una cena romántica bajo las estrellas? ¿Organizar una barbacoa junto a la piscina? Las villas te permiten crear una experiencia de vacaciones completamente personalizada.",
-      },
-      {
-        encabezado: "Flexibilidad y Personalización Total",
-        texto:
-          "En un hotel, estás sujeto a horarios de check-in, comidas y actividades. En una villa, tú decides todo. ¿Quieres desayunar a mediodía? ¿Hacer una cena romántica bajo las estrellas? ¿Organizar una barbacoa junto a la piscina? Las villas te permiten crear una experiencia de vacaciones completamente personalizada.",
-      },
-    ],
-    conclucion: {
-      encabezado: "Haz de Tus Vacaciones una Experiencia Única",
-      texto:
-        "Si buscas comodidad, exclusividad y flexibilidad, hospedarte en una villa en Punta Cana es una opción que no te decepcionará. Ya sea que viajes en pareja, en familia o con un grupo de amigos, disfrutarás de una experiencia única que se adapta a tus necesidades y preferencias. Así que, ¿por qué no dar el paso y reservar una villa para tu próxima aventura en el Caribe? Punta Cana te espera con opciones increíbles para que vivas las vacaciones de tus sueños.",
-    },
+      " 5 Razones por las que Hospedarte en una Villa es Mejor que un Hotel",
+    imgPrincipal: ImgVilla1,
+    parrafoPrincipalResumido:
+      "Cuando planeas tus vacaciones en Punta Cana, probablemente lo primero que venga a tu mente sea reservar una habitación en un hotel todo incluido. Sin embargo, ¿te has preguntado si una villa privada podría ser una mejor opción? Hospedarte en una villa puede ofrecerte ventajas únicas que difícilmente encontrarás en un hotel. Aquí te damos 5 razones por las que deberías considerar esta opción para tu próxima escapada tropical.",
+    url: "razones-por-las-que-hospedarte-en-una-villa-es-mejor-que-un-hotel",
+    fecha: new Date(2025, 0, 24),
   },
+  {
+    titulo:
+      "Guía Definitiva y Recomendaciones para unas Vacaciones Perfectas en Punta Cana",
+    imgPrincipal: Img2,
+    url: "Guia-Definitiva-y-Recomendaciones-para-unas-Vacaciones-Perfectas-en-Punta-Cana",
+    fecha: new Date(2025, 0, 25),
+    parrafoPrincipalResumido:
+      "Punta Cana es sinónimo de playas paradisíacas, brisa tropical y diversión ilimitada. Pero, como todo buen destino, unas vacaciones perfectas requieren algo de planeación. Para que no te pierdas nada de lo que este rincón del Caribe tiene para ofrecer, hemos preparado esta guía definitiva con recomendaciones prácticas que harán de tu viaje una experiencia inolvidable.",
+  },
+
   {
     id: "16",
     titulo:
       "Guía Definitiva y Recomendaciones para unas Vacaciones Perfectas en Punta Cana",
     tipo: "lista",
-    imgPrincipal: Img2,
     parrafos: [
       {
         encabezado: "",
@@ -68,18 +39,7 @@ export const BlogsDB = [
         texto:
           "Aunque Punta Cana tiene un clima cálido durante todo el año, los meses de diciembre a abril son ideales, ya que coinciden con la temporada seca. Si buscas evitar multitudes y encontrar mejores precios, considera viajar entre mayo y noviembre, pero ten en cuenta que esta es la temporada de lluvias, aunque las precipitaciones suelen ser breves.",
       },
-      {
-        encabezado: "Imprescindibles para Empacar",
-        subtitulo: "No olvides llevar:",
-        tipo: "listaDesordenada",
-        elementos: [
-          "Ropa ligera y cómoda.",
-          "Protector solar resistente al agua.",
-          "Repelente de insectos.",
-          "Trajes de baño (¡sí, más de uno!).",
-          "Calzado para caminar si planeas explorar.",
-        ],
-      },
+
       {
         encabezado: "Imprescindibles para Empacar",
         subtitulo: "No olvides llevar:",

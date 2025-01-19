@@ -51,6 +51,15 @@ export const TituloSeccion = styled.h2`
   margin-bottom: 40px;
   font-weight: normal;
 `;
+export const TituloH1 = styled.h1`
+  color: ${theme.primary.turquoiseTenue};
+  width: 100%;
+  text-align: center;
+  font-size: 2.5rem;
+  text-decoration: underline;
+  margin-bottom: 40px;
+  font-weight: normal;
+`;
 
 export const InputGeneral = styled.input`
   width: 100%;

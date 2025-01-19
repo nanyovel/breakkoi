@@ -80,10 +80,17 @@ import RostroHombre13 from "./../../public/img/man13.jpg";
 import EEUU from "./../../public/img/estados-unidos.png";
 import Francia from "./../../public/img/francia.png";
 import Australia from "./../../public/img/australia.png";
+import ImgCama from "./../../public/icon/cama.png";
+import ImgHabitacion from "./../../public/icon/habitacion.png";
+import ImgPeople from "./../../public/icon/people.png";
+import ImgDucha from "./../../public/icon/ducha.png";
 
 export const Villas = [
   {
+    // id: "",
+    url: "villa-koi-punta-cana",
     titulo: "Villa Koi Punta Cana",
+    fotoPrincipal: "",
     fotos: [
       "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTE1NjEzMDE3NDA5MjQ3Mjg5MQ%3D%3D/original/3513a864-90ce-457b-a8eb-6f7c9faa9548.jpeg?im_w=1200&im_format=avif",
       "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTE1NjEzMDE3NDA5MjQ3Mjg5MQ%3D%3D/original/629d535f-22f5-45d7-8f62-e6a9e846acf5.jpeg?im_w=720&im_format=avif",
@@ -113,19 +120,32 @@ export const Villas = [
       },
     ],
 
-    pricipal: {
-      huespedes: 6,
-      habitaciones: 3,
-      bannios: 2,
-      camas: 3,
-    },
+    principal: [
+      {
+        texto: "6 Huespedes",
+        icono: ImgPeople,
+      },
+      {
+        texto: "3 habitaciones",
+        icono: ImgHabitacion,
+      },
+      {
+        texto: "3 Camas",
+        icono: ImgCama,
+      },
+      {
+        texto: "2 baños",
+        icono: ImgDucha,
+      },
+    ],
+
     lugaresCercanos: {
       restaurantes: [
         {
           nombre: "Restaurante Pepito",
           distanciaKM: 3,
           mntsDistancia: 2,
-          urlFoto: ImgCamarero,
+          logo: ImgCamarero,
           comoLlegar:
             'https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d8614.150442262177!2d-68.39845291191739!3d18.595124112232828!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e0!4m5!1s0x8ea893000c75cd5f%3A0xfd2f3e6f26b2ffb0!2sVilla%20Koi%2C%20JJ25%2B7J%2C%20Punta%20Cana%2023000!3m2!1d18.598703399999998!2d-68.3916095!4m5!1s0x8ea8937028fd0159%3A0xcf58bd088f85ae20!2sAsadero%20Do%C3%B1a%20Pula!3m2!1d18.593884!2d-68.3888183!5e0!3m2!1ses-419!2sdo!4v1735994958499!5m2!1ses-419!2sdo" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"',
         },
@@ -133,7 +153,7 @@ export const Villas = [
           nombre: "SBG Punta Cana",
           distanciaKM: 2,
           mntsDistancia: 2,
-          urlFoto: ImgSBG,
+          logo: ImgSBG,
           comoLlegar:
             'https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d8614.150442262177!2d-68.39845291191739!3d18.595124112232828!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e0!4m5!1s0x8ea893000c75cd5f%3A0xfd2f3e6f26b2ffb0!2sVilla%20Koi%2C%20JJ25%2B7J%2C%20Punta%20Cana%2023000!3m2!1d18.598703399999998!2d-68.3916095!4m5!1s0x8ea8937028fd0159%3A0xcf58bd088f85ae20!2sAsadero%20Do%C3%B1a%20Pula!3m2!1d18.593884!2d-68.3888183!5e0!3m2!1ses-419!2sdo!4v1735994958499!5m2!1ses-419!2sdo" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"',
         },
@@ -141,7 +161,7 @@ export const Villas = [
           nombre: "Onno Bar",
           distanciaKM: 4,
           mntsDistancia: 1,
-          urlFoto: ImgONNO,
+          logo: ImgONNO,
           comoLlegar:
             'https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d8614.150442262177!2d-68.39845291191739!3d18.595124112232828!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e0!4m5!1s0x8ea893000c75cd5f%3A0xfd2f3e6f26b2ffb0!2sVilla%20Koi%2C%20JJ25%2B7J%2C%20Punta%20Cana%2023000!3m2!1d18.598703399999998!2d-68.3916095!4m5!1s0x8ea8937028fd0159%3A0xcf58bd088f85ae20!2sAsadero%20Do%C3%B1a%20Pula!3m2!1d18.593884!2d-68.3888183!5e0!3m2!1ses-419!2sdo!4v1735994958499!5m2!1ses-419!2sdo" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"',
         },
@@ -151,7 +171,7 @@ export const Villas = [
           nombre: "Little Caesars",
           distanciaKM: 2,
           mntsDistancia: 3,
-          urlFoto: ImgCaesar,
+          logo: ImgCaesar,
           comoLlegar:
             'https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d8614.150442262177!2d-68.39845291191739!3d18.595124112232828!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e0!4m5!1s0x8ea893000c75cd5f%3A0xfd2f3e6f26b2ffb0!2sVilla%20Koi%2C%20JJ25%2B7J%2C%20Punta%20Cana%2023000!3m2!1d18.598703399999998!2d-68.3916095!4m5!1s0x8ea8937028fd0159%3A0xcf58bd088f85ae20!2sAsadero%20Do%C3%B1a%20Pula!3m2!1d18.593884!2d-68.3888183!5e0!3m2!1ses-419!2sdo!4v1735994958499!5m2!1ses-419!2sdo" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"',
         },
@@ -159,7 +179,7 @@ export const Villas = [
           nombre: "Mc Donald",
           distanciaKM: 4,
           mntsDistancia: 2,
-          urlFoto: ImgMcDonal,
+          logo: ImgMcDonal,
           comoLlegar:
             'https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d8614.150442262177!2d-68.39845291191739!3d18.595124112232828!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e0!4m5!1s0x8ea893000c75cd5f%3A0xfd2f3e6f26b2ffb0!2sVilla%20Koi%2C%20JJ25%2B7J%2C%20Punta%20Cana%2023000!3m2!1d18.598703399999998!2d-68.3916095!4m5!1s0x8ea8937028fd0159%3A0xcf58bd088f85ae20!2sAsadero%20Do%C3%B1a%20Pula!3m2!1d18.593884!2d-68.3888183!5e0!3m2!1ses-419!2sdo!4v1735994958499!5m2!1ses-419!2sdo" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"',
         },
@@ -167,7 +187,7 @@ export const Villas = [
           nombre: "Burger King",
           distanciaKM: 2,
           mntsDistancia: 1,
-          urlFoto: ImgBurguerKing,
+          logo: ImgBurguerKing,
           comoLlegar:
             'https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d8614.150442262177!2d-68.39845291191739!3d18.595124112232828!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e0!4m5!1s0x8ea893000c75cd5f%3A0xfd2f3e6f26b2ffb0!2sVilla%20Koi%2C%20JJ25%2B7J%2C%20Punta%20Cana%2023000!3m2!1d18.598703399999998!2d-68.3916095!4m5!1s0x8ea8937028fd0159%3A0xcf58bd088f85ae20!2sAsadero%20Do%C3%B1a%20Pula!3m2!1d18.593884!2d-68.3888183!5e0!3m2!1ses-419!2sdo!4v1735994958499!5m2!1ses-419!2sdo" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"',
         },
@@ -175,7 +195,7 @@ export const Villas = [
           nombre: "Dominos Pizza",
           distanciaKM: 3,
           mntsDistancia: 5,
-          urlFoto: ImgDomino,
+          logo: ImgDomino,
           comoLlegar:
             'https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d8614.150442262177!2d-68.39845291191739!3d18.595124112232828!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e0!4m5!1s0x8ea893000c75cd5f%3A0xfd2f3e6f26b2ffb0!2sVilla%20Koi%2C%20JJ25%2B7J%2C%20Punta%20Cana%2023000!3m2!1d18.598703399999998!2d-68.3916095!4m5!1s0x8ea8937028fd0159%3A0xcf58bd088f85ae20!2sAsadero%20Do%C3%B1a%20Pula!3m2!1d18.593884!2d-68.3888183!5e0!3m2!1ses-419!2sdo!4v1735994958499!5m2!1ses-419!2sdo" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"',
         },
@@ -185,7 +205,7 @@ export const Villas = [
           nombre: "Agora Mall",
           distanciaKM: 4,
           mntsDistancia: 6,
-          urlFoto: ImgAgora,
+          logo: ImgAgora,
           comoLlegar:
             'https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d8614.150442262177!2d-68.39845291191739!3d18.595124112232828!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e0!4m5!1s0x8ea893000c75cd5f%3A0xfd2f3e6f26b2ffb0!2sVilla%20Koi%2C%20JJ25%2B7J%2C%20Punta%20Cana%2023000!3m2!1d18.598703399999998!2d-68.3916095!4m5!1s0x8ea8937028fd0159%3A0xcf58bd088f85ae20!2sAsadero%20Do%C3%B1a%20Pula!3m2!1d18.593884!2d-68.3888183!5e0!3m2!1ses-419!2sdo!4v1735994958499!5m2!1ses-419!2sdo" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"',
         },
@@ -193,7 +213,7 @@ export const Villas = [
           nombre: "Blue Mall",
           distanciaKM: 2,
           mntsDistancia: 4,
-          urlFoto: ImgBlueMall,
+          logo: ImgBlueMall,
           comoLlegar:
             'https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d8614.150442262177!2d-68.39845291191739!3d18.595124112232828!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e0!4m5!1s0x8ea893000c75cd5f%3A0xfd2f3e6f26b2ffb0!2sVilla%20Koi%2C%20JJ25%2B7J%2C%20Punta%20Cana%2023000!3m2!1d18.598703399999998!2d-68.3916095!4m5!1s0x8ea8937028fd0159%3A0xcf58bd088f85ae20!2sAsadero%20Do%C3%B1a%20Pula!3m2!1d18.593884!2d-68.3888183!5e0!3m2!1ses-419!2sdo!4v1735994958499!5m2!1ses-419!2sdo" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"',
         },
@@ -203,7 +223,7 @@ export const Villas = [
           nombre: "Playa Macao",
           distanciaKM: 2,
           mntsDistancia: 7,
-          urlFoto: ImgPlayaMacao,
+          logo: ImgPlayaMacao,
           comoLlegar:
             'https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d8614.150442262177!2d-68.39845291191739!3d18.595124112232828!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e0!4m5!1s0x8ea893000c75cd5f%3A0xfd2f3e6f26b2ffb0!2sVilla%20Koi%2C%20JJ25%2B7J%2C%20Punta%20Cana%2023000!3m2!1d18.598703399999998!2d-68.3916095!4m5!1s0x8ea8937028fd0159%3A0xcf58bd088f85ae20!2sAsadero%20Do%C3%B1a%20Pula!3m2!1d18.593884!2d-68.3888183!5e0!3m2!1ses-419!2sdo!4v1735994958499!5m2!1ses-419!2sdo" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"',
         },
@@ -213,7 +233,7 @@ export const Villas = [
           nombre: "Smart Fit",
           distanciaKM: 3,
           mntsDistancia: 4,
-          urlFoto: ImgSmartFit,
+          logo: ImgSmartFit,
           comoLlegar:
             'https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d8614.150442262177!2d-68.39845291191739!3d18.595124112232828!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e0!4m5!1s0x8ea893000c75cd5f%3A0xfd2f3e6f26b2ffb0!2sVilla%20Koi%2C%20JJ25%2B7J%2C%20Punta%20Cana%2023000!3m2!1d18.598703399999998!2d-68.3916095!4m5!1s0x8ea8937028fd0159%3A0xcf58bd088f85ae20!2sAsadero%20Do%C3%B1a%20Pula!3m2!1d18.593884!2d-68.3888183!5e0!3m2!1ses-419!2sdo!4v1735994958499!5m2!1ses-419!2sdo" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"',
         },
@@ -639,6 +659,7 @@ export const Villas = [
           "Marilloso lugar en Punta Cana, ubicado en una zona perfecta dentro de Punta Cana",
       },
     ],
+    calificacion: 5,
     anfitrion: {
       nombre: "Kostia Kindelan",
       urlFotoPerfil:

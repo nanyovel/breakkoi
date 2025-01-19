@@ -17,8 +17,29 @@ import { BtnGeneral } from "../components/ElementosGenerales";
 import CajaResennias from "./PartesVilla/CajaResennias";
 import LugaresCercanos from "./PartesVilla/LugaresCercanos";
 import CajaAnfritrion from "./PartesVilla/CajaAnfritrion";
+import { useParams } from "react-router";
+import { Villas } from "../DB/Villas";
+import BotonQuery from "../components/BotonQuery";
 
 export default function DetalleVilla() {
+  // /***************RECURSOS GENERALES******* */
+  const params = useParams();
+  const docUser = params.id;
+
+  const [villaMaster, setVillaMaster] = useState({});
+  const [datosParsed, setDatosParsed] = useState(false);
+  useEffect(() => {
+    const villaBuscada = Villas.find((villa) => {
+      if (docUser == villa.url) {
+        return villa;
+      }
+    });
+    if (villaBuscada) {
+      console.log(villaBuscada);
+      setVillaMaster(villaBuscada);
+      setDatosParsed(true);
+    }
+  }, [docUser]);
   const galeriaRef = useRef(null);
   const lugaresCercanosRef = useRef(null);
   const amenidadesRef = useRef(null);
@@ -58,48 +79,50 @@ export default function DetalleVilla() {
   return (
     <>
       <Header noFixed={true} />
-      <Container>
-        <TituloVilla ref={galeriaRef}>Villa Koi Punta Cana</TituloVilla>
-        <Galeria />
-        <ControlesDetalles hacerScroll={hacerScroll} />
-        <Seccion className="anchoCompleto sinBorde">
-          <Subtitulo className=" pocoMargin">
-            Villa de lujo en Punta Cana: La escapada que necesitas.
-          </Subtitulo>
+      <BotonQuery villaMaster={villaMaster} />
+      {datosParsed && (
+        <Container>
+          <TituloVilla ref={galeriaRef}>{villaMaster.titulo}</TituloVilla>
+          <Galeria />
+          <ControlesDetalles hacerScroll={hacerScroll} />
+          <Seccion className="anchoCompleto sinBorde">
+            <Subtitulo className=" pocoMargin">
+              {villaMaster.Subtitulo}
+            </Subtitulo>
 
-          <DescripcionVilla hacerScroll={hacerScroll} />
-        </Seccion>
-        <Seccion>
-          <Subtitulo>Principal</Subtitulo>
-          <Principal />
-        </Seccion>
-        <Seccion>
-          <Subtitulo ref={lugaresCercanosRef}>Lugares cercanos</Subtitulo>
-          <LugaresCercanos />
-        </Seccion>
-        <Seccion>
-          <Subtitulo ref={amenidadesRef}>Amenidades</Subtitulo>
-          <Amenidades />
-        </Seccion>
+            <DescripcionVilla hacerScroll={hacerScroll} villa={villaMaster} />
+          </Seccion>
+          <Seccion>
+            <Subtitulo>Principal</Subtitulo>
+            <Principal principal={villaMaster.principal} />
+          </Seccion>
+          <Seccion>
+            <Subtitulo ref={lugaresCercanosRef}>Lugares cercanos</Subtitulo>
+            <LugaresCercanos lugares={villaMaster.lugaresCercanos} />
+          </Seccion>
+          <Seccion>
+            <Subtitulo ref={amenidadesRef}>Amenidades</Subtitulo>
+            <Amenidades amenidades={villaMaster.amenidades} />
+          </Seccion>
 
-        <Seccion>
-          <Subtitulo>Detalles</Subtitulo>
-          <CopyDescription />
-        </Seccion>
-        <Seccion>
-          <Subtitulo>Ubicacion</Subtitulo>
-          <Location />
-        </Seccion>
-        <Seccion>
-          <Subtitulo ref={resenniasRef}>Ult. Reseñas</Subtitulo>
-          <CajaResennias />
-        </Seccion>
-        <Seccion className="anchoCompleto">
-          <Subtitulo>Anfritrion</Subtitulo>
-          <CajaAnfritrion />
-        </Seccion>
-      </Container>
-
+          <Seccion>
+            <Subtitulo>Detalles</Subtitulo>
+            <CopyDescription texto={villaMaster.textoCopyDescription} />
+          </Seccion>
+          <Seccion>
+            <Subtitulo>Ubicacion</Subtitulo>
+            <Location urlMapa={villaMaster.location} />
+          </Seccion>
+          <Seccion>
+            <Subtitulo ref={resenniasRef}>Ult. Reseñas</Subtitulo>
+            <CajaResennias resennias={villaMaster.resennias} />
+          </Seccion>
+          <Seccion className="anchoCompleto">
+            <Subtitulo>Anfritrion</Subtitulo>
+            <CajaAnfritrion anfitrion={villaMaster.anfitrion} />
+          </Seccion>
+        </Container>
+      )}
       <Footer />
     </>
   );
