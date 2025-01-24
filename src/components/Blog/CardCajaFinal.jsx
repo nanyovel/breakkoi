@@ -6,40 +6,26 @@ import { NavLink } from "react-router";
 export default function CardCajaFinal({ blog }) {
   return (
     <Card>
-      <CajaImgCard>
-        <Img src={blog.imgPrincipal} />
-      </CajaImgCard>
-      <CajaDown>
-        <CajaTexto>
-          <Texto>{blog.titulo}</Texto>
-        </CajaTexto>
-        <CajaLeerMas>
-          <TextLeerMas>Leer Mas...</TextLeerMas>
-        </CajaLeerMas>
-      </CajaDown>
+      <Enlace to={"/blog/" + blog.url}>
+        <CajaImgCard>
+          <Img src={blog.imgPrincipal} />
+        </CajaImgCard>
+        <CajaDown>
+          <CajaTexto>
+            <Texto>{blog.titulo}</Texto>
+          </CajaTexto>
+          <CajaLeerMas>
+            <TextLeerMas>Leer Mas...</TextLeerMas>
+          </CajaLeerMas>
+        </CajaDown>
+      </Enlace>
     </Card>
   );
 }
-
-const Container = styled.div`
-  box-shadow: ${theme.config.sombra};
-  margin-bottom: 100px;
-`;
 const Enlace = styled(NavLink)`
+  width: 100%;
+  height: 100%;
   text-decoration: none;
-`;
-const Titulo = styled.h2`
-  color: ${theme.primary.turquoise};
-  font-size: 2.4rem;
-  width: 100%;
-  text-align: center;
-  margin-bottom: 15px;
-`;
-const CajaCard = styled.div`
-  width: 100%;
-  min-height: 400px;
-  /* background-color: red; */
-  padding: 10px;
 `;
 const Card = styled.div`
   width: 30%;
@@ -76,7 +62,7 @@ const Texto = styled.h2`
   color: ${theme.secondary.coral};
   &:hover {
     color: ${theme.secondary.rojoTerracota};
-    cursor: pointer;
+    /* cursor: pointer; */
   }
 `;
 
