@@ -16,7 +16,10 @@ import { useDocById } from "./libs/FetchFirebase";
 function App() {
   // ******************** RECURSOS GENERALES ******************** //
   // const userAuth = useAuth().userMaster;
+  // ******************** RECURSOS GENERALES ******************** //
+
   const userAuth = useAuth().usuario;
+  const [usuario, setUsuario] = useState(userAuth);
 
   const [userMaster, setUserMaster] = useState("");
   const idUsuario = userAuth ? userAuth.uid : "00";
