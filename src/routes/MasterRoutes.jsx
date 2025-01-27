@@ -7,9 +7,7 @@ import ListaPropiedades from "../page/ListaPropiedades";
 import FormContact from "../components/FormContact";
 import PageContact from "../page/PageContact";
 import Nosotros from "../page/Nosotros";
-import Login from "../page/Login";
-import Registrarse from "../page/Registrarse";
-import ResetPassword from "../page/ResetPassword";
+
 import ListaBlog from "../page/ListaBlog";
 import DetalleBlog from "../view/DetalleBlog";
 import Header from "../components/Header";
@@ -19,9 +17,15 @@ import BarraTopOferta from "../components/BarraTopOferta";
 import AvisoTop from "../components/AvisoTop";
 import { useAuth } from "../context/AuthContext";
 import { sendEmailVerification } from "firebase/auth";
+import BotonQuery from "../components/BotonQuery";
+import { RutaProtegida } from "../context/RutaProtegida";
+import Login from "../Auth/Login";
+import Registrarse from "../Auth/Registrarse";
+import ResetPassword from "../Auth/ResetPassword";
 
 export default function MasterRoutes({ userMaster }) {
-  const [usuario, setUsuario] = useState(useAuth().usuario);
+  const user = useAuth();
+  const currentUser = user.usuario;
 
   // ********************* CONFIGAR CORREO *************************
   const mensajeInitial = `La cuenta del email:${
@@ -29,20 +33,11 @@ export default function MasterRoutes({ userMaster }) {
   } 
              ha sido creada correctamente, ahora debes confirmar que eres el propietario, para ello haz click en el siguiente boton para enviarte un enlace a tu correo.`;
   const [mensajeConfirmar, setMensajeConfirmar] = useState(mensajeInitial);
-  const [hasConfirmar, setHasConfirmar] = useState(false);
   const [btnCta, setBtnCta] = useState("Enviar enlace");
-
-  useEffect(() => {
-    if (usuario) {
-      if (usuario.emailVerified == false) {
-        setHasConfirmar(true);
-      }
-    }
-  }, [usuario, useAuth().usuario]);
 
   const confirmarEmail = () => {
     var actionCodeSettings = { url: "https://breakkoi.vercel.app/" };
-    sendEmailVerification(usuario, actionCodeSettings)
+    sendEmailVerification(currentUser, actionCodeSettings)
       .then(function () {
         setMensajeConfirmar("Enlace de confirmacion enviado a su correo.");
         setBtnCta("");
@@ -54,15 +49,19 @@ export default function MasterRoutes({ userMaster }) {
 
   return (
     <>
-      <Header userMaster={userMaster} />
-      {hasConfirmar && (
-        <AvisoTop
-          cta={() => confirmarEmail()}
-          ctaTexto={btnCta}
-          mensaje={mensajeConfirmar}
-        />
-      )}
+      <Header userMaster={userMaster} currentUser={currentUser} />
 
+      {currentUser ? (
+        currentUser.emailVerified == false ? (
+          <AvisoTop
+            mensaje={mensajeConfirmar}
+            ctaTexto={btnCta}
+            cta={() => confirmarEmail()}
+          />
+        ) : null
+      ) : null}
+
+      {/* <BotonQuery currentUser={currentUser} /> */}
       <Routes>
         <Route path="/" element={<Home userMaster={userMaster} />} />
         <Route
@@ -76,8 +75,18 @@ export default function MasterRoutes({ userMaster }) {
         <Route path="/login/" element={<Login />} />
         <Route path="/registro/" element={<Registrarse />} />
         <Route path="/nosotros/" element={<Nosotros />} />
-        <Route path="/resetPassword/" element={<ResetPassword />} />
-        <Route path="/perfil/" element={<Perfil userMaster={userMaster} />} />
+        <Route
+          path="/perfil/"
+          element={
+            <RutaProtegida>
+              <Perfil userMaster={userMaster} />
+            </RutaProtegida>
+          }
+        />
+        <Route
+          path="/recuperar/"
+          element={<ResetPassword userMaster={userMaster} />}
+        />
         <Route path="*" element={<Page404 />} />
       </Routes>
       <Footer />

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { theme } from "../config/theme";
 import styled from "styled-components";
 import Header from "../components/Header";
@@ -9,17 +9,31 @@ import BotonQuery from "../components/BotonQuery";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { ModalLoading } from "../components/ModalLoading";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { autenticar } from "../firebase/firebaseConfig";
 import { formatoCorreo } from "../libs/StringS";
+import { useAuth } from "../context/AuthContext";
 
 export default function Login() {
   // ************ RECURSOS GENERALES **************
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const datosInitial = {
     correo: "",
     password: "",
   };
+
+  const currentUser = useAuth().usuario;
+  const [datosParseados, setDatosParseados] = useState(false);
+  const auth = getAuth();
+  useEffect(() => {
+    if (auth.currentUser?.emailVerified == true) {
+      // navigate("/");
+    } else {
+      setDatosParseados(true);
+    }
+  }, [auth]);
+
   const [datos, setDatos] = useState({ ...datosInitial });
   const [showPassword, setShowPassword] = useState(false);
   const handleInputs = (e) => {
@@ -29,10 +43,11 @@ export default function Login() {
       [name]: value,
     }));
   };
-  const navigate = useNavigate();
+
   const [mensajeAlerta, setMensajeAlerta] = useState("");
   const [hasAlerta, setHasAlerta] = useState("");
   const handleSubmit = async (e) => {
+    e.preventDefault();
     // si existen campos vacios
     if (datos.correo == "" || datos.password == "") {
       setHasAlerta(true);
@@ -55,6 +70,7 @@ export default function Login() {
         datos.password
       );
 
+      // location.reload();
       navigate("/");
       setIsLoading(false);
     } catch (error) {
@@ -75,58 +91,60 @@ export default function Login() {
     }
   };
   return (
-    <>
-      {/* <Header /> */}
+    datosParseados && (
       <CajaContenido>
         <BotonQuery datos={datos} />
         <Titulo>Iniciar sesion</Titulo>
-        <WrapInputs>
-          <CajaInput>
-            <TituloInput>Correo electronico</TituloInput>
-            <Input
-              value={datos.correo}
-              onChange={(e) => handleInputs(e)}
-              name="correo"
-              placeholder="Email"
-              type="text"
-            />
-          </CajaInput>
-          <CajaInput>
-            <TituloInput>Contraseña</TituloInput>
-            <CajaInternaInput>
+        <form onSubmit={(e) => handleSubmit(e)}>
+          <WrapInputs>
+            <CajaInput>
+              <TituloInput>Correo electronico</TituloInput>
               <Input
-                value={datos.password}
+                value={datos.correo}
                 onChange={(e) => handleInputs(e)}
-                name="password"
-                placeholder="Contraseña"
-                type={showPassword ? "text" : "password"}
+                name="correo"
+                placeholder="Email"
+                type="text"
               />
-              <CajaEye>
-                <IconoEye
-                  icon={showPassword ? faEyeSlash : faEye}
-                  onClick={() => setShowPassword(!showPassword)}
+            </CajaInput>
+            <CajaInput>
+              <TituloInput>Contraseña</TituloInput>
+              <CajaInternaInput>
+                <Input
+                  value={datos.password}
+                  onChange={(e) => handleInputs(e)}
+                  name="password"
+                  placeholder="Contraseña"
+                  type={showPassword ? "text" : "password"}
                 />
-              </CajaEye>
-            </CajaInternaInput>
-          </CajaInput>
-          {hasAlerta && (
-            <CajaErrorAlEnviar>
-              <Parrafo className="danger">{mensajeAlerta}</Parrafo>
-            </CajaErrorAlEnviar>
-          )}
+                <CajaEye>
+                  <IconoEye
+                    icon={showPassword ? faEyeSlash : faEye}
+                    onClick={() => setShowPassword(!showPassword)}
+                  />
+                </CajaEye>
+              </CajaInternaInput>
+            </CajaInput>
+            {hasAlerta && (
+              <CajaErrorAlEnviar>
+                <Parrafo className="danger">{mensajeAlerta}</Parrafo>
+              </CajaErrorAlEnviar>
+            )}
 
-          <CajaInput className="btn">
-            <BtnSimple onClick={() => handleSubmit()}>Iniciar sesion</BtnSimple>
-          </CajaInput>
-          <CajaInput className="links">
-            <Enlaces to={"/registro"}>Registrarse</Enlaces>
-            <Enlaces to={"/resetPassword"}>Olvide mi contraseña</Enlaces>
-          </CajaInput>
-        </WrapInputs>
+            <CajaInput className="btn">
+              <BtnSimple type="submit" onClick={() => handleSubmit()}>
+                Iniciar sesion
+              </BtnSimple>
+            </CajaInput>
+            <CajaInput className="links">
+              <Enlaces to={"/registro"}>Registrarse</Enlaces>
+              <Enlaces to={"/recuperar"}>Olvide mi contraseña</Enlaces>
+            </CajaInput>
+          </WrapInputs>
+        </form>
+        {isLoading && <ModalLoading />}
       </CajaContenido>
-      {/* <Footer /> */}
-      {isLoading && <ModalLoading />}
-    </>
+    )
   );
 }
 const CajaContenido = styled.div`

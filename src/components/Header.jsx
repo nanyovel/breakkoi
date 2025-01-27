@@ -132,9 +132,23 @@ export default function Header({ userMaster, absolute }) {
           {userMaster && (
             <Enlaces className={"perfil"} to={"/perfil"}>
               <CajaPerfil>
-                <CajaAvatar>
-                  <ImgAvatar src={userMaster.urlFotoPerfil} />
-                </CajaAvatar>
+                {userMaster.urlFotoPerfil ? (
+                  <CajaAvatar>
+                    <ImgAvatar src={userMaster.urlFotoPerfil} />
+                  </CajaAvatar>
+                ) : (
+                  <CajaAvatar>
+                    <ImgAvatar
+                      className="icon"
+                      src={
+                        userMaster.genero == "Femenino"
+                          ? theme.config.userFemale
+                          : theme.config.userMale
+                      }
+                    />
+                  </CajaAvatar>
+                )}
+
                 <CajaNombrePerfil>
                   <NombrePerfil>{userMaster.nombre}</NombrePerfil>
                 </CajaNombrePerfil>
@@ -171,20 +185,15 @@ const CajaInternaHeader = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  /* border: 2px solid red; */
   height: 100%;
 `;
-const WrapTel = styled.div`
-  /* border: 1px solid red; */
-`;
+const WrapTel = styled.div``;
 
 const TextoTel = styled.h2`
   font-size: 1.1rem;
   font-weight: normal;
-  /* color: #fff; */
   &:hover {
     color: ${theme.primary.sand};
-    /* color: red; */
     text-decoration: underline;
   }
 `;
@@ -195,7 +204,6 @@ const Ancla = styled.a`
   text-decoration: none;
   &:hover {
     color: ${theme.sand};
-    /* color: red; */
     text-decoration: underline;
   }
 `;
@@ -229,10 +237,13 @@ const NavItem = styled.li`
 `;
 const CajaLog = styled.div`
   text-align: center;
+  display: flex;
+  justify-content: center;
 `;
 const Icono = styled(FontAwesomeIcon)`
   margin-right: 5px;
   &.user {
+    margin-right: 0;
     &:hover {
       color: ${theme.primary.sand};
       cursor: pointer;
@@ -256,18 +267,12 @@ const Enlaces = styled(NavLink)`
       color: ${theme.primary.sand};
       border-bottom: 3px solid;
     }
-
     text-decoration: none;
     &.active {
-      /* color: red; */
       color: white;
-    }
-    &.login {
-      text-decoration: none;
     }
   }
   &.logo {
-    /* width: 100%; */
     height: 100%;
     display: block;
     width: 50px;
@@ -278,16 +283,17 @@ const Enlaces = styled(NavLink)`
   &.perfil {
     color: white;
     text-decoration: none;
-    /* border-bottom: 3px transparent; */
-
     &:hover {
       color: ${theme.primary.sand};
-      /* border-bottom: 3px solid; */
     }
     &.active {
-      /* color: red; */
       color: white;
     }
+  }
+  &.login {
+    display: flex;
+    justify-content: center;
+    padding: 4px;
   }
 `;
 const CajaLogo = styled.div`
@@ -296,10 +302,8 @@ const CajaLogo = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  /* border: 1px solid red; */
 `;
 const CajaArrowVIcon = styled.div`
-  /* border: 1px solid red; */
   display: flex;
   align-items: end;
 `;
@@ -350,6 +354,9 @@ const CajaPerfil = styled.div`
 
 const CajaAvatar = styled.div`
   width: 40px;
+  border-bottom: 1px solid black;
+  display: flex;
+  justify-content: center;
 `;
 const ImgAvatar = styled.img`
   width: 80%;

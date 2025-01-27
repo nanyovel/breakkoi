@@ -1,3 +1,5 @@
+import ImgMale from "./../../public/img/avatars/nino.png";
+import ImgFemale from "./../../public/img/avatars/nina.png";
 export const theme = {
   primary: {
     turquoise: "#1ABC9C", // Color del mar Caribe
@@ -36,6 +38,8 @@ export const theme = {
   warning: "#ffc107",
   danger: "#dc3545",
   config: {
+    userMale: ImgMale,
+    userFemale: ImgFemale,
     paddingLateral: "200px",
     sombra: "3px 7px 11px 0px rgba(0, 0, 0, 0.75)",
   },

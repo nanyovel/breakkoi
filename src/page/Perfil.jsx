@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { theme } from "../config/theme";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -19,18 +19,23 @@ import { BtnGeneral } from "../components/ElementosGenerales";
 import { signOut } from "firebase/auth";
 import { autenticar } from "../firebase/firebaseConfig";
 
-export default function Perfil({ userMaster }) {
+export default function Perfil({ userMaster, usuario }) {
+  const navigate = useNavigate();
   const handleRedireccion = (ruta) => {
     if (ruta) {
       window.open(ruta, "_blank");
     }
   };
-
-  const navegacion = useNavigate();
+  // useEffect(() => {
+  //   if (usuario.emailVerified) {
+  //     navegacion("/");
+  //   }
+  // }, [usuario]);
   const cerrarSesion = async () => {
     try {
       await signOut(autenticar);
-      navegacion("/");
+      // location.reload();
+      navigate("/");
     } catch (error) {
       console.log("Error al cerrar sesion.");
       console.log(error);
@@ -43,7 +48,17 @@ export default function Perfil({ userMaster }) {
         <CajaContenido>
           <CajaInterna className="izq">
             <CajaFotoPerfil>
-              <FotoPerfil src={userMaster.urlFotoPerfil} />
+              {userMaster.urlFotoPerfil ? (
+                <FotoPerfil src={userMaster.urlFotoPerfil} />
+              ) : (
+                <FotoPerfil
+                  src={
+                    userMaster.genero == "Femenino"
+                      ? theme.config.userFemale
+                      : theme.config.userMale
+                  }
+                />
+              )}
             </CajaFotoPerfil>
             <TituloRRSS>Redes sociales</TituloRRSS>
 
@@ -123,7 +138,9 @@ export default function Perfil({ userMaster }) {
               <CajaBtn>
                 <WrapBtn>
                   <BtnSimple>Editar perfil</BtnSimple>
-                  <BtnSimple>Cambiar contraseña</BtnSimple>
+                  <BtnSimple onClick={() => navigate("/recuperar")}>
+                    Cambiar contraseña
+                  </BtnSimple>
                   <BtnSimple onClick={() => cerrarSesion()}>
                     Cerrar sesion
                   </BtnSimple>

@@ -28,8 +28,9 @@ import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 import { formatoCorreo } from "../libs/StringS";
 
-export default function Registrarse() {
+export default function Registrarse({ usuario }) {
   // ************ RECURSOS GENERALES **************
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [dispatchAlerta, setDispatchAlerta] = useState(false);
   const [mensajeAlerta, setMensajeAlerta] = useState("");
@@ -43,7 +44,14 @@ export default function Registrarse() {
 
   const auth = getAuth();
   auth.languageCode = "es";
-  const navigate = useNavigate();
+  const [datosParseados, setDatosParseados] = useState(false);
+  useEffect(() => {
+    if (auth.currentUser?.emailVerified == true) {
+      navigate("/");
+    } else {
+      setDatosParseados(true);
+    }
+  }, [auth]);
 
   // ************** MANEJANDO CORTE DE IMAGENES FOTO DE PERFIL **************
   // ************** datos del Paquete react easy crop **************
@@ -365,6 +373,7 @@ export default function Registrarse() {
         console.log("finalizando");
         setIsLoading(false);
         navigate("/");
+        // location.reload();
       } catch (error) {
         console.log(error);
         switch (error.code) {
@@ -386,294 +395,297 @@ export default function Registrarse() {
   };
 
   return (
-    <>
-      {/* <Header /> */}
-      <BotonQuery datos={datos} validacion={validacion} />
-      <CajaContenido>
-        <Titulo>Registrarse</Titulo>
+    datosParseados && (
+      <>
+        <BotonQuery datos={datos} validacion={validacion} />
+        <CajaContenido>
+          <Titulo>Registrarse</Titulo>
 
-        <WrapInputs>
-          <SeccionFotoPerfil>
-            {hasImgCrop && (
-              <ModalCroper>
-                <WrapElementsCrops>
-                  <TituloCrop>Seleccione el area a recortar</TituloCrop>
-                  <CajCropper>
-                    <Cropper
-                      image={datos.urlFotoPerfil.value}
-                      crop={crop}
-                      zoom={1}
-                      minZoom={1}
-                      maxZoom={2}
-                      cropShape={"round"}
-                      objectFit={"cover"}
-                      aspect={1}
-                      onCropChange={setCrop}
-                      onCropComplete={onCropComplete}
-                      onZoomChange={setZoom}
-                    />
-                  </CajCropper>
-                  <CajaControlesCrop>
-                    <BtnCrop className="" onClick={() => handleCrop()}>
-                      Aceptar
-                    </BtnCrop>
-                    <BtnCrop
-                      className="danger"
-                      onClick={() => setHasImgCro(false)}
-                    >
-                      Cancelar
-                    </BtnCrop>
-                  </CajaControlesCrop>
-                </WrapElementsCrops>
-              </ModalCroper>
-            )}
-            <CajaFotoPerfil>
-              <FotoPerfil src={datos.urlFotoPerfil.value} />
-              <CajaIcono>
-                <Icono
-                  onClick={clickFromIcon}
-                  icon={faCloudArrowUp}
-                  title="Cargar foto de perfil"
-                />
-                <Parrafo className="fotoPerfil">Foto de perfil</Parrafo>
-              </CajaIcono>
-              <Input
-                type="file"
-                ref={inputRef}
-                accept="image/*"
-                // onClick={(e) => handleFile(e)}
-                onChange={handleFile}
-                className="none"
-              />
-            </CajaFotoPerfil>
-          </SeccionFotoPerfil>
-          <CajaInput>
-            <TituloInput>Nombre</TituloInput>
-            {validacion.nombre.alerta && (
-              <Parrafo className="danger">
-                {validacion.nombre.mensajeAlerta}
-              </Parrafo>
-            )}
-            <Input
-              value={datos.nombre.value}
-              name="nombre"
-              onChange={(e) => handleInput(e)}
-              type="text"
-              placeholder="Nombre"
-              autoComplete="off"
-              className={validacion.nombre.alerta ? "danger" : ""}
-            />
-          </CajaInput>
-          <CajaInput>
-            <TituloInput>Apellido</TituloInput>
-            {validacion.apellido.alerta && (
-              <Parrafo className="danger">
-                {validacion.apellido.mensajeAlerta}
-              </Parrafo>
-            )}
-            <Input
-              value={datos.apellido.value}
-              name="apellido"
-              onChange={(e) => handleInput(e)}
-              type="text"
-              placeholder="Apellido"
-              autoComplete="off"
-              className={validacion.apellido.alerta ? "danger" : ""}
-            />
-          </CajaInput>
-          <CajaInput>
-            <TituloInput>Correo</TituloInput>
-            {validacion.correo.alerta && (
-              <Parrafo className="danger">
-                {validacion.correo.mensajeAlerta}
-              </Parrafo>
-            )}
-            <Input
-              value={datos.correo.value}
-              name="correo"
-              onChange={(e) => handleInput(e)}
-              type="email"
-              placeholder="Correo"
-              autoComplete="off"
-              className={validacion.correo.alerta ? "danger" : ""}
-            />
-          </CajaInput>
-          <CajaInput>
-            <TituloInput>Genero</TituloInput>
-            {validacion.genero.alerta && (
-              <Parrafo className="danger">
-                {validacion.genero.mensajeAlerta}
-              </Parrafo>
-            )}
-            <CajaRadio>
-              <CajitaRadio>
+          <WrapInputs>
+            <SeccionFotoPerfil>
+              {hasImgCrop && (
+                <ModalCroper>
+                  <WrapElementsCrops>
+                    <TituloCrop>Seleccione el area a recortar</TituloCrop>
+                    <CajCropper>
+                      <Cropper
+                        image={datos.urlFotoPerfil.value}
+                        crop={crop}
+                        zoom={1}
+                        minZoom={1}
+                        maxZoom={2}
+                        cropShape={"round"}
+                        objectFit={"cover"}
+                        aspect={1}
+                        onCropChange={setCrop}
+                        onCropComplete={onCropComplete}
+                        onZoomChange={setZoom}
+                      />
+                    </CajCropper>
+                    <CajaControlesCrop>
+                      <BtnCrop className="" onClick={() => handleCrop()}>
+                        Aceptar
+                      </BtnCrop>
+                      <BtnCrop
+                        className="danger"
+                        onClick={() => setHasImgCro(false)}
+                      >
+                        Cancelar
+                      </BtnCrop>
+                    </CajaControlesCrop>
+                  </WrapElementsCrops>
+                </ModalCroper>
+              )}
+              <CajaFotoPerfil>
+                <FotoPerfil src={datos.urlFotoPerfil.value} />
+                <CajaIcono>
+                  <Icono
+                    onClick={clickFromIcon}
+                    icon={faCloudArrowUp}
+                    title="Cargar foto de perfil"
+                  />
+                  <Parrafo className="fotoPerfil">Foto de perfil</Parrafo>
+                </CajaIcono>
                 <Input
-                  value={"Masculino"}
-                  name="genero"
-                  onChange={(e) => handleInput(e)}
-                  type="radio"
-                  placeholder="Genero"
-                  autoComplete="off"
-                  className={`
+                  type="file"
+                  ref={inputRef}
+                  accept="image/*"
+                  // onClick={(e) => handleFile(e)}
+                  onChange={handleFile}
+                  className="none"
+                />
+              </CajaFotoPerfil>
+            </SeccionFotoPerfil>
+            <CajaInput>
+              <TituloInput>Nombre</TituloInput>
+              {validacion.nombre.alerta && (
+                <Parrafo className="danger">
+                  {validacion.nombre.mensajeAlerta}
+                </Parrafo>
+              )}
+              <Input
+                value={datos.nombre.value}
+                name="nombre"
+                onChange={(e) => handleInput(e)}
+                type="text"
+                placeholder="Nombre"
+                autoComplete="off"
+                className={validacion.nombre.alerta ? "danger" : ""}
+              />
+            </CajaInput>
+            <CajaInput>
+              <TituloInput>Apellido</TituloInput>
+              {validacion.apellido.alerta && (
+                <Parrafo className="danger">
+                  {validacion.apellido.mensajeAlerta}
+                </Parrafo>
+              )}
+              <Input
+                value={datos.apellido.value}
+                name="apellido"
+                onChange={(e) => handleInput(e)}
+                type="text"
+                placeholder="Apellido"
+                autoComplete="off"
+                className={validacion.apellido.alerta ? "danger" : ""}
+              />
+            </CajaInput>
+            <CajaInput>
+              <TituloInput>Correo</TituloInput>
+              {validacion.correo.alerta && (
+                <Parrafo className="danger">
+                  {validacion.correo.mensajeAlerta}
+                </Parrafo>
+              )}
+              <Input
+                value={datos.correo.value}
+                name="correo"
+                onChange={(e) => handleInput(e)}
+                type="email"
+                placeholder="Correo"
+                autoComplete="off"
+                className={validacion.correo.alerta ? "danger" : ""}
+              />
+            </CajaInput>
+            <CajaInput>
+              <TituloInput>Genero</TituloInput>
+              {validacion.genero.alerta && (
+                <Parrafo className="danger">
+                  {validacion.genero.mensajeAlerta}
+                </Parrafo>
+              )}
+              <CajaRadio>
+                <CajitaRadio>
+                  <Input
+                    value={"Masculino"}
+                    name="genero"
+                    onChange={(e) => handleInput(e)}
+                    type="radio"
+                    placeholder="Genero"
+                    autoComplete="off"
+                    className={`
                 ${validacion.genero.alerta ? "danger " : ""}
                 radio
                 `}
-                  id="macho"
-                />
-                <Label htmlFor="macho">Masculino</Label>
-              </CajitaRadio>
-              <CajitaRadio>
-                <Input
-                  id="hembra"
-                  value={"Femenino"}
-                  name="genero"
-                  onChange={(e) => handleInput(e)}
-                  type="radio"
-                  placeholder="Genero"
-                  autoComplete="off"
-                  className={`
+                    id="macho"
+                  />
+                  <Label htmlFor="macho">Masculino</Label>
+                </CajitaRadio>
+                <CajitaRadio>
+                  <Input
+                    id="hembra"
+                    value={"Femenino"}
+                    name="genero"
+                    onChange={(e) => handleInput(e)}
+                    type="radio"
+                    placeholder="Genero"
+                    autoComplete="off"
+                    className={`
                 ${validacion.genero.alerta ? " danger " : ""}
                 radio
                 `}
-                />
-                <Label htmlFor="hembra">Femenino</Label>
-              </CajitaRadio>
-            </CajaRadio>
-          </CajaInput>
-          <CajaInput>
-            <TituloInput>Telefono</TituloInput>
-            {validacion.telefono.alerta && (
-              <Parrafo className="danger">
-                {validacion.telefono.mensajeAlerta}
-              </Parrafo>
-            )}
-            <Input
-              value={datos.telefono.value}
-              name="telefono"
-              onChange={(e) => handleInput(e)}
-              type="email"
-              placeholder="Telefono"
-              autoComplete="off"
-              className={validacion.telefono.alerta ? "danger" : ""}
-            />
-          </CajaInput>
-          <CajaInput>
-            <TituloInput>Contraseña</TituloInput>
-            {validacion.password.alerta && (
-              <Parrafo className="danger">
-                {validacion.password.mensajeAlerta}
-              </Parrafo>
-            )}
-            {validacion.password.insegura && (
-              <>
-                <ListaInsegura>
-                  <ElementosInseguros>Al menos 8 caracteres</ElementosInseguros>
-                  <ElementosInseguros>
-                    Al menos una letra mayuscula
-                  </ElementosInseguros>
-                  <ElementosInseguros>
-                    Al menos una letra minuscula
-                  </ElementosInseguros>
-                </ListaInsegura>
-              </>
-            )}
-            <CajaInternaInput>
-              {" "}
+                  />
+                  <Label htmlFor="hembra">Femenino</Label>
+                </CajitaRadio>
+              </CajaRadio>
+            </CajaInput>
+            <CajaInput>
+              <TituloInput>Telefono</TituloInput>
+              {validacion.telefono.alerta && (
+                <Parrafo className="danger">
+                  {validacion.telefono.mensajeAlerta}
+                </Parrafo>
+              )}
               <Input
-                value={datos.password.value}
-                name="password"
+                value={datos.telefono.value}
+                name="telefono"
                 onChange={(e) => handleInput(e)}
-                type={showPassword ? "text" : "password"}
-                placeholder="Contraseña"
+                type="email"
+                placeholder="Telefono"
                 autoComplete="off"
-                className={validacion.password.alerta ? "danger" : ""}
+                className={validacion.telefono.alerta ? "danger" : ""}
               />
-              <CajaEye>
-                <IconoEye
-                  icon={showPassword ? faEyeSlash : faEye}
-                  onClick={() => setShowPassword(!showPassword)}
+            </CajaInput>
+            <CajaInput>
+              <TituloInput>Contraseña</TituloInput>
+              {validacion.password.alerta && (
+                <Parrafo className="danger">
+                  {validacion.password.mensajeAlerta}
+                </Parrafo>
+              )}
+              {validacion.password.insegura && (
+                <>
+                  <ListaInsegura>
+                    <ElementosInseguros>
+                      Al menos 8 caracteres
+                    </ElementosInseguros>
+                    <ElementosInseguros>
+                      Al menos una letra mayuscula
+                    </ElementosInseguros>
+                    <ElementosInseguros>
+                      Al menos una letra minuscula
+                    </ElementosInseguros>
+                  </ListaInsegura>
+                </>
+              )}
+              <CajaInternaInput>
+                {" "}
+                <Input
+                  value={datos.password.value}
+                  name="password"
+                  onChange={(e) => handleInput(e)}
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Contraseña"
+                  autoComplete="off"
+                  className={validacion.password.alerta ? "danger" : ""}
                 />
-              </CajaEye>
-            </CajaInternaInput>
-          </CajaInput>
-          <CajaInput>
-            <TituloInput>Repetir contraseña</TituloInput>
-            <CajaInternaInput>
+                <CajaEye>
+                  <IconoEye
+                    icon={showPassword ? faEyeSlash : faEye}
+                    onClick={() => setShowPassword(!showPassword)}
+                  />
+                </CajaEye>
+              </CajaInternaInput>
+            </CajaInput>
+            <CajaInput>
+              <TituloInput>Repetir contraseña</TituloInput>
+              <CajaInternaInput>
+                <Input
+                  value={datos.password2.value}
+                  name="password2"
+                  onChange={(e) => handleInput(e)}
+                  type={showPassword2 ? "text" : "password"}
+                  placeholder="Contraseña"
+                  autoComplete="off"
+                  className={validacion.password.alerta ? "danger" : ""}
+                />
+                <CajaEye>
+                  <IconoEye
+                    icon={showPassword2 ? faEyeSlash : faEye}
+                    onClick={() => setShowPassword2(!showPassword2)}
+                  />
+                </CajaEye>
+              </CajaInternaInput>
+            </CajaInput>
+            <CajaInput>
+              <TituloInput>Fecha de nacimiento</TituloInput>
+              {validacion.fechaNacimiento.alerta && (
+                <Parrafo className="danger">
+                  {validacion.fechaNacimiento.mensajeAlerta}
+                </Parrafo>
+              )}
               <Input
-                value={datos.password2.value}
-                name="password2"
+                value={datos.fechaNacimiento.value}
+                name="fechaNacimiento"
                 onChange={(e) => handleInput(e)}
-                type={showPassword2 ? "text" : "password"}
-                placeholder="Contraseña"
+                type="date"
+                placeholder="Fecha de nacimiento"
                 autoComplete="off"
-                className={validacion.password.alerta ? "danger" : ""}
+                className={validacion.fechaNacimiento.alerta ? "danger" : ""}
               />
-              <CajaEye>
-                <IconoEye
-                  icon={showPassword2 ? faEyeSlash : faEye}
-                  onClick={() => setShowPassword2(!showPassword2)}
-                />
-              </CajaEye>
-            </CajaInternaInput>
-          </CajaInput>
-          <CajaInput>
-            <TituloInput>Fecha de nacimiento</TituloInput>
-            {validacion.fechaNacimiento.alerta && (
-              <Parrafo className="danger">
-                {validacion.fechaNacimiento.mensajeAlerta}
-              </Parrafo>
-            )}
-            <Input
-              value={datos.fechaNacimiento.value}
-              name="fechaNacimiento"
-              onChange={(e) => handleInput(e)}
-              type="date"
-              placeholder="Fecha de nacimiento"
-              autoComplete="off"
-              className={validacion.fechaNacimiento.alerta ? "danger" : ""}
-            />
-          </CajaInput>
-          <CajaInput>
-            <TituloInput>Nacionalidad</TituloInput>
-            {validacion.paisNacimiento.alerta && (
-              <Parrafo className="danger">
-                {validacion.paisNacimiento.mensajeAlerta}
-              </Parrafo>
-            )}
-            <Input
-              type="text"
-              value={datos.paisNacimiento.value}
-              name="paisNacimiento"
-              onChange={(e) => handleInput(e)}
-              placeholder="Nacionalidad"
-              list="paises"
-              autoComplete="off"
-              className={validacion.paisNacimiento.alerta ? "danger" : ""}
-            />
-            <DataListSimple id="paises">
-              {ListaPaises.map((pais, index) => {
-                return <Opcion key={index}>{pais.nombre}</Opcion>;
-              })}
-            </DataListSimple>
-          </CajaInput>
+            </CajaInput>
+            <CajaInput>
+              <TituloInput>Nacionalidad</TituloInput>
+              {validacion.paisNacimiento.alerta && (
+                <Parrafo className="danger">
+                  {validacion.paisNacimiento.mensajeAlerta}
+                </Parrafo>
+              )}
+              <Input
+                type="text"
+                value={datos.paisNacimiento.value}
+                name="paisNacimiento"
+                onChange={(e) => handleInput(e)}
+                placeholder="Nacionalidad"
+                list="paises"
+                autoComplete="off"
+                className={validacion.paisNacimiento.alerta ? "danger" : ""}
+              />
+              <DataListSimple id="paises">
+                {ListaPaises.map((pais, index) => {
+                  return <Opcion key={index}>{pais.nombre}</Opcion>;
+                })}
+              </DataListSimple>
+            </CajaInput>
 
-          {/* <CajaInput className="checkbox">
+            {/* <CajaInput className="checkbox">
             <Input type="checkbox" className="checkbox" />
             <Parrafo>Acepto los terminos y condiciones.</Parrafo>
           </CajaInput> */}
-          {dispatchAlerta && (
-            <CajaErrorAlEnviar>
-              <Parrafo className="danger">{mensajeAlerta}</Parrafo>
-            </CajaErrorAlEnviar>
-          )}
-          <CajaInput className="btn">
-            <BtnSimple onClick={() => enviarObjeto()}>Registrarse</BtnSimple>
-          </CajaInput>
-        </WrapInputs>
-      </CajaContenido>
-      {/* <Footer /> */}
-      {isLoading && <ModalLoading />}
-    </>
+            {dispatchAlerta && (
+              <CajaErrorAlEnviar>
+                <Parrafo className="danger">{mensajeAlerta}</Parrafo>
+              </CajaErrorAlEnviar>
+            )}
+            <CajaInput className="btn">
+              <BtnSimple onClick={() => enviarObjeto()}>Registrarse</BtnSimple>
+            </CajaInput>
+          </WrapInputs>
+        </CajaContenido>
+        {/* <Footer /> */}
+        {isLoading && <ModalLoading />}
+      </>
+    )
   );
 }
 const Container = styled.div`
@@ -755,6 +767,10 @@ const Input = styled(InputGeneral)`
   }
   &.radio {
     width: 15px;
+    &:focus {
+      border: 1px solid black;
+      width: 25px;
+    }
   }
 `;
 const CajaRadio = styled.div`

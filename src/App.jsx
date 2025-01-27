@@ -17,12 +17,11 @@ function App() {
   // ******************** RECURSOS GENERALES ******************** //
   // const userAuth = useAuth().userMaster;
   // ******************** RECURSOS GENERALES ******************** //
+  const usuarioAuth = useAuth().usuario;
 
-  const userAuth = useAuth().usuario;
-  const [usuario, setUsuario] = useState(userAuth);
-
+  const [usuario, setUsuario] = useState(usuarioAuth);
   const [userMaster, setUserMaster] = useState("");
-  const idUsuario = userAuth ? userAuth.uid : "00";
+  const idUsuario = usuarioAuth ? usuarioAuth.uid : "00";
 
   useDocById("usuarios", setUserMaster, idUsuario);
   const [datosParseados, setDatosParseados] = useState(false);
