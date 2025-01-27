@@ -24,15 +24,19 @@ export default function MasterRoutes({ userMaster }) {
   const [usuario, setUsuario] = useState(useAuth().usuario);
 
   // ********************* CONFIGAR CORREO *************************
-  const mensajeInitial = `La cuenta del email:${userMaster.correo} 
+  const mensajeInitial = `La cuenta del email:${
+    userMaster ? userMaster.correo : ""
+  } 
              ha sido creada correctamente, ahora debes confirmar que eres el propietario, para ello haz click en el siguiente boton para enviarte un enlace a tu correo.`;
   const [mensajeConfirmar, setMensajeConfirmar] = useState(mensajeInitial);
   const [hasConfirmar, setHasConfirmar] = useState(false);
   const [btnCta, setBtnCta] = useState("Enviar enlace");
 
   useEffect(() => {
-    if (usuario.emailVerified == false) {
-      setHasConfirmar(true);
+    if (usuario) {
+      if (usuario.emailVerified == false) {
+        setHasConfirmar(true);
+      }
     }
   }, [usuario, useAuth().usuario]);
 
