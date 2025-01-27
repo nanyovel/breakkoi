@@ -9,7 +9,7 @@ import { NavLink } from "react-router";
 export default function ResetPassword() {
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <CajaContenido>
         <Titulo>Reestablecer contraseña</Titulo>
         <Subtitulo>
@@ -26,7 +26,7 @@ export default function ResetPassword() {
           </CajaInput>
         </WrapInputs>
       </CajaContenido>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }

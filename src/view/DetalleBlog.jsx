@@ -14,7 +14,7 @@ export default function DetalleBlog() {
   const post = BlogsDB[0];
   return (
     <>
-      <Header />
+      {/* <Header /> */}
 
       <Routes>
         <Route
@@ -29,7 +29,7 @@ export default function DetalleBlog() {
       <ContenedorFinal>
         <CajaFinal />
       </ContenedorFinal>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }

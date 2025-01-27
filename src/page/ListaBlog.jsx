@@ -10,7 +10,7 @@ import { BlogsDB } from "../DB/BlogsDB";
 export default function ListaBlog() {
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <Container>
         <Titulo>Ultimas entradas</Titulo>
         <WrapBlogs>
@@ -18,7 +18,7 @@ export default function ListaBlog() {
           <Card blog={BlogsDB[1]} />
         </WrapBlogs>
       </Container>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }

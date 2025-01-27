@@ -8,7 +8,7 @@ import Footer from "../components/Footer";
 export default function Page404() {
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <Contenedor>
         <Titulo>Pagina no encontrada</Titulo>
         <Parrafo>
@@ -16,7 +16,7 @@ export default function Page404() {
         </Parrafo>
         <Img src={Img404} />
       </Contenedor>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }

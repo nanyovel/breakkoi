@@ -31,7 +31,7 @@ import { Link, useNavigate } from "react-router";
 import { BtnGeneral } from "../components/ElementosGenerales";
 import { Villas } from "../DB/Villas";
 
-export default function Home() {
+export default function Home({ userMaster }) {
   const arrayImg = [
     ImgVilla1,
     ImgVilla2,
@@ -47,7 +47,7 @@ export default function Home() {
   const villaDB = Villas[0];
   return (
     <>
-      <Header absolute={true} />
+      {/* <Header absolute={true} userMaster={userMaster} /> */}
       <Container2>
         <ContainerHeader>
           <ContainerHero>
@@ -309,7 +309,7 @@ export default function Home() {
           <FormContact />
         </Seccion>
       </Container2>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }

@@ -3,7 +3,6 @@ import { theme } from "../config/theme";
 import styled from "styled-components";
 import Cropper from "react-easy-crop";
 
-import Footer from "../components/Footer";
 import {
   BtnGeneral,
   DataList,
@@ -26,6 +25,8 @@ import { UserSchema } from "../model/Auth";
 import { doc, setDoc, updateDoc } from "firebase/firestore";
 import { ES6AFormat } from "../libs/FechaFormat";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
+import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
+import { formatoCorreo } from "../libs/StringS";
 
 export default function Registrarse() {
   // ************ RECURSOS GENERALES **************
@@ -86,30 +87,41 @@ export default function Registrarse() {
   const [showPassword, setShowPassword] = useState(false);
   const [showPassword2, setShowPassword2] = useState(false);
 
+  // ***********MANEJANDO LOS INPUTS***********
+  //
   // *** EXCLUIR DE LOS IMPUST *****
   // Inputs que el usuario no debe llenar explicitamente
-  const { privilegios, fechaRegistro, userName, ...datosFilter } = UserSchema;
+  const {
+    privilegios,
+    fechaRegistro,
+    estadoDoc,
+    redesSociales,
+    textoBiografia,
+    ...datosFilter
+  } = UserSchema;
 
   // *** convertir cada propiedad a objeto y marcar las opcionales *****
-  const propiedadesOpcionales = ["urlFotoPerfil"];
+  const propiedadesOpcionales = ["urlFotoPerfil", "nacionalidad"];
   const datosInit = Object.keys(datosFilter).reduce((acc, key) => {
     acc[key] = {
       ...UserSchema[key],
       value: "",
-      obligatorio: !propiedadesOpcionales.includes(key),
+      lleganoExplicito: !propiedadesOpcionales.includes(key),
     };
 
     return acc;
   }, {});
   // *** Agregar a los inputs*****
-  const datosPassword = {
+  const newEntrada = {
     value: "",
-    obligatorio: true,
+    lleganoExplicito: true,
   };
+
   const datosInitial = {
     ...datosInit,
-    password: datosPassword,
-    password2: datosPassword,
+    paisNacimiento: newEntrada,
+    password: newEntrada,
+    password2: newEntrada,
   };
 
   const [datos, setDatos] = useState({ ...datosInitial });
@@ -133,13 +145,43 @@ export default function Registrarse() {
 
   const handleInput = (e) => {
     const { value, name } = e.target;
-    setDatos((prevState) => ({
-      ...prevState,
-      [name]: {
-        ...prevState[name],
-        value: value,
-      },
-    }));
+
+    setValidacion({ ...validacionInicial });
+    if (name == "paisNacimiento") {
+      let datosAux = datos;
+      const paisBuscado = ListaPaises.find((pais) => {
+        if (pais.nombre == value) {
+          return pais;
+        }
+      });
+
+      if (paisBuscado) {
+        datosAux = {
+          ...datosAux,
+          nacionalidad: {
+            pais: paisBuscado.nombre,
+            siglas: paisBuscado.siglas,
+          },
+        };
+      }
+      datosAux = {
+        ...datosAux,
+        paisNacimiento: {
+          ...datosAux.paisNacimiento,
+          value: value,
+        },
+      };
+
+      setDatos(datosAux);
+    } else {
+      setDatos((prevState) => ({
+        ...prevState,
+        [name]: {
+          ...prevState[name],
+          value: value,
+        },
+      }));
+    }
   };
 
   const validacionInicial = Object.keys(datosInitial).reduce((acc, key) => {
@@ -156,6 +198,25 @@ export default function Registrarse() {
   const enviarObjeto = async () => {
     let validacionAux = { ...validacionInicial };
 
+    console.log(datos);
+    const datosParsed = Object.keys(datos).reduce((acc, key) => {
+      if (key != "password" && key != "password2" && key != "nacionalidad") {
+        console.log(key);
+        acc[key] = {
+          ...datos[key],
+          // ELiminar espacios en blanco al final y al inico
+          value: datos[key].value.trim(),
+          //
+        };
+      } else {
+        acc[key] = {
+          ...datos[key],
+        };
+      }
+      return acc;
+    }, {});
+    console.log(datosParsed);
+    // return''
     const validaciones = {
       passwordsIguales: true,
       passwordSegura: true,
@@ -163,7 +224,7 @@ export default function Registrarse() {
       todosCamposLlenos: true,
     };
     // Si las contraseñas son diferentes
-    if (datos.password.value != datos.password2.value) {
+    if (datosParsed.password.value != datosParsed.password2.value) {
       validacionAux = {
         ...validacionInicial,
         password: {
@@ -185,7 +246,7 @@ export default function Registrarse() {
       //  2- Contiene al menos una letra mayúscula.
       //  3- Contiene al menos una letra minúscula.
       const regex = /^(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
-      if (regex.test(datos.password.value) == false) {
+      if (regex.test(datosParsed.password.value) == false) {
         validacionAux = {
           ...validacionInicial,
           password: {
@@ -200,8 +261,7 @@ export default function Registrarse() {
     }
 
     // si el correo no tiene formato de correo
-    const regex3 = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    if (regex3.test(datos.correo.value) == false) {
+    if (formatoCorreo(datosParsed.correo.value) == false) {
       validacionAux = {
         ...validacionAux,
         correo: {
@@ -215,7 +275,11 @@ export default function Registrarse() {
 
     // Si dejo algun campo vacio
     validacionAux = Object.keys(validacionAux).reduce((acc, key) => {
-      if (datos[key].value == "" && datos[key].obligatorio == true) {
+      if (
+        datosParsed[key].value == "" &&
+        datosParsed[key].lleganoExplicito == true
+      ) {
+        console.log(key);
         validaciones.todosCamposLlenos = false;
         acc[key] = {
           ...datosInitial[key],
@@ -228,7 +292,7 @@ export default function Registrarse() {
 
       return acc;
     }, {});
-
+    console.log(validaciones);
     setValidacion({ ...validacionAux });
     if (
       validaciones.passwordsIguales == true &&
@@ -238,20 +302,26 @@ export default function Registrarse() {
     ) {
       try {
         setIsLoading(true);
-
+        console.log(datosParsed);
         // Las propiedades que eran objeto, ahora conviertelas en propiedades simples
-        const datosParsed = Object.keys(datos).reduce((acc, key) => {
-          acc[key] = datos[key].value;
+        const datosEnviar = Object.keys(datosParsed).reduce((acc, key) => {
+          if (key == "nacionalidad") {
+            acc[key] = datos[key];
+          } else {
+            acc[key] = datos[key].value;
+          }
 
           return acc;
         }, {});
-
+        console.log(datos);
+        console.log(datosEnviar);
         await createUserWithEmailAndPassword(
           autenticar,
-          datosParsed.correo,
-          datosParsed.password
+          datosEnviar.correo,
+          datosEnviar.password
         );
-        const { password, password2, ...datosSinPassword } = datosParsed;
+        const { password, password2, paisNacimiento, ...datosSinPassword } =
+          datosEnviar;
         const usuar = auth.currentUser;
         const newUserEnviar = {
           ...UserSchema,
@@ -259,12 +329,12 @@ export default function Registrarse() {
           fechaRegistro: ES6AFormat(new Date()),
           fechaNacimiento: ES6AFormat(new Date(datos.fechaNacimiento.value)),
           correo: usuar.email,
-          userName: usuar.email.split("@")[0],
           urlFotoPerfil: "",
+          estadoDoc: 0,
         };
 
         const storage = getStorage();
-
+        console.log(newUserEnviar);
         await setDoc(doc(db, "usuarios", usuar.uid), newUserEnviar);
 
         try {
@@ -289,24 +359,35 @@ export default function Registrarse() {
         } catch (error) {
           console.log("error al cargar foto de perfil");
           console.log(error);
+
           setIsLoading(false);
         }
-
+        console.log("finalizando");
         setIsLoading(false);
         navigate("/");
       } catch (error) {
         console.log(error);
+        switch (error.code) {
+          case "auth/email-already-in-use":
+            // setHasAlerta(true);
+            setMensajeAlerta("El correo ya existe.");
+            setDispatchAlerta(true);
+            break;
+
+          default:
+            setMensajeAlerta("Error con la base de datos 1");
+            setDispatchAlerta(true);
+            break;
+        }
+
         setIsLoading(false);
-        setMensajeAlerta("Error con la base de datos 1.");
-        setTipoAlerta("error");
-        setDispatchAlerta(true);
       }
     }
   };
 
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <BotonQuery datos={datos} validacion={validacion} />
       <CajaContenido>
         <Titulo>Registrarse</Titulo>
@@ -418,6 +499,48 @@ export default function Registrarse() {
             />
           </CajaInput>
           <CajaInput>
+            <TituloInput>Genero</TituloInput>
+            {validacion.genero.alerta && (
+              <Parrafo className="danger">
+                {validacion.genero.mensajeAlerta}
+              </Parrafo>
+            )}
+            <CajaRadio>
+              <CajitaRadio>
+                <Input
+                  value={"Masculino"}
+                  name="genero"
+                  onChange={(e) => handleInput(e)}
+                  type="radio"
+                  placeholder="Genero"
+                  autoComplete="off"
+                  className={`
+                ${validacion.genero.alerta ? "danger " : ""}
+                radio
+                `}
+                  id="macho"
+                />
+                <Label htmlFor="macho">Masculino</Label>
+              </CajitaRadio>
+              <CajitaRadio>
+                <Input
+                  id="hembra"
+                  value={"Femenino"}
+                  name="genero"
+                  onChange={(e) => handleInput(e)}
+                  type="radio"
+                  placeholder="Genero"
+                  autoComplete="off"
+                  className={`
+                ${validacion.genero.alerta ? " danger " : ""}
+                radio
+                `}
+                />
+                <Label htmlFor="hembra">Femenino</Label>
+              </CajitaRadio>
+            </CajaRadio>
+          </CajaInput>
+          <CajaInput>
             <TituloInput>Telefono</TituloInput>
             {validacion.telefono.alerta && (
               <Parrafo className="danger">
@@ -454,28 +577,44 @@ export default function Registrarse() {
                 </ListaInsegura>
               </>
             )}
-            <Input
-              value={datos.password.value}
-              name="password"
-              onChange={(e) => handleInput(e)}
-              type="password"
-              placeholder="Contraseña"
-              autoComplete="off"
-              className={validacion.password.alerta ? "danger" : ""}
-            />
+            <CajaInternaInput>
+              {" "}
+              <Input
+                value={datos.password.value}
+                name="password"
+                onChange={(e) => handleInput(e)}
+                type={showPassword ? "text" : "password"}
+                placeholder="Contraseña"
+                autoComplete="off"
+                className={validacion.password.alerta ? "danger" : ""}
+              />
+              <CajaEye>
+                <IconoEye
+                  icon={showPassword ? faEyeSlash : faEye}
+                  onClick={() => setShowPassword(!showPassword)}
+                />
+              </CajaEye>
+            </CajaInternaInput>
           </CajaInput>
           <CajaInput>
             <TituloInput>Repetir contraseña</TituloInput>
-
-            <Input
-              value={datos.password2.value}
-              name="password2"
-              onChange={(e) => handleInput(e)}
-              type="password"
-              placeholder="Contraseña"
-              autoComplete="off"
-              className={validacion.password.alerta ? "danger" : ""}
-            />
+            <CajaInternaInput>
+              <Input
+                value={datos.password2.value}
+                name="password2"
+                onChange={(e) => handleInput(e)}
+                type={showPassword2 ? "text" : "password"}
+                placeholder="Contraseña"
+                autoComplete="off"
+                className={validacion.password.alerta ? "danger" : ""}
+              />
+              <CajaEye>
+                <IconoEye
+                  icon={showPassword2 ? faEyeSlash : faEye}
+                  onClick={() => setShowPassword2(!showPassword2)}
+                />
+              </CajaEye>
+            </CajaInternaInput>
           </CajaInput>
           <CajaInput>
             <TituloInput>Fecha de nacimiento</TituloInput>
@@ -496,20 +635,20 @@ export default function Registrarse() {
           </CajaInput>
           <CajaInput>
             <TituloInput>Nacionalidad</TituloInput>
-            {validacion.nacionalidad.alerta && (
+            {validacion.paisNacimiento.alerta && (
               <Parrafo className="danger">
-                {validacion.nacionalidad.mensajeAlerta}
+                {validacion.paisNacimiento.mensajeAlerta}
               </Parrafo>
             )}
             <Input
               type="text"
-              value={datos.nacionalidad.value}
-              name="nacionalidad"
+              value={datos.paisNacimiento.value}
+              name="paisNacimiento"
               onChange={(e) => handleInput(e)}
               placeholder="Nacionalidad"
               list="paises"
               autoComplete="off"
-              className={validacion.nacionalidad.alerta ? "danger" : ""}
+              className={validacion.paisNacimiento.alerta ? "danger" : ""}
             />
             <DataListSimple id="paises">
               {ListaPaises.map((pais, index) => {
@@ -532,7 +671,7 @@ export default function Registrarse() {
           </CajaInput>
         </WrapInputs>
       </CajaContenido>
-      <Footer />
+      {/* <Footer /> */}
       {isLoading && <ModalLoading />}
     </>
   );
@@ -614,6 +753,19 @@ const Input = styled(InputGeneral)`
   &.none {
     display: none;
   }
+  &.radio {
+    width: 15px;
+  }
+`;
+const CajaRadio = styled.div`
+  display: flex;
+`;
+const CajitaRadio = styled.div`
+  /* border: 1px solid red; */
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding-left: 15px;
 `;
 const Opcion = styled(OpciongGneral)``;
 const DataListSimple = styled(DataList)``;
@@ -690,3 +842,25 @@ const CajaControlesCrop = styled.div`
   /* background-color: red; */
 `;
 const BtnCrop = styled(BtnGeneral)``;
+const CajaEye = styled.div`
+  width: 10%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  right: 0;
+  /* background-color: red; */
+`;
+
+const IconoEye = styled(FontAwesomeIcon)`
+  color: ${theme.azul2};
+  cursor: pointer;
+`;
+const CajaInternaInput = styled.div`
+  width: 100%;
+  display: flex;
+  position: relative;
+`;
+
+const Label = styled.label``;

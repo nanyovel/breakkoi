@@ -10,7 +10,7 @@ import { TituloSeccion } from "../components/ElementosGenerales";
 export default function PageContact() {
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <CajaPrincipal>
         <CajaTitulo>
           <TituloSimple>Envianos un mensaje</TituloSimple>
@@ -23,7 +23,7 @@ export default function PageContact() {
           </CajaImg>
         </WrapContenido>
       </CajaPrincipal>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }

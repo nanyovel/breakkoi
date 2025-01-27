@@ -4,26 +4,119 @@ import styled from "styled-components";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { BtnGeneral, TituloH1 } from "../components/ElementosGenerales";
-import { NavLink } from "react-router";
+import { NavLink, useNavigate } from "react-router";
+import BotonQuery from "../components/BotonQuery";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { ModalLoading } from "../components/ModalLoading";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { autenticar } from "../firebase/firebaseConfig";
+import { formatoCorreo } from "../libs/StringS";
 
 export default function Login() {
+  // ************ RECURSOS GENERALES **************
+  const [isLoading, setIsLoading] = useState(false);
+  const datosInitial = {
+    correo: "",
+    password: "",
+  };
+  const [datos, setDatos] = useState({ ...datosInitial });
+  const [showPassword, setShowPassword] = useState(false);
+  const handleInputs = (e) => {
+    const { name, value } = e.target;
+    setDatos((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+  const navigate = useNavigate();
+  const [mensajeAlerta, setMensajeAlerta] = useState("");
+  const [hasAlerta, setHasAlerta] = useState("");
+  const handleSubmit = async (e) => {
+    // si existen campos vacios
+    if (datos.correo == "" || datos.password == "") {
+      setHasAlerta(true);
+      setMensajeAlerta("Existen campos vacios.");
+      return;
+    }
+    // si el correo no tiene formato de correo
+    if (!formatoCorreo(datos.correo)) {
+      setHasAlerta(true);
+      setMensajeAlerta("Formato de correo incorrecto.");
+      return;
+    }
+
+    // Si no se encuentran incoreherencias.
+    try {
+      setIsLoading(true);
+      await signInWithEmailAndPassword(
+        autenticar,
+        datos.correo,
+        datos.password
+      );
+
+      navigate("/");
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+      switch (error.code) {
+        case "auth/invalid-credential":
+          // Error con la base de datos
+          setHasAlerta(true);
+          setMensajeAlerta("Correo o contraseña no valido.");
+          break;
+
+        default:
+          setMensajeAlerta("Error con la base de datos");
+
+          break;
+      }
+      setIsLoading(false);
+    }
+  };
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <CajaContenido>
+        <BotonQuery datos={datos} />
         <Titulo>Iniciar sesion</Titulo>
         <WrapInputs>
           <CajaInput>
             <TituloInput>Correo electronico</TituloInput>
-            <Input type="text" />
+            <Input
+              value={datos.correo}
+              onChange={(e) => handleInputs(e)}
+              name="correo"
+              placeholder="Email"
+              type="text"
+            />
           </CajaInput>
           <CajaInput>
             <TituloInput>Contraseña</TituloInput>
-            <Input type="text" />
+            <CajaInternaInput>
+              <Input
+                value={datos.password}
+                onChange={(e) => handleInputs(e)}
+                name="password"
+                placeholder="Contraseña"
+                type={showPassword ? "text" : "password"}
+              />
+              <CajaEye>
+                <IconoEye
+                  icon={showPassword ? faEyeSlash : faEye}
+                  onClick={() => setShowPassword(!showPassword)}
+                />
+              </CajaEye>
+            </CajaInternaInput>
           </CajaInput>
+          {hasAlerta && (
+            <CajaErrorAlEnviar>
+              <Parrafo className="danger">{mensajeAlerta}</Parrafo>
+            </CajaErrorAlEnviar>
+          )}
 
           <CajaInput className="btn">
-            <BtnSimple>Iniciar sesion</BtnSimple>
+            <BtnSimple onClick={() => handleSubmit()}>Iniciar sesion</BtnSimple>
           </CajaInput>
           <CajaInput className="links">
             <Enlaces to={"/registro"}>Registrarse</Enlaces>
@@ -31,7 +124,8 @@ export default function Login() {
           </CajaInput>
         </WrapInputs>
       </CajaContenido>
-      <Footer />
+      {/* <Footer /> */}
+      {isLoading && <ModalLoading />}
     </>
   );
 }
@@ -104,4 +198,38 @@ const Input = styled.input`
 const BtnSimple = styled(BtnGeneral)`
   border: 1px solid ${theme.primary.turquoise};
   /* height: 40px; */
+`;
+const CajaEye = styled.div`
+  width: 10%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  right: 0;
+  /* background-color: red; */
+`;
+
+const IconoEye = styled(FontAwesomeIcon)`
+  color: ${theme.azul2};
+  cursor: pointer;
+`;
+const CajaInternaInput = styled.div`
+  width: 100%;
+  display: flex;
+  position: relative;
+`;
+
+const CajaErrorAlEnviar = styled.div`
+  width: 100%;
+`;
+const Parrafo = styled.p`
+  width: 100%;
+  &.danger {
+    color: red;
+  }
+  &.fotoPerfil {
+    color: ${theme.secondary.coral};
+    text-decoration: underline;
+  }
 `;

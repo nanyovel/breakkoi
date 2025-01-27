@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./app.css";
 import { theme } from "./config/theme";
 import styled from "styled-components";
@@ -7,18 +7,46 @@ import Home from "./page/Home";
 import Footer from "./components/Footer";
 import MasterRoutes from "./routes/MasterRoutes";
 import ScrollToTop from "./components/ScrollTop";
+import { useAuth } from "./context/AuthContext";
+import { doc, onSnapshot } from "firebase/firestore";
+import db from "./firebase/firebaseConfig";
+import BotonQuery from "./components/BotonQuery";
+import { useDocById } from "./libs/FetchFirebase";
 
 function App() {
+  // ******************** RECURSOS GENERALES ******************** //
+  // const userAuth = useAuth().userMaster;
+  const userAuth = useAuth().usuario;
+
+  const [userMaster, setUserMaster] = useState("");
+  const idUsuario = userAuth ? userAuth.uid : "00";
+
+  useDocById("usuarios", setUserMaster, idUsuario);
+  const [datosParseados, setDatosParseados] = useState(false);
+
+  useEffect(() => {
+    console.log(userMaster);
+    if (userMaster || userMaster == null) {
+      setDatosParseados(true);
+    }
+  }, [userMaster]);
+
   return (
-    <>
-      <ScrollToTop />
-      <MasterRoutes />
-    </>
+    datosParseados && (
+      <>
+        <ScrollToTop />
+
+        <MasterRoutes userMaster={userMaster} />
+      </>
+    )
   );
 }
 
 export default App;
-
+const H2 = styled.h1`
+  background-color: red;
+  color: white;
+`;
 // Hero Section
 const HeroSection = styled.section`
   background-color: ${theme.primary.turquoise};

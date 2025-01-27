@@ -12,21 +12,33 @@ import Registrarse from "../page/Registrarse";
 import ResetPassword from "../page/ResetPassword";
 import ListaBlog from "../page/ListaBlog";
 import DetalleBlog from "../view/DetalleBlog";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import Perfil from "../page/Perfil";
+import BarraTopOferta from "../components/BarraTopOferta";
 
-export default function MasterRoutes() {
+export default function MasterRoutes({ userMaster }) {
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/propiedades/" element={<ListaPropiedades />} />
-      <Route path="/propiedades/:id" element={<DetalleVilla />} />
-      <Route path="/blog/" element={<ListaBlog />} />
-      <Route path="/blog/*" element={<DetalleBlog />} />
-      <Route path="/contactos/" element={<PageContact />} />
-      <Route path="/login/" element={<Login />} />
-      <Route path="/registro/" element={<Registrarse />} />
-      <Route path="/nosotros/" element={<Nosotros />} />
-      <Route path="/resetPassword/" element={<ResetPassword />} />
-      <Route path="*" element={<Page404 />} />
-    </Routes>
+    <>
+      <Header userMaster={userMaster} />
+      <Routes>
+        <Route path="/" element={<Home userMaster={userMaster} />} />
+        <Route
+          path="/propiedades/"
+          element={<ListaPropiedades userMaster={userMaster} />}
+        />
+        <Route path="/propiedades/:id" element={<DetalleVilla />} />
+        <Route path="/blog/" element={<ListaBlog />} />
+        <Route path="/blog/*" element={<DetalleBlog />} />
+        <Route path="/contactos/" element={<PageContact />} />
+        <Route path="/login/" element={<Login />} />
+        <Route path="/registro/" element={<Registrarse />} />
+        <Route path="/nosotros/" element={<Nosotros />} />
+        <Route path="/resetPassword/" element={<ResetPassword />} />
+        <Route path="/perfil/" element={<Perfil userMaster={userMaster} />} />
+        <Route path="*" element={<Page404 />} />
+      </Routes>
+      <Footer />
+    </>
   );
 }

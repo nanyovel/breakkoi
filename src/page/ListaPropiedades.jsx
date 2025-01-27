@@ -12,7 +12,7 @@ import { Villas } from "../DB/Villas";
 export default function ListaPropiedades() {
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <Container>
         <Titulo>Propiedades</Titulo>
         <CajaVilla>
@@ -27,7 +27,7 @@ export default function ListaPropiedades() {
           <CardVillas />
         </CajaVilla> */}
       </Container>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }

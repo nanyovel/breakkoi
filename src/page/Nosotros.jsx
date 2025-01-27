@@ -16,7 +16,7 @@ import CardPropiedades from "../components/CardPropiedades";
 export default function Nosotros() {
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <CajaContenido>
         <Titulo>Sobre nosotros</Titulo>
         <Subtitulo>Conocemos un poco mas</Subtitulo>
@@ -135,7 +135,7 @@ export default function Nosotros() {
           </CajaInterna>
         </WrapTextoImg>
       </CajaContenido>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }

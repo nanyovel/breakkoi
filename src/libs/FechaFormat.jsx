@@ -19,6 +19,20 @@ export const formatAES6 = (fechaFormat) => {
   return new Date(annio, mes, dia);
 };
 
+// calcular la edad segun su fecha de nacimiento en formato format
+export const CalcularEdad = (stringNac) => {
+  const nacimientoES6 = formatAES6(stringNac);
+  const fechaActual = new Date();
+  const edad = fechaActual - nacimientoES6;
+  const milisegundosPorDia = 24 * 60 * 60 * 1000;
+  const qtyAnnios = Math.floor(edad / milisegundosPorDia / 365);
+  const qtyDias = edad / milisegundosPorDia;
+  return {
+    qtyAnnios: qtyAnnios,
+    qtyDias: qtyDias,
+  };
+};
+
 // Recibe fecha en formato ES6 y tambien en este formato 20/11/2024
 export const hoyManniana = (fechaUser, hasHora) => {
   let diaHoyManniana = null;

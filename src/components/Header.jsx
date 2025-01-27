@@ -12,7 +12,7 @@ import ImgSpain from "./../../public/img/spain.png";
 import ImgInglaterra from "./../../public/img/inglaterra.png";
 import ImgFrancia from "./../../public/img/francia.png";
 
-export default function Header({ absolute }) {
+export default function Header({ userMaster, absolute }) {
   const [hasIdioma, setHasIdioma] = useState(false);
   const menuRef = useRef(null);
   useEffect(() => {
@@ -67,19 +67,13 @@ export default function Header({ absolute }) {
         <CajaInternaHeader className="nav">
           <NavList>
             <NavItem>
-              {/* <Enlaces2 to={"/"} className={"perfil"}>
-                <TituloMenu>Home</TituloMenu>
-              </Enlaces2> */}
-              {/* <NavItem> */}
               <Enlaces to={"/"} className={"menu"}>
                 Home
               </Enlaces>
-              {/* </NavItem> */}
             </NavItem>
             <NavItem
               className="idioma"
               onClick={() => setHasIdioma(!hasIdioma)}
-              // onMouseLeave={() => setHasIdioma(false)}
             >
               Idiomas
               <CajaArrowVIcon>
@@ -127,12 +121,26 @@ export default function Header({ absolute }) {
               </Enlaces>
             </NavItem>
           </NavList>
-          <CajaLog>
-            <Enlaces className={"menu login"} to={"/login"}>
-              <Icono className="user" icon={faUser} />
+          {!userMaster && (
+            <CajaLog>
+              <Enlaces className={"menu login"} to={"/login"}>
+                <Icono className="user" icon={faUser} />
+              </Enlaces>
+              {/* <TextoSingle>Login</TextoSingle> */}
+            </CajaLog>
+          )}
+          {userMaster && (
+            <Enlaces className={"perfil"} to={"/perfil"}>
+              <CajaPerfil>
+                <CajaAvatar>
+                  <ImgAvatar src={userMaster.urlFotoPerfil} />
+                </CajaAvatar>
+                <CajaNombrePerfil>
+                  <NombrePerfil>{userMaster.nombre}</NombrePerfil>
+                </CajaNombrePerfil>
+              </CajaPerfil>
             </Enlaces>
-            {/* <TextoSingle>Login</TextoSingle> */}
-          </CajaLog>
+          )}
         </CajaInternaHeader>
       </NavBar>
     </ContenedorHeader>
@@ -267,6 +275,20 @@ const Enlaces = styled(NavLink)`
     align-items: center;
     justify-content: center;
   }
+  &.perfil {
+    color: white;
+    text-decoration: none;
+    /* border-bottom: 3px transparent; */
+
+    &:hover {
+      color: ${theme.primary.sand};
+      /* border-bottom: 3px solid; */
+    }
+    &.active {
+      /* color: red; */
+      color: white;
+    }
+  }
 `;
 const CajaLogo = styled.div`
   width: 50px;
@@ -308,4 +330,36 @@ const Item = styled.li`
 `;
 const ImgFlag = styled.img`
   width: 30px;
+`;
+const CajaPerfil = styled.div`
+  min-width: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: ease 0.2s all;
+
+  &:hover {
+    /* border: 1px solid ${theme.secondary.coral}; */
+    border-radius: 4px;
+    box-shadow: ${theme.config.sombra};
+  }
+`;
+
+const CajaAvatar = styled.div`
+  width: 40px;
+`;
+const ImgAvatar = styled.img`
+  width: 80%;
+  border-radius: 50%;
+`;
+const CajaNombrePerfil = styled.div``;
+const NombrePerfil = styled.h3`
+  /* text-overflow: ; */
+  font-size: 12px;
+  font-weight: 400;
+  white-space: nowrap;
+  /* border-bottom: 3px transparent; */
 `;

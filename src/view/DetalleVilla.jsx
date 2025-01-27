@@ -78,7 +78,7 @@ export default function DetalleVilla() {
   };
   return (
     <>
-      <Header noFixed={true} />
+      {/* <Header noFixed={true} /> */}
       <BotonQuery villaMaster={villaMaster} />
       {datosParsed && (
         <Container>
@@ -123,7 +123,7 @@ export default function DetalleVilla() {
           </Seccion>
         </Container>
       )}
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }
