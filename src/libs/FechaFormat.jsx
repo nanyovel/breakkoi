@@ -17,10 +17,11 @@ export const INPUTAFormat = (fechaInput) => {
 
   return ES6AFormat(new Date(annio, mes - 1, dia));
 };
+
 export const FormatAInput = (fechaFormat) => {
-  const annio = userMaster.fechaNacimiento.slice(6, 10);
-  const mes = userMaster.fechaNacimiento.slice(3, 5);
-  const dia = userMaster.fechaNacimiento.slice(0, 2);
+  const annio = fechaFormat.slice(6, 10);
+  const mes = fechaFormat.slice(3, 5);
+  const dia = fechaFormat.slice(0, 2);
 
   return `${annio}-${mes}-${dia}`;
 };
