@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { theme } from "../config/theme";
 import styled from "styled-components";
 import Cropper from "react-easy-crop";
-
 import {
   BtnGeneral,
   DataList,
@@ -12,10 +11,8 @@ import {
 } from "../components/ElementosGenerales";
 import { ListaPaises } from "../components/ListaPaises";
 import BotonQuery from "../components/BotonQuery";
-import { CSSLoader } from "../components/CSSLoader";
 import { ModalLoading } from "../components/ModalLoading";
 import db, { autenticar } from "../firebase/firebaseConfig";
-import Header from "../components/Header";
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { useNavigate } from "react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -23,7 +20,7 @@ import { faCloudArrowUp } from "@fortawesome/free-solid-svg-icons";
 import { getCroppedImg } from "../components/cropImageCanvas";
 import { UserSchema } from "../model/Auth";
 import { doc, setDoc, updateDoc } from "firebase/firestore";
-import { ES6AFormat } from "../libs/FechaFormat";
+import { ES6AFormat, INPUTAFormat } from "../libs/FechaFormat";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 import { formatoCorreo } from "../libs/StringS";
@@ -34,7 +31,6 @@ export default function Registrarse({ usuario }) {
   const [isLoading, setIsLoading] = useState(false);
   const [dispatchAlerta, setDispatchAlerta] = useState(false);
   const [mensajeAlerta, setMensajeAlerta] = useState("");
-  const [tipoAlerta, setTipoAlerta] = useState("");
 
   // Esto para que no aparezca el input type file sino un icono de fontawesome
   const inputRef = useRef(null);
@@ -55,6 +51,8 @@ export default function Registrarse({ usuario }) {
 
   // ************** MANEJANDO CORTE DE IMAGENES FOTO DE PERFIL **************
   // ************** datos del Paquete react easy crop **************
+  const [fileFotoPerfil, setFileFotoPerfil] = useState(null);
+
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [hasImgCrop, setHasImgCro] = useState(false);
@@ -92,49 +90,6 @@ export default function Registrarse({ usuario }) {
       .then((blob) => setFileFotoPerfil(blob));
   };
 
-  const [showPassword, setShowPassword] = useState(false);
-  const [showPassword2, setShowPassword2] = useState(false);
-
-  // ***********MANEJANDO LOS INPUTS***********
-  //
-  // *** EXCLUIR DE LOS IMPUST *****
-  // Inputs que el usuario no debe llenar explicitamente
-  const {
-    privilegios,
-    fechaRegistro,
-    estadoDoc,
-    redesSociales,
-    textoBiografia,
-    ...datosFilter
-  } = UserSchema;
-
-  // *** convertir cada propiedad a objeto y marcar las opcionales *****
-  const propiedadesOpcionales = ["urlFotoPerfil", "nacionalidad"];
-  const datosInit = Object.keys(datosFilter).reduce((acc, key) => {
-    acc[key] = {
-      ...UserSchema[key],
-      value: "",
-      lleganoExplicito: !propiedadesOpcionales.includes(key),
-    };
-
-    return acc;
-  }, {});
-  // *** Agregar a los inputs*****
-  const newEntrada = {
-    value: "",
-    lleganoExplicito: true,
-  };
-
-  const datosInitial = {
-    ...datosInit,
-    paisNacimiento: newEntrada,
-    password: newEntrada,
-    password2: newEntrada,
-  };
-
-  const [datos, setDatos] = useState({ ...datosInitial });
-  const [fileFotoPerfil, setFileFotoPerfil] = useState(null);
-
   const handleFile = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -150,6 +105,69 @@ export default function Registrarse({ usuario }) {
       setHasImgCro(true);
     }
   };
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword2, setShowPassword2] = useState(false);
+
+  // ***********MANEJANDO LOS INPUTS***********
+  //
+  // *** EXCLUIR DE LOS IMPUTS *****
+  // Inputs que el usuario no puede llenar explicitamente a la hora de registro
+  const {
+    privilegios,
+    fechaRegistro,
+    estadoDoc,
+    redesSociales,
+    textoBiografia,
+    ...datosFilter
+  } = UserSchema;
+
+  // *** OPCIONALES DE LOS IMPUTS ****
+  // inputs que son de llenado opcional
+  const propiedadesOpcionales = ["urlFotoPerfil"];
+
+  // *** PROPIEDADES ANIDADAS ****
+  // Estas propiedades primero la sacamos del set de inputs con su propiedad value explicita y al final volvemos a incluirla
+  const propiedadesAnidadas = ["nacionalidad"];
+
+  // *** convertir cada propiedad a objeto, marcar las opcionales y las anidadas*****
+  const datosInit = Object.keys(datosFilter).reduce((acc, key) => {
+    acc[key] = {
+      ...UserSchema[key],
+      value: "",
+      obligatorio: !propiedadesOpcionales.includes(key),
+      anidada: propiedadesAnidadas.includes(key),
+    };
+
+    return acc;
+  }, {});
+  // *** Agregar a los inputs*****
+  const newEntrada = {
+    value: "",
+    obligatorio: true,
+    anidada: false,
+  };
+
+  const datosInitial = {
+    ...datosInit,
+    // Pais Derivado de nacionalidad, dado que nacionalidad es una propiedad especial
+    paisNacimiento: newEntrada,
+    password: newEntrada,
+    password2: newEntrada,
+  };
+  const [datos, setDatos] = useState({ ...datosInitial });
+
+  // Tomamos el mismo set de propiedades del estado principal y lo parseamos para validaciones
+  const validacionInicial = Object.keys(datosInitial).reduce((acc, key) => {
+    acc[key] = {
+      ...datosInitial[key],
+      alerta: false,
+      mensajeAlerta: "",
+    };
+    return acc;
+  }, {});
+
+  const [validacion, setValidacion] = useState({ ...validacionInicial });
 
   const handleInput = (e) => {
     const { value, name } = e.target;
@@ -167,6 +185,7 @@ export default function Registrarse({ usuario }) {
         datosAux = {
           ...datosAux,
           nacionalidad: {
+            ...datosAux.nacionalidad,
             pais: paisBuscado.nombre,
             siglas: paisBuscado.siglas,
           },
@@ -192,27 +211,14 @@ export default function Registrarse({ usuario }) {
     }
   };
 
-  const validacionInicial = Object.keys(datosInitial).reduce((acc, key) => {
-    acc[key] = {
-      ...datosInitial[key],
-      alerta: false,
-      mensajeAlerta: "",
-    };
-    return acc;
-  }, {});
-
-  const [validacion, setValidacion] = useState({ ...validacionInicial });
-
   const enviarObjeto = async () => {
     let validacionAux = { ...validacionInicial };
 
-    console.log(datos);
+    // ELiminar espacios en blanco al final y al inicio
     const datosParsed = Object.keys(datos).reduce((acc, key) => {
       if (key != "password" && key != "password2" && key != "nacionalidad") {
-        console.log(key);
         acc[key] = {
           ...datos[key],
-          // ELiminar espacios en blanco al final y al inico
           value: datos[key].value.trim(),
           //
         };
@@ -223,8 +229,7 @@ export default function Registrarse({ usuario }) {
       }
       return acc;
     }, {});
-    console.log(datosParsed);
-    // return''
+
     const validaciones = {
       passwordsIguales: true,
       passwordSegura: true,
@@ -285,9 +290,9 @@ export default function Registrarse({ usuario }) {
     validacionAux = Object.keys(validacionAux).reduce((acc, key) => {
       if (
         datosParsed[key].value == "" &&
-        datosParsed[key].lleganoExplicito == true
+        datosParsed[key].obligatorio == true &&
+        datosParsed[key].anidada == false
       ) {
-        console.log(key);
         validaciones.todosCamposLlenos = false;
         acc[key] = {
           ...datosInitial[key],
@@ -300,7 +305,6 @@ export default function Registrarse({ usuario }) {
 
       return acc;
     }, {});
-    console.log(validaciones);
     setValidacion({ ...validacionAux });
     if (
       validaciones.passwordsIguales == true &&
@@ -310,24 +314,26 @@ export default function Registrarse({ usuario }) {
     ) {
       try {
         setIsLoading(true);
-        console.log(datosParsed);
         // Las propiedades que eran objeto, ahora conviertelas en propiedades simples
         const datosEnviar = Object.keys(datosParsed).reduce((acc, key) => {
-          if (key == "nacionalidad") {
-            acc[key] = datos[key];
+          // La propiedades que son anindadas tienen
+          if (datos[key].anidada) {
+            const { anidada, obligatorio, value, ...datosPAux } = datos[key];
+
+            acc[key] = datosPAux;
           } else {
             acc[key] = datos[key].value;
           }
 
           return acc;
         }, {});
-        console.log(datos);
-        console.log(datosEnviar);
+
         await createUserWithEmailAndPassword(
           autenticar,
           datosEnviar.correo,
           datosEnviar.password
         );
+        // Elimina propiedades que no se necesitan
         const { password, password2, paisNacimiento, ...datosSinPassword } =
           datosEnviar;
         const usuar = auth.currentUser;
@@ -335,14 +341,13 @@ export default function Registrarse({ usuario }) {
           ...UserSchema,
           ...datosSinPassword,
           fechaRegistro: ES6AFormat(new Date()),
-          fechaNacimiento: ES6AFormat(new Date(datos.fechaNacimiento.value)),
+          fechaNacimiento: INPUTAFormat(datos.fechaNacimiento.value),
           correo: usuar.email,
           urlFotoPerfil: "",
           estadoDoc: 0,
         };
 
         const storage = getStorage();
-        console.log(newUserEnviar);
         await setDoc(doc(db, "usuarios", usuar.uid), newUserEnviar);
 
         try {
@@ -370,7 +375,6 @@ export default function Registrarse({ usuario }) {
 
           setIsLoading(false);
         }
-        console.log("finalizando");
         setIsLoading(false);
         navigate("/");
         // location.reload();
@@ -450,7 +454,6 @@ export default function Registrarse({ usuario }) {
                   type="file"
                   ref={inputRef}
                   accept="image/*"
-                  // onClick={(e) => handleFile(e)}
                   onChange={handleFile}
                   className="none"
                 />
@@ -645,7 +648,7 @@ export default function Registrarse({ usuario }) {
               />
             </CajaInput>
             <CajaInput>
-              <TituloInput>Nacionalidad</TituloInput>
+              <TituloInput>Pais de nacimiento</TituloInput>
               {validacion.paisNacimiento.alerta && (
                 <Parrafo className="danger">
                   {validacion.paisNacimiento.mensajeAlerta}
@@ -668,10 +671,6 @@ export default function Registrarse({ usuario }) {
               </DataListSimple>
             </CajaInput>
 
-            {/* <CajaInput className="checkbox">
-            <Input type="checkbox" className="checkbox" />
-            <Parrafo>Acepto los terminos y condiciones.</Parrafo>
-          </CajaInput> */}
             {dispatchAlerta && (
               <CajaErrorAlEnviar>
                 <Parrafo className="danger">{mensajeAlerta}</Parrafo>
@@ -682,7 +681,6 @@ export default function Registrarse({ usuario }) {
             </CajaInput>
           </WrapInputs>
         </CajaContenido>
-        {/* <Footer /> */}
         {isLoading && <ModalLoading />}
       </>
     )

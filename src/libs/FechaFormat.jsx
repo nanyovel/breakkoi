@@ -10,6 +10,21 @@ export const ES6AFormat = (fechaES6) => {
   });
 };
 
+export const INPUTAFormat = (fechaInput) => {
+  const annio = fechaInput.slice(0, 4);
+  const mes = fechaInput.slice(5, 7);
+  const dia = fechaInput.slice(8, 10);
+
+  return ES6AFormat(new Date(annio, mes - 1, dia));
+};
+export const FormatAInput = (fechaFormat) => {
+  const annio = userMaster.fechaNacimiento.slice(6, 10);
+  const mes = userMaster.fechaNacimiento.slice(3, 5);
+  const dia = userMaster.fechaNacimiento.slice(0, 2);
+
+  return `${annio}-${mes}-${dia}`;
+};
+
 // Recibe este formato 20/11/2024
 export const formatAES6 = (fechaFormat) => {
   const annio = fechaFormat.slice(6, 10);

@@ -71,5 +71,16 @@ export const InputGeneral = styled.input`
   color: ${theme.primary.turquoiseBrillante};
   background-color: ${theme.complementary.midnightBlue};
 `;
+export const TextAreaGeneral = styled.textarea`
+  width: 100%;
+  min-height: 60px;
+  border-radius: 5px;
+  border: 1px solid #000;
+  outline: none;
+  padding: 10px;
+  color: ${theme.primary.turquoiseBrillante};
+  background-color: ${theme.complementary.midnightBlue};
+`;
+
 export const OpciongGneral = styled.option``;
 export const DataList = styled.datalist``;

@@ -1,48 +1,210 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { theme } from "../config/theme";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faFacebook,
   faInstagram,
-  faLinkedin,
   faTwitter,
-  faYoutube,
 } from "@fortawesome/free-brands-svg-icons";
 import { UserSchema } from "../model/Auth";
 import { useNavigate } from "react-router";
-import { DO } from "country-flag-icons/react/3x2";
 import BotonQuery from "../components/BotonQuery";
-import { generatorIconFlagURL } from "../components/ListaPaises";
-import { CalcularEdad } from "../libs/FechaFormat";
-import { BtnGeneral } from "../components/ElementosGenerales";
+import { generatorIconFlagURL, ListaPaises } from "../components/ListaPaises";
+import {
+  CalcularEdad,
+  ES6AFormat,
+  FormatAInput,
+  INPUTAFormat,
+} from "../libs/FechaFormat";
+import {
+  BtnGeneral,
+  DataList,
+  InputGeneral,
+  OpciongGneral,
+  TextAreaGeneral,
+} from "../components/ElementosGenerales";
 import { signOut } from "firebase/auth";
-import { autenticar } from "../firebase/firebaseConfig";
+import db, { autenticar } from "../firebase/firebaseConfig";
+import { ModalLoading } from "../components/ModalLoading";
+import { doc, updateDoc } from "firebase/firestore";
 
 export default function Perfil({ userMaster, usuario }) {
+  // ************ RECURSOS GENERALES **************
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+  const [dispatchAlerta, setDispatchAlerta] = useState(false);
+  const [mensajeAlerta, setMensajeAlerta] = useState("");
   const handleRedireccion = (ruta) => {
     if (ruta) {
       window.open(ruta, "_blank");
     }
   };
-  // useEffect(() => {
-  //   if (usuario.emailVerified) {
-  //     navegacion("/");
-  //   }
-  // }, [usuario]);
+
+  // ************* CERRAR SESION ***********
   const cerrarSesion = async () => {
     try {
       await signOut(autenticar);
-      // location.reload();
       navigate("/");
     } catch (error) {
       console.log("Error al cerrar sesion.");
       console.log(error);
     }
   };
+
+  // ************** MANEJANDO CORTE DE IMAGENES FOTO DE PERFIL **************
+  // ************** datos del Paquete react easy crop **************
+  const inputRef = useRef(null);
+  const clickFromIcon = () => {
+    inputRef.current.click();
+  };
+  const [fileFotoPerfil, setFileFotoPerfil] = useState(null);
+
+  const [crop, setCrop] = useState({ x: 0, y: 0 });
+  const [zoom, setZoom] = useState(1);
+  const [hasImgCrop, setHasImgCro] = useState(false);
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+
+  const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
+    setCroppedAreaPixels(croppedAreaPixels);
+  }, []);
+
+  const handleCrop = async () => {
+    try {
+      const croppedImage = await getCroppedImg(
+        datos.urlFotoPerfil.value,
+        croppedAreaPixels
+      );
+      // Imagen cortada se debe cuardar ahora como un file, tomar en cuenta:
+      // -Con la imagen tenemos la ruta de una imagen pero tambien el archivo como tal
+      handleUpload(croppedImage);
+      setDatos({
+        ...datos,
+        urlFotoPerfil: {
+          ...datos.urlFotoPerfil,
+          value: croppedImage,
+        },
+      });
+      setHasImgCro(false);
+    } catch (error) {
+      console.error("Error recortando la imagen:", error);
+    }
+  };
+
+  const handleUpload = (croppedImage) => {
+    fetch(croppedImage)
+      .then((res) => res.blob())
+      .then((blob) => setFileFotoPerfil(blob));
+  };
+
+  // ******************* Editar PERFIL *******************
+
+  const [modoEditar, setModoEditar] = useState(false);
+  const [userEditable, setUserEditable] = useState({});
+  const initialAux = {
+    paisNacimiento: "",
+    fechaNacimiento: "",
+  };
+  const [inpustAux, setInputsAux] = useState({ ...initialAux });
+  const editar = () => {
+    setUserEditable({ ...userMaster });
+
+    setInputsAux({
+      ...inpustAux,
+      paisNacimiento: userMaster.nacionalidad.pais,
+      fechaNacimiento: FormatAInput(userMaster.fechaNacimiento),
+    });
+    setModoEditar(true);
+  };
+
+  const handleInput = (e) => {
+    const { value, name } = e.target;
+    let userAux = userEditable;
+    console.log(name);
+    if (name == "paisNacimiento") {
+      const paisBuscado = ListaPaises.find((pais) => {
+        if (pais.nombre == value) {
+          return pais;
+        }
+      });
+
+      if (paisBuscado) {
+        userAux = {
+          ...userAux,
+          nacionalidad: {
+            ...userAux.nacionalidad,
+            pais: paisBuscado.nombre,
+            siglas: paisBuscado.siglas,
+          },
+        };
+      }
+
+      setInputsAux({
+        ...inpustAux,
+        paisNacimiento: value,
+      });
+      setUserEditable({ ...userAux });
+    } else if (name == "fechaNacimiento") {
+      setUserEditable({
+        ...userEditable,
+        fechaNacimiento: INPUTAFormat(value),
+      });
+      setInputsAux({
+        ...inpustAux,
+        fechaNacimiento: value,
+      });
+    } else if (name == "instagram" || name == "twitter" || name == "facebook") {
+      setUserEditable({
+        ...userEditable,
+        redesSociales: {
+          ...userEditable.redesSociales,
+          [name]: value,
+        },
+      });
+    } else {
+      console.log("llego");
+      setUserEditable({
+        ...userEditable,
+        [name]: value,
+      });
+    }
+  };
+
+  const cancelarCambios = () => {
+    setModoEditar(false);
+    setUserEditable({ ...userMaster });
+    setInputsAux({ ...initialAux });
+  };
+
+  const [validacionInputs, setValidacionInputs] = useState({
+    nombre: true,
+    apellido: true,
+    paisNacimiento: true,
+    fechaNacimiento: true,
+    telefono: true,
+  });
+
+  const guardarCambios = async () => {
+    try {
+      setIsLoading(true);
+      const userUP = {
+        ...userEditable,
+      };
+      const docActualizar = doc(db, "usuarios", userMaster.id);
+      await updateDoc(docActualizar, userUP);
+      setModoEditar(false);
+      setUserEditable({ ...userMaster });
+      setInputsAux({ ...initialAux });
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+    }
+  };
+
   return (
-    userMaster && (
+    userMaster &&
+    (!modoEditar ? (
       <Container>
         <BotonQuery userMaster={userMaster} />
         <CajaContenido>
@@ -137,7 +299,7 @@ export default function Perfil({ userMaster, usuario }) {
               </CajitaInterna>
               <CajaBtn>
                 <WrapBtn>
-                  <BtnSimple>Editar perfil</BtnSimple>
+                  <BtnSimple onClick={() => editar()}>Editar perfil</BtnSimple>
                   <BtnSimple onClick={() => navigate("/recuperar")}>
                     Cambiar contraseña
                   </BtnSimple>
@@ -181,9 +343,188 @@ export default function Perfil({ userMaster, usuario }) {
             </Tabla>
           </CajaTabla>
         </CajaHistorico>
-        <CajaBtn></CajaBtn>
       </Container>
-    )
+    ) : (
+      <Container>
+        <BotonQuery
+          userMaster={userMaster}
+          userEditable={userEditable}
+          inpustAux={inpustAux}
+        />
+        <CajaContenido>
+          <CajaInterna className="izq">
+            <CajaFotoPerfil>
+              {userEditable.urlFotoPerfil ? (
+                <FotoPerfil src={userEditable.urlFotoPerfil} />
+              ) : (
+                <FotoPerfil
+                  src={
+                    userEditable.genero == "Femenino"
+                      ? theme.config.userFemale
+                      : theme.config.userMale
+                  }
+                />
+              )}
+            </CajaFotoPerfil>
+            <TituloRRSS>Redes sociales</TituloRRSS>
+            <CajaRRSS className={modoEditar ? "modoEditar" : ""}>
+              <CajaInput>
+                <TituloInput>Perfil de instagram</TituloInput>
+
+                <Input
+                  value={userEditable.redesSociales.instagram}
+                  name="instagram"
+                  onChange={(e) => handleInput(e)}
+                  type="email"
+                  placeholder="Perfil de instagram"
+                  autoComplete="off"
+                />
+              </CajaInput>
+              <CajaInput>
+                <TituloInput>Perfil de X (Twitter)</TituloInput>
+
+                <Input
+                  value={userEditable.redesSociales.twitter}
+                  name="twitter"
+                  onChange={(e) => handleInput(e)}
+                  type="email"
+                  placeholder="Perfil de X"
+                  autoComplete="off"
+                />
+              </CajaInput>
+              <CajaInput>
+                <TituloInput>Perfil de Facebook</TituloInput>
+
+                <Input
+                  value={userEditable.redesSociales.facebook}
+                  name="facebook"
+                  onChange={(e) => handleInput(e)}
+                  type="email"
+                  placeholder="Perfil de facebook"
+                  autoComplete="off"
+                />
+              </CajaInput>
+            </CajaRRSS>
+          </CajaInterna>
+          <CajaInterna className="der">
+            <CajaDatos>
+              <CajaInput>
+                <TituloInput>Nombres</TituloInput>
+
+                <Input
+                  value={userEditable.nombre}
+                  name="nombre"
+                  onChange={(e) => handleInput(e)}
+                  type="email"
+                  placeholder="Nombres"
+                  autoComplete="off"
+                  className={validacionInputs.nombre == false ? "danger" : ""}
+                />
+              </CajaInput>
+              <CajaInput>
+                <TituloInput>Apellidos</TituloInput>
+
+                <Input
+                  value={userEditable.apellido}
+                  name="apellido"
+                  onChange={(e) => handleInput(e)}
+                  type="email"
+                  placeholder="Apellidos"
+                  autoComplete="off"
+                  className={validacionInputs.apellido == false ? "danger" : ""}
+                />
+              </CajaInput>
+
+              <CajaInput>
+                <TituloInput>Pais de nacimiento</TituloInput>
+
+                <Input
+                  type="text"
+                  value={inpustAux.paisNacimiento}
+                  name="paisNacimiento"
+                  onChange={(e) => handleInput(e)}
+                  placeholder="Nacionalidad"
+                  list="paises"
+                  autoComplete="off"
+                  className={
+                    validacionInputs.paisNacimiento == false ? "danger" : ""
+                  }
+                />
+                <DataListSimple id="paises">
+                  {ListaPaises.map((pais, index) => {
+                    return <Opcion key={index}>{pais.nombre}</Opcion>;
+                  })}
+                </DataListSimple>
+              </CajaInput>
+
+              <CajaInput>
+                <TituloInput>Fecha de nacimiento</TituloInput>
+
+                <Input
+                  value={inpustAux.fechaNacimiento}
+                  name="fechaNacimiento"
+                  onChange={(e) => handleInput(e)}
+                  type="date"
+                  placeholder="Fecha de nacimiento"
+                  autoComplete="off"
+                  className={
+                    validacionInputs.fechaNacimiento == false ? "danger" : ""
+                  }
+                />
+              </CajaInput>
+
+              <CajitaInterna>
+                <NombreSubtitulo>{userEditable.correo}</NombreSubtitulo>
+              </CajitaInterna>
+
+              <CajaInput>
+                <TituloInput>Cuentanos sobre ti</TituloInput>
+
+                <TextArea
+                  value={userEditable.textoBiografia}
+                  name="textoBiografia"
+                  onChange={(e) => handleInput(e)}
+                  placeholder="Explicanos sobre ti; intereses, datos curiosos etc."
+                  autoComplete="off"
+                  className={
+                    validacionInputs.fechaNacimiento.alerta ? "danger" : ""
+                  }
+                />
+              </CajaInput>
+              <CajaInput>
+                <TituloInput>Numero de telefono</TituloInput>
+
+                <Input
+                  value={userEditable.telefono}
+                  name="telefono"
+                  onChange={(e) => handleInput(e)}
+                  placeholder="Telefono"
+                  autoComplete="off"
+                  className={
+                    validacionInputs.fechaNacimiento.alerta ? "danger" : ""
+                  }
+                />
+              </CajaInput>
+
+              <CajaAlerta>
+                <Parrafo>{mensajeAlerta}</Parrafo>
+              </CajaAlerta>
+              <CajaBtn>
+                <WrapBtn>
+                  <BtnSimple onClick={() => cancelarCambios()}>
+                    Cancelar
+                  </BtnSimple>
+                  <BtnSimple onClick={() => guardarCambios()}>
+                    Guardar cambios
+                  </BtnSimple>
+                </WrapBtn>
+              </CajaBtn>
+            </CajaDatos>
+          </CajaInterna>
+        </CajaContenido>
+        {isLoading && <ModalLoading />}
+      </Container>
+    ))
   );
 }
 const Container = styled.div`
@@ -232,6 +573,11 @@ const CajaRRSS = styled.div`
   display: flex;
   justify-content: center;
   gap: 30px;
+  &.modoEditar {
+    flex-direction: column;
+    border: 1px solid red;
+    gap: 4px;
+  }
 `;
 const Icono = styled(FontAwesomeIcon)`
   font-size: 2rem;
@@ -356,3 +702,146 @@ const CeldasBody = styled.td`
     padding-left: 10px;
   }
 `;
+
+// Edicion
+
+const CajaInput = styled.div`
+  width: 100%;
+  margin-bottom: 10px;
+  &.btn {
+    margin-top: 25px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    /* margin-bottom: 40px; */
+  }
+  &.links {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+  }
+  &.checkbox {
+    min-height: 25px;
+    /* border: 1px solid red; */
+    padding: 5px;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 5px;
+  }
+`;
+
+const TituloInput = styled.p`
+  color: ${theme.complementary.midnightBlue};
+`;
+const Input = styled(InputGeneral)`
+  &.checkbox {
+    background-color: red;
+    width: 20px;
+  }
+  &.danger {
+    color: ${theme.secondary.coral};
+    border: 1px solid red;
+  }
+  &.none {
+    display: none;
+  }
+  &.radio {
+    width: 15px;
+    &:focus {
+      border: 1px solid black;
+      width: 25px;
+    }
+  }
+`;
+const CajaRadio = styled.div`
+  display: flex;
+`;
+const CajitaRadio = styled.div`
+  /* border: 1px solid red; */
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding-left: 15px;
+`;
+const Opcion = styled(OpciongGneral)``;
+const DataListSimple = styled(DataList)``;
+
+const ListaInsegura = styled.ul`
+  color: red;
+  padding-left: 30px;
+`;
+const ElementosInseguros = styled.li``;
+const CajaErrorAlEnviar = styled.div`
+  width: 100%;
+`;
+const SeccionFotoPerfil = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+`;
+
+const CajaIcono = styled.div`
+  position: absolute;
+  bottom: 0;
+  right: 0;
+`;
+
+const ModalCroper = styled.div`
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  background-color: #000000c6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+`;
+const WrapElementsCrops = styled.div``;
+const CajCropper = styled.div`
+  width: 400px;
+  height: 400px;
+  position: relative;
+  border: 4px solid ${theme.secondary.coral};
+`;
+const TituloCrop = styled.h2`
+  color: ${theme.primary.turquoise};
+  font-size: 2rem;
+  margin-bottom: 20px;
+`;
+const CajaControlesCrop = styled.div`
+  width: 100%;
+  min-height: 50px;
+  position: relative;
+  bottom: 0;
+  /* background-color: red; */
+`;
+const BtnCrop = styled(BtnGeneral)``;
+const CajaEye = styled.div`
+  width: 10%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  right: 0;
+  /* background-color: red; */
+`;
+
+const IconoEye = styled(FontAwesomeIcon)`
+  color: ${theme.azul2};
+  cursor: pointer;
+`;
+const CajaInternaInput = styled.div`
+  width: 100%;
+  display: flex;
+  position: relative;
+`;
+
+const Label = styled.label``;
+
+const TextArea = styled(TextAreaGeneral)``;
+
+const CajaAlerta = styled.div``;
+const Parrafo = styled.p``;

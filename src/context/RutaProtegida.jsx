@@ -6,7 +6,7 @@ import { useAuth } from "./AuthContext";
 export const RutaProtegida = ({ children }) => {
   const { usuario } = useAuth();
 
-  if (usuario?.emailVerified) {
+  if (usuario) {
     return children;
   } else {
     return <Navigate replace to="/login" />;

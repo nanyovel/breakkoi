@@ -27,8 +27,9 @@ export default function Login() {
   const [datosParseados, setDatosParseados] = useState(false);
   const auth = getAuth();
   useEffect(() => {
-    if (auth.currentUser?.emailVerified == true) {
-      // navigate("/");
+    console.log(auth.currentUser);
+    if (auth.currentUser) {
+      navigate("/");
     } else {
       setDatosParseados(true);
     }
