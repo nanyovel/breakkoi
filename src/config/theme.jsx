@@ -13,6 +13,8 @@ export const theme = {
     neutral500: "#7a7a7a",
     neutral300: "#eee",
     neutral200: "#dddddd",
+    textoNoBlanco: "#757575",
+    textoBlancoEdtem: "#8999a5",
   },
   secondary: {
     azulLink: "#418FEF", // azul enlace

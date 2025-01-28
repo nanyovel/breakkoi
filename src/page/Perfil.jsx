@@ -37,7 +37,14 @@ export default function Perfil({ userMaster, usuario }) {
   const [mensajeAlerta, setMensajeAlerta] = useState("");
   const handleRedireccion = (ruta) => {
     if (ruta) {
-      window.open(ruta, "_blank");
+      // Verificar si la ruta ya tiene un esquema válido (http o https)
+      const url =
+        ruta.startsWith("http://") || ruta.startsWith("https://")
+          ? ruta
+          : `https://${ruta}`;
+
+      // Abrir la URL en una nueva pestaña
+      window.open(url, "_blank");
     }
   };
 
@@ -329,6 +336,20 @@ export default function Perfil({ userMaster, usuario }) {
               <tbody>
                 <Filas>
                   <CeldasBody>{1}</CeldasBody>
+                  <CeldasBody></CeldasBody>
+                  <CeldasBody></CeldasBody>
+                  <CeldasBody></CeldasBody>
+                  <CeldasBody>
+                    {/* <BtnSimple>Comentar</BtnSimple> */}
+                  </CeldasBody>
+                  <CeldasBody>
+                    {/* <BtnSimple>Reservar</BtnSimple> */}
+                  </CeldasBody>
+                </Filas>
+
+                <Filas>
+                  {/* 
+                  <CeldasBody>{1}</CeldasBody>
                   <CeldasBody>{"Villa Koi Punta Cana"}</CeldasBody>
                   <CeldasBody>{"15/06/24"}</CeldasBody>
                   <CeldasBody>{"22/06/24"}</CeldasBody>
@@ -337,7 +358,7 @@ export default function Perfil({ userMaster, usuario }) {
                   </CeldasBody>
                   <CeldasBody>
                     <BtnSimple>Reservar</BtnSimple>
-                  </CeldasBody>
+                  </CeldasBody> */}
                 </Filas>
               </tbody>
             </Tabla>
@@ -754,92 +775,8 @@ const Input = styled(InputGeneral)`
     }
   }
 `;
-const CajaRadio = styled.div`
-  display: flex;
-`;
-const CajitaRadio = styled.div`
-  /* border: 1px solid red; */
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  padding-left: 15px;
-`;
 const Opcion = styled(OpciongGneral)``;
 const DataListSimple = styled(DataList)``;
-
-const ListaInsegura = styled.ul`
-  color: red;
-  padding-left: 30px;
-`;
-const ElementosInseguros = styled.li``;
-const CajaErrorAlEnviar = styled.div`
-  width: 100%;
-`;
-const SeccionFotoPerfil = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-`;
-
-const CajaIcono = styled.div`
-  position: absolute;
-  bottom: 0;
-  right: 0;
-`;
-
-const ModalCroper = styled.div`
-  position: fixed;
-  width: 100vw;
-  height: 100vh;
-  top: 0;
-  background-color: #000000c6;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 100;
-`;
-const WrapElementsCrops = styled.div``;
-const CajCropper = styled.div`
-  width: 400px;
-  height: 400px;
-  position: relative;
-  border: 4px solid ${theme.secondary.coral};
-`;
-const TituloCrop = styled.h2`
-  color: ${theme.primary.turquoise};
-  font-size: 2rem;
-  margin-bottom: 20px;
-`;
-const CajaControlesCrop = styled.div`
-  width: 100%;
-  min-height: 50px;
-  position: relative;
-  bottom: 0;
-  /* background-color: red; */
-`;
-const BtnCrop = styled(BtnGeneral)``;
-const CajaEye = styled.div`
-  width: 10%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  right: 0;
-  /* background-color: red; */
-`;
-
-const IconoEye = styled(FontAwesomeIcon)`
-  color: ${theme.azul2};
-  cursor: pointer;
-`;
-const CajaInternaInput = styled.div`
-  width: 100%;
-  display: flex;
-  position: relative;
-`;
-
-const Label = styled.label``;
 
 const TextArea = styled(TextAreaGeneral)``;
 

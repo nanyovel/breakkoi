@@ -22,8 +22,14 @@ import { RutaProtegida } from "../context/RutaProtegida";
 import Login from "../Auth/Login";
 import Registrarse from "../Auth/Registrarse";
 import ResetPassword from "../Auth/ResetPassword";
+import MenuLateral from "../components/MenuLateral";
+import Manager from "../page/Manager";
 
-export default function MasterRoutes({ userMaster }) {
+export default function MasterRoutes({
+  userMaster,
+  setDBUsuarios,
+  dbUsuarios,
+}) {
   const user = useAuth();
   const currentUser = user.usuario;
 
@@ -72,6 +78,14 @@ export default function MasterRoutes({ userMaster }) {
         <Route path="/blog/" element={<ListaBlog />} />
         <Route path="/blog/*" element={<DetalleBlog />} />
         <Route path="/contactos/" element={<PageContact />} />
+        <Route
+          path="/admin/*"
+          element={
+            <Manager setDBUsuarios={setDBUsuarios} dbUsuarios={dbUsuarios} />
+          }
+        />
+
+        {/* Auth */}
         <Route path="/login/" element={<Login />} />
         <Route path="/registro/" element={<Registrarse />} />
         <Route path="/nosotros/" element={<Nosotros />} />
@@ -89,6 +103,8 @@ export default function MasterRoutes({ userMaster }) {
         />
         <Route path="*" element={<Page404 />} />
       </Routes>
+
+      <MenuLateral />
       <Footer />
     </>
   );

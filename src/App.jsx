@@ -27,18 +27,22 @@ function App() {
   const [datosParseados, setDatosParseados] = useState(false);
 
   useEffect(() => {
-    console.log(userMaster);
     if (userMaster || userMaster == null) {
       setDatosParseados(true);
     }
   }, [userMaster]);
 
+  const [dbUsuarios, setDBUsuarios] = useState([]);
   return (
     datosParseados && (
       <>
         <ScrollToTop />
 
-        <MasterRoutes userMaster={userMaster} />
+        <MasterRoutes
+          userMaster={userMaster}
+          setDBUsuarios={setDBUsuarios}
+          dbUsuarios={dbUsuarios}
+        />
       </>
     )
   );
