@@ -4,12 +4,12 @@ import OfertaSideBar from "./OfertaSideBar";
 import SoyXSideBar from "./SoyXSideBar";
 import MasVistoSideBar from "./MasVistoSideBar";
 
-export default function SideBarBlog() {
+export default function SideBarBlog({ relacionados }) {
   return (
     <Container>
       <OfertaSideBar />
       <SoyXSideBar />
-      <MasVistoSideBar />
+      <MasVistoSideBar relacionados={relacionados} />
     </Container>
   );
 }

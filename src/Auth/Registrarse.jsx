@@ -18,12 +18,12 @@ import { useNavigate } from "react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCloudArrowUp } from "@fortawesome/free-solid-svg-icons";
 import { getCroppedImg } from "../components/cropImageCanvas";
-import { UserSchema } from "../model/Auth";
 import { doc, setDoc, updateDoc } from "firebase/firestore";
 import { ES6AFormat, INPUTAFormat } from "../libs/FechaFormat";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 import { formatoCorreo } from "../libs/StringS";
+import { UserSchema } from "../model/AuthSchema";
 
 export default function Registrarse({ usuario }) {
   // ************ RECURSOS GENERALES **************
@@ -115,7 +115,7 @@ export default function Registrarse({ usuario }) {
   // Inputs que el usuario no puede llenar explicitamente a la hora de registro
   const {
     privilegios,
-    fechaRegistro,
+    createAt,
     estadoDoc,
     redesSociales,
     textoBiografia,
@@ -340,7 +340,7 @@ export default function Registrarse({ usuario }) {
         const newUserEnviar = {
           ...UserSchema,
           ...datosSinPassword,
-          fechaRegistro: ES6AFormat(new Date()),
+          createAt: ES6AFormat(new Date()),
           fechaNacimiento: INPUTAFormat(datos.fechaNacimiento.value),
           correo: usuar.email,
           urlFotoPerfil: "",

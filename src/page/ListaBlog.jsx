@@ -1,21 +1,44 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { theme } from "../config/theme";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { TituloH1 } from "../components/ElementosGenerales";
 import Card from "./partes03Blog/Card";
-import { BlogsDB } from "../DB/BlogsDB";
+import { useAuth } from "../context/AuthContext";
+import { fetchGetDocs, fetchGetDocsLimit } from "../libs/FetchFirebase";
 
 export default function ListaBlog() {
+  const usuario = useAuth().usuario;
+  const [listaBlog, setListaBlog] = useState([]);
+  const [datosParseados, setDatosParseados] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      if (usuario) {
+        const listaBlogAux = await fetchGetDocsLimit(
+          "post",
+          "createAt",
+          "desc",
+          10
+        );
+        console.log(listaBlogAux);
+        setListaBlog(listaBlogAux);
+        setDatosParseados(true);
+      }
+    })();
+  }, []);
   return (
     <>
-      {/* <Header /> */}
       <Container>
         <Titulo>Ultimas entradas</Titulo>
         <WrapBlogs>
-          <Card blog={BlogsDB[0]} />
-          <Card blog={BlogsDB[1]} />
+          {datosParseados && (
+            <>
+              <Card blog={listaBlog[0]} />
+              <Card blog={listaBlog[1]} />
+            </>
+          )}
         </WrapBlogs>
       </Container>
       {/* <Footer /> */}

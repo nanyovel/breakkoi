@@ -3,20 +3,20 @@ import styled from "styled-components";
 
 import { NavLink } from "react-router";
 import { theme } from "../../config/theme";
-import { BlogsDB } from "../../DB/BlogsDB";
+// import { BlogsDB } from "../../DB/BlogsDB";
 
-export default function MasVistoSideBar() {
+export default function MasVistoSideBar({ relacionados }) {
   return (
     <Container>
       <Titulo>Mas vistos:</Titulo>
       <Lista>
-        <Elemento>
-          <Enlace to={`/blog/` + BlogsDB[0].url}>{BlogsDB[0].titulo}</Enlace>
-        </Elemento>
-
-        <Elemento>
-          <Enlace to={`/blog/` + BlogsDB[1].url}>{BlogsDB[1].titulo}</Enlace>
-        </Elemento>
+        {relacionados.map((post, index) => {
+          return (
+            <Elemento key={index}>
+              <Enlace to={`/blog/` + post.url}>{post.titulo}</Enlace>
+            </Elemento>
+          );
+        })}
       </Lista>
     </Container>
   );

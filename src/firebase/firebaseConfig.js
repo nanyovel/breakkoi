@@ -17,8 +17,8 @@ const firebaseConfig = {
 
 export const app = initializeApp(firebaseConfig);
 export const autenticar = getAuth(app);
-const analytics = getAnalytics(app);
-logEvent(analytics, "notification_received");
+// const analytics = getAnalytics(app);
+// logEvent(analytics, "notification_received");
 const db = getFirestore(app);
 export const storage = getStorage(app);
 export default db;

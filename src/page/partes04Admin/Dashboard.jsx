@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { theme } from "../../config/theme";
 import StatsCard from "../../components/StatsCard";
@@ -10,39 +10,42 @@ import ImgUser from "./../../../public/icon/stats/usuario.png";
 import { NavLink } from "react-router";
 
 export default function Dashboard({ stats }) {
-  const [arrayElement, setArrayElements] = useState([
-    {
-      icono: ImgDate,
-      qty: stats.diasReservados,
-      titulo: "Dias reservados",
-      link: "/admin/hospedajes",
-    },
-    {
-      icono: ImgCama,
-      qty: stats.hospedajes,
-      titulo: "Hospedajes",
-      link: "/admin/hospedajes",
-    },
-    {
-      icono: ImgCasa,
-      qty: stats.propiedades,
-      titulo: "Propiedades",
-      link: "/admin/propiedades",
-    },
+  const [arrayElement, setArrayElements] = useState([]);
+  useEffect(() => {
+    setArrayElements([
+      {
+        icono: ImgDate,
+        qty: stats.diasReservados,
+        titulo: "Dias reservados",
+        link: "/admin/hospedajes",
+      },
+      {
+        icono: ImgCama,
+        qty: stats.hospedajes,
+        titulo: "Hospedajes",
+        link: "/admin/hospedajes",
+      },
+      {
+        icono: ImgCasa,
+        qty: stats.propiedades,
+        titulo: "Propiedades",
+        link: "/admin/propiedades",
+      },
+      {
+        icono: ImgPost,
+        qty: stats.qtyPost,
+        titulo: "Posts",
+        link: "/blog",
+      },
+      {
+        icono: ImgUser,
+        qty: stats.usuarios,
+        titulo: "Usuarios",
+        link: "/admin/usuarios",
+      },
+    ]);
+  }, [stats]);
 
-    {
-      icono: ImgPost,
-      qty: stats.qtyPost,
-      titulo: "Posts",
-      link: "/blog",
-    },
-    {
-      icono: ImgUser,
-      qty: stats.usuarios,
-      titulo: "Usuarios",
-      link: "/admin/usuarios",
-    },
-  ]);
   return (
     <Container>
       {arrayElement.map((stat, index) => {

@@ -7,7 +7,7 @@ import {
   faInstagram,
   faTwitter,
 } from "@fortawesome/free-brands-svg-icons";
-import { UserSchema } from "../model/Auth";
+// import { UserSchema } from "../model/Auth";
 import { useNavigate } from "react-router";
 import BotonQuery from "../components/BotonQuery";
 import { generatorIconFlagURL, ListaPaises } from "../components/ListaPaises";

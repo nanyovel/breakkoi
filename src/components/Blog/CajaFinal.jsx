@@ -1,17 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { theme } from "../../config/theme";
-import { BlogsDB } from "./../../DB/BlogsDB";
 import { NavLink } from "react-router";
 import CardCajaFinal from "./CardCajaFinal";
+import { useAuth } from "../../context/AuthContext";
+import { fetchFindAnyContains } from "../../libs/FetchFirebase";
 
-export default function CajaFinal() {
+export default function CajaFinal({ relacionados }) {
   return (
     <Container>
       <Titulo>Articulos relacionados:</Titulo>
+
       <CajaCard>
-        <CardCajaFinal blog={BlogsDB[0]} />
-        <CardCajaFinal blog={BlogsDB[1]} />
+        {relacionados.map((post, index) => {
+          return <CardCajaFinal key={index} blog={post} />;
+        })}
       </CajaCard>
     </Container>
   );

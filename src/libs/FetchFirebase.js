@@ -3,8 +3,11 @@ import { useEffect, useState } from "react";
 import {
   collection,
   doc,
+  getDoc,
   getDocs,
+  limit,
   onSnapshot,
+  orderBy,
   query,
   where,
 } from "firebase/firestore";
@@ -59,5 +62,82 @@ export const fetchGetDocs = async (collectionName, condicionesDB) => {
     return coleccion;
   } catch (error) {
     console.log(error);
+  }
+};
+
+// ********* DAME UN UNICO DOC POR SU ID Y SIN ESCUCHADOR **********
+export const obtenerDocPorId = async (collectionName, idDoc) => {
+  console.log("DB 😐😐😐😐😐" + collectionName);
+  try {
+    const docRef = doc(db, collectionName, idDoc);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      const documento = docSnap.data();
+      // console.log(documento);
+      return documento;
+    } else {
+      console.log("No se encontró el documento con ese ID.");
+      return null;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// ****************** ULTIMOS DOCUMENTOS SIN ESCUCHADOR **********************
+export const fetchGetDocsLimit = async (
+  collectionName,
+  propiedad,
+  tipo,
+  limite
+) => {
+  console.log("DB 😐😐😐😐😐" + collectionName);
+
+  const postsRef = collection(db, collectionName);
+  // const postsQuery = query(postsRef, orderBy("createdAt", "desc"), limit(10));
+  const q = query(postsRef, orderBy(propiedad, tipo), limit(limite));
+
+  try {
+    const consultaDB = await getDocs(q);
+
+    const coleccion = consultaDB.docs.map((doc) => ({
+      ...doc.data(),
+      id: doc.id,
+    }));
+    console.log(coleccion);
+    return coleccion;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// *********************** por rango de fecha y palabras claves **************************
+export const fetchFindAnyContains = async (
+  collectionName,
+  nameArray,
+  palabra,
+  limite
+) => {
+  console.log("DB 😐😐😐😐😐" + collectionName);
+  const postsRef = collection(db, collectionName);
+  const q = query(
+    postsRef,
+    where(nameArray, "array-contains-any", palabra),
+    limit(limite)
+  );
+
+  try {
+    const consultaDB = await getDocs(q);
+
+    const coleccion = consultaDB.docs.map((doc) => ({
+      ...doc.data(),
+      id: doc.id,
+    }));
+    console.log(coleccion);
+    return coleccion;
+  } catch (error) {
+    console.log(error);
+    return "error";
   }
 };

@@ -3,7 +3,7 @@ import Img2 from "./../../public/img/playa.jpg";
 
 import ImgVilla1 from "./../assets/store/villa1.jpg";
 
-export const BlogsDB = [
+export const BlogsDB1 = [
   {
     titulo:
       " 5 Razones por las que Hospedarte en una Villa es Mejor que un Hotel",
@@ -13,6 +13,7 @@ export const BlogsDB = [
     url: "razones-por-las-que-hospedarte-en-una-villa-es-mejor-que-un-hotel",
     fecha: new Date(2025, 0, 24),
   },
+
   {
     titulo:
       "Guía Definitiva y Recomendaciones para unas Vacaciones Perfectas en Punta Cana",

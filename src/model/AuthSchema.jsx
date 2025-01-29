@@ -13,7 +13,7 @@ export const UserSchema = {
     pais: "",
     siglas: "",
   },
-  fechaRegistro: "",
+  createAt: "",
   urlFotoPerfil: "",
   privilegios: [],
   genero: "",
@@ -22,5 +22,5 @@ export const UserSchema = {
     instagram: "",
     twitter: "",
   },
-  textoBiografia:'',
+  textoBiografia: "",
 };

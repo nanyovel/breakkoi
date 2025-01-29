@@ -6,7 +6,6 @@ import { BtnGeneral } from "../../components/ElementosGenerales";
 import { NavLink } from "react-router";
 
 export default function Card({ blog }) {
-  console.log(blog);
   return (
     <Enlace to={"/blog/" + blog.url}>
       <Container>
@@ -29,13 +28,23 @@ export default function Card({ blog }) {
     </Enlace>
   );
 }
+const Enlace = styled(NavLink)`
+  text-decoration: none;
+  overflow: hidden;
+  border: 1px solid ${theme.primary.neutral500};
+  border-radius: 15px;
+  transition: all ease 0.2s;
+  &:hover {
+    box-shadow: ${theme.config.sombra};
+  }
+`;
+
 const Container = styled.div`
   height: 200px;
-  border-radius: 15px;
+
   overflow: hidden;
   display: flex;
   background-color: ${theme.primary.sand};
-  border: 1px solid ${theme.primary.neutral500};
 `;
 const CajaInterna = styled.div`
   &.izq {
@@ -97,6 +106,3 @@ const CajaBtn = styled.div`
   /* padding: 10px; */
 `;
 const BtnSimple = styled(BtnGeneral)``;
-const Enlace = styled(NavLink)`
-  text-decoration: none;
-`;

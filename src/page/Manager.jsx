@@ -107,7 +107,10 @@ export default function Manager({ setDBUsuarios, dbUsuarios }) {
         {datosParseados && (
           <CajaContenido>
             <Routes>
-              <Route path="/dashboard" element={<Dashboard stats={stats} />} />
+              <Route
+                path="/dashboard"
+                element={<Dashboard stats={stats} dbUsuarios={dbUsuarios} />}
+              />
               <Route path="/propiedades" element={<h2>propiedades</h2>} />
               <Route
                 path="/usuarios"
