@@ -12,7 +12,7 @@ import {
 import { ListaPaises } from "../components/ListaPaises";
 import BotonQuery from "../components/BotonQuery";
 import { ModalLoading } from "../components/ModalLoading";
-import db, { autenticar } from "../firebase/firebaseConfig";
+import db, { autenticar, storage } from "../firebase/firebaseConfig";
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { useNavigate } from "react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -347,7 +347,6 @@ export default function Registrarse({ usuario }) {
           estadoDoc: 0,
         };
 
-        const storage = getStorage();
         await setDoc(doc(db, "usuarios", usuar.uid), newUserEnviar);
 
         try {

@@ -9,7 +9,7 @@ import { fetchFindAnyContains } from "../../libs/FetchFirebase";
 export default function CajaFinal({ relacionados }) {
   return (
     <Container>
-      <Titulo>Articulos relacionados:</Titulo>
+      <Titulo>Articulos relacionados</Titulo>
 
       <CajaCard>
         {relacionados.map((post, index) => {
@@ -27,7 +27,7 @@ const Enlace = styled(NavLink)`
   text-decoration: none;
 `;
 const Titulo = styled.h2`
-  color: ${theme.primary.turquoise};
+  color: ${theme.secondary.coral};
   font-size: 2.4rem;
   width: 100%;
   text-align: center;

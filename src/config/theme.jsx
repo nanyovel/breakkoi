@@ -10,6 +10,7 @@ export const theme = {
     turquoiseTenue: "#1f8e78",
     turquoiseBrillante: "#55f9d8",
     neutral600: "#3e3e3e",
+    neutral550: "#6b6b6b",
     neutral500: "#7a7a7a",
     neutral300: "#eee",
     neutral200: "#dddddd",

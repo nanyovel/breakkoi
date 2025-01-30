@@ -76,7 +76,10 @@ export default function MasterRoutes({
         />
         <Route path="/propiedades/:id" element={<DetalleVilla />} />
         <Route path="/blog/" element={<ListaBlog />} />
-        <Route path="/blog/*" element={<DetalleBlog />} />
+        <Route
+          path="/blog/*"
+          element={<DetalleBlog userMaster={userMaster} />}
+        />
         <Route path="/contactos/" element={<PageContact />} />
         <Route
           path="/admin/*"
@@ -104,7 +107,7 @@ export default function MasterRoutes({
         <Route path="*" element={<Page404 />} />
       </Routes>
 
-      <MenuLateral />
+      {currentUser && <MenuLateral />}
       <Footer />
     </>
   );

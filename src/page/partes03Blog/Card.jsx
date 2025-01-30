@@ -10,7 +10,7 @@ export default function Card({ blog }) {
     <Enlace to={"/blog/" + blog.url}>
       <Container>
         <CajaInterna className="izq">
-          <Img src={blog.imgPrincipal} />
+          <Img src={blog.imagenDestacada} />
         </CajaInterna>
         <CajaInterna className="der">
           <CajaTitulo>

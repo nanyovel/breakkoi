@@ -19,10 +19,9 @@ export default function Blog1RazonesVillaVSHotel({
 
   useEffect(() => {
     (async () => {
-      if (usuario) {
-        const post = await obtenerDocPorId("post", idPost);
-        setCurrentPost(post);
-      }
+      const post = await obtenerDocPorId("post", idPost);
+      console.log(post);
+      setCurrentPost(post);
     })();
   }, []);
   return (
@@ -33,7 +32,7 @@ export default function Blog1RazonesVillaVSHotel({
         </CajaTitulo>
         <WrapContenido>
           <CajaInterna className="izq">
-            <Img src={currentPost.imgPrincipal} />
+            <Img src={currentPost.imagenDestacada} />
             <CajaTexto>
               <BloqueParrafos>
                 <Parrafo className="introductorio">
@@ -55,6 +54,7 @@ export default function Blog1RazonesVillaVSHotel({
                   para tu próxima escapada tropical.
                 </Parrafo>
               </BloqueParrafos>
+
               <CajaRazon>
                 <CajaEncabezado>
                   <TituloRazon>
@@ -229,6 +229,7 @@ const Parrafo = styled.p`
 `;
 const CajaRazon = styled.div`
   margin-bottom: 25px;
+  width: 100%;
 `;
 const CajaEncabezado = styled.div`
   width: 100%;

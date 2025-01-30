@@ -31,8 +31,11 @@ export const formatAES6 = (fechaFormat) => {
   const annio = fechaFormat.slice(6, 10);
   const mes = fechaFormat.slice(3, 5) - 1;
   const dia = fechaFormat.slice(0, 2);
+  const hora = fechaFormat.slice(11, 13);
+  const minuto = fechaFormat.slice(14, 16);
+  const segundo = fechaFormat.slice(17, 19);
 
-  return new Date(annio, mes, dia);
+  return new Date(annio, mes, dia, hora, minuto, segundo);
 };
 
 // calcular la edad segun su fecha de nacimiento en formato format
@@ -64,7 +67,6 @@ export const hoyManniana = (fechaUser, hasHora) => {
   manniana.setDate(hoy.getDate() + 1); // Agrega 1 día
   const ayer = new Date(hoy);
   ayer.setDate(hoy.getDate() - 1); // Agrega 1 día
-
   if (
     fechaParsed.getFullYear() === hoy.getFullYear() &&
     fechaParsed.getMonth() === hoy.getMonth() &&
@@ -90,9 +92,27 @@ export const hoyManniana = (fechaUser, hasHora) => {
       diaHoyManniana = ES6AFormat(fechaParsed).slice(0, 10);
     }
   }
-  if (hasHora) {
-    return diaHoyManniana + " a las " + hora;
-  } else {
-    return diaHoyManniana;
+
+  const fechaConHora = diaHoyManniana + " a las " + hora;
+  const fechaSinHora = diaHoyManniana;
+  // Siempre pon la hora
+  if (hasHora == 1) {
+    return fechaConHora;
+  }
+  // Nunca pongas la hora
+  else if (hasHora == 2) {
+    return fechaSinHora;
+  }
+  // Pon la hora solamente si es ayer, hoy o mañana
+  else if (hasHora == 3) {
+    if (
+      diaHoyManniana == "Hoy" ||
+      diaHoyManniana == "Mañana" ||
+      diaHoyManniana == "Ayer"
+    ) {
+      return fechaConHora;
+    } else {
+      return fechaSinHora;
+    }
   }
 };

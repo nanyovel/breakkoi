@@ -7,6 +7,7 @@ import { TituloH1 } from "../components/ElementosGenerales";
 import Card from "./partes03Blog/Card";
 import { useAuth } from "../context/AuthContext";
 import { fetchGetDocs, fetchGetDocsLimit } from "../libs/FetchFirebase";
+import BotonQuery from "../components/BotonQuery";
 
 export default function ListaBlog() {
   const usuario = useAuth().usuario;
@@ -15,36 +16,43 @@ export default function ListaBlog() {
 
   useEffect(() => {
     (async () => {
-      if (usuario) {
-        const listaBlogAux = await fetchGetDocsLimit(
-          "post",
-          "createAt",
-          "desc",
-          10
-        );
-        console.log(listaBlogAux);
-        setListaBlog(listaBlogAux);
-        setDatosParseados(true);
-      }
+      const listaBlogAux = await fetchGetDocsLimit(
+        "post",
+        "timestamp",
+        "desc",
+        10
+      );
+      console.log(listaBlogAux);
+      setListaBlog(listaBlogAux);
+      setDatosParseados(true);
     })();
   }, []);
   return (
     <>
       <Container>
+        <CajaQuery>
+          <BotonQuery listaBlog={listaBlog} />
+        </CajaQuery>
         <Titulo>Ultimas entradas</Titulo>
         <WrapBlogs>
-          {datosParseados && (
-            <>
-              <Card blog={listaBlog[0]} />
-              <Card blog={listaBlog[1]} />
-            </>
-          )}
+          {datosParseados &&
+            listaBlog
+              .filter((blog, index) => {
+                if (index < 10) {
+                  return <Card key={index} blog={blog} />;
+                }
+              })
+              .map((blog, index) => {
+                return <Card key={index} blog={blog} />;
+              })}
         </WrapBlogs>
       </Container>
-      {/* <Footer /> */}
     </>
   );
 }
+const CajaQuery = styled.div`
+  padding-left: 200px;
+`;
 const Container = styled.div`
   min-height: 200px;
 `;

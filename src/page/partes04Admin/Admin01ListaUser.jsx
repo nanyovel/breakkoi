@@ -8,7 +8,7 @@ import { fetchGetDocs } from "../../libs/FetchFirebase";
 import { useAuth } from "../../context/AuthContext";
 import { generatorIconFlagURL } from "../../components/ListaPaises";
 
-export default function ListaUsuarios({ setDBUsuarios, dbUsuarios }) {
+export default function Admin01ListaUser({ setDBUsuarios, dbUsuarios }) {
   const usuario = useAuth().usuario;
   const [userList, setUserList] = useState([]);
 

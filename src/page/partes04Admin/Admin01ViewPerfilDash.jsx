@@ -19,7 +19,7 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import ImgUserAdmin from "./../../../public/icon/userAdmin.png";
 
-export default function ViewPerfilUser({ dbUsuarios }) {
+export default function Admin01ViewPerfilDash({ dbUsuarios }) {
   const docUser = useParams().id;
   const [userBuscado, setUserBuscado] = useState(null);
 

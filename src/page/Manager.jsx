@@ -3,11 +3,13 @@ import styled from "styled-components";
 import { theme } from "../config/theme";
 import MenuPestannias from "../components/MenuPestannias";
 import { Route, Routes, useLocation, useNavigate } from "react-router";
-import Dashboard from "./partes04Admin/Dashboard";
-import ListaUsuarios from "./partes04Admin/ListaUsuarios";
+
 import { fetchGetDocs } from "../libs/FetchFirebase";
 import { useAuth } from "../context/AuthContext";
-import ViewPerfilUser from "./partes04Admin/ViewPerfilUser";
+import Admin01Dashboard from "./partes04Admin/admin01Dashboard";
+import Admin01ListaUser from "./partes04Admin/Admin01ListaUser";
+import Admin01ViewPerfilDash from "./partes04Admin/Admin01ViewPerfilDash";
+import Admin04Blog from "./partes04Admin/Admin04Blog";
 
 export default function Manager({ setDBUsuarios, dbUsuarios }) {
   // ********************* RECURSOS GENERALES *********************
@@ -30,6 +32,11 @@ export default function Manager({ setDBUsuarios, dbUsuarios }) {
       nombre: "Propiedades",
       select: false,
       key: "propiedades",
+    },
+    {
+      nombre: "Blog",
+      select: false,
+      key: "blog",
     },
     {
       nombre: "Hospedajes",
@@ -109,13 +116,16 @@ export default function Manager({ setDBUsuarios, dbUsuarios }) {
             <Routes>
               <Route
                 path="/dashboard"
-                element={<Dashboard stats={stats} dbUsuarios={dbUsuarios} />}
+                element={
+                  <Admin01Dashboard stats={stats} dbUsuarios={dbUsuarios} />
+                }
               />
               <Route path="/propiedades" element={<h2>propiedades</h2>} />
+              <Route path="/blog" element={<Admin04Blog />} />
               <Route
                 path="/usuarios"
                 element={
-                  <ListaUsuarios
+                  <Admin01ListaUser
                     setDBUsuarios={setDBUsuarios}
                     dbUsuarios={dbUsuarios}
                   />
@@ -124,7 +134,7 @@ export default function Manager({ setDBUsuarios, dbUsuarios }) {
               <Route
                 path="/usuarios/:id"
                 element={
-                  <ViewPerfilUser
+                  <Admin01ViewPerfilDash
                     setDBUsuarios={setDBUsuarios}
                     dbUsuarios={dbUsuarios}
                   />

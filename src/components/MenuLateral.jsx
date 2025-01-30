@@ -16,6 +16,7 @@ import {
   faWaterLadder,
   faChartLine,
   faBed,
+  faNewspaper,
 } from "@fortawesome/free-solid-svg-icons";
 import { faComments, faUser } from "@fortawesome/free-regular-svg-icons";
 
@@ -95,6 +96,15 @@ export default function MenuLateral() {
             </TituloMenu>
           </Option>
         </Enlaces>
+        <Enlaces to={"/admin/blog"}>
+          <Option>
+            <Icono
+              icon={faNewspaper}
+              className={`${lugar === "/fletes" ? "iconoSelect" : ""}`}
+            />
+            <TituloMenu className={menuOpen ? "menuOpen" : ""}>Blog</TituloMenu>
+          </Option>
+        </Enlaces>
 
         <Enlaces to={"/admin/hospedajes"}>
           <Option>
@@ -104,7 +114,6 @@ export default function MenuLateral() {
                 lugar === "/transportes" ? "iconoSelect" : ""
               }`}
             />
-
             <TituloMenu className={menuOpen ? "menuOpen" : ""}>
               Hospedajes
             </TituloMenu>

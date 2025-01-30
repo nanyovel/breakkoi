@@ -84,3 +84,65 @@ export const TextAreaGeneral = styled.textarea`
 
 export const OpciongGneral = styled.option``;
 export const DataList = styled.datalist``;
+
+const CajaInput = styled.div`
+  width: 100%;
+  margin-bottom: 10px;
+  &.btn {
+    margin-top: 25px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    /* margin-bottom: 40px; */
+  }
+  &.links {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+  }
+  &.checkbox {
+    min-height: 25px;
+    /* border: 1px solid red; */
+    padding: 5px;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 5px;
+  }
+`;
+
+const TituloInput = styled.p`
+  color: ${theme.complementary.midnightBlue};
+`;
+const Input = styled(InputGeneral)`
+  &.checkbox {
+    background-color: red;
+    width: 20px;
+  }
+  &.danger {
+    color: ${theme.secondary.coral};
+    border: 1px solid red;
+  }
+  &.none {
+    display: none;
+  }
+  &.radio {
+    width: 15px;
+    &:focus {
+      border: 1px solid black;
+      width: 25px;
+    }
+  }
+`;
+<CajaInput>
+  <TituloInput>Perfil de instagram</TituloInput>
+
+  <Input
+    value={""}
+    name="instagram"
+    onChange={""}
+    type="email"
+    placeholder="Perfil de instagram"
+    autoComplete="off"
+  />
+</CajaInput>;

@@ -9,7 +9,7 @@ import ImgPost from "./../../../public/icon/stats/post.png";
 import ImgUser from "./../../../public/icon/stats/usuario.png";
 import { NavLink } from "react-router";
 
-export default function Dashboard({ stats }) {
+export default function Admin01Dashboard({ stats }) {
   const [arrayElement, setArrayElements] = useState([]);
   useEffect(() => {
     setArrayElements([
@@ -67,7 +67,6 @@ const Container = styled.div`
   flex-wrap: wrap;
   justify-content: center;
 `;
-const WrapStatsElement = styled.div``;
 const Enlace = styled(NavLink)`
   width: 28%;
   border: 1px solid black;

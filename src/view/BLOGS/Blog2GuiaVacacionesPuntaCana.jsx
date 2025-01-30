@@ -14,15 +14,12 @@ export default function Blog2GuiaVacacionesPuntaCana({
   currentPost,
   setCurrentPost,
 }) {
-  const usuario = useAuth().usuario;
   const idPost = "v7d6oxSFFeYzW5kd3L1c";
 
   useEffect(() => {
     (async () => {
-      if (usuario) {
-        const post = await obtenerDocPorId("post", idPost);
-        setCurrentPost(post);
-      }
+      const post = await obtenerDocPorId("post", idPost);
+      setCurrentPost(post);
     })();
   }, []);
   return (
@@ -33,7 +30,7 @@ export default function Blog2GuiaVacacionesPuntaCana({
         </CajaTitulo>
         <WrapContenido>
           <CajaInterna className="izq">
-            <Img src={currentPost.imgPrincipal} />
+            <Img src={currentPost.imagenDestacada} />
             <CajaTexto>
               <BloqueParrafos>
                 <Parrafo className="">

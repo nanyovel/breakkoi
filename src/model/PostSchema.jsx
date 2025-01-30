@@ -1,6 +1,7 @@
 export const PostSchema = {
   createAt: "",
-  imgPrincipal: "",
+  timestamp: "",
+  imagenDestacada: "",
   parrafoPrincipalResumido: "",
   titulo: "",
   url: "",

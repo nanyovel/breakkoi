@@ -8,7 +8,7 @@ export default function CardCajaFinal({ blog }) {
     <Card>
       <Enlace to={"/blog/" + blog.url}>
         <CajaImgCard>
-          <Img src={blog.imgPrincipal} />
+          <Img src={blog.imagenDestacada} />
         </CajaImgCard>
         <CajaDown>
           <CajaTexto>
