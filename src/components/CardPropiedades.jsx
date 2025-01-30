@@ -4,23 +4,18 @@ import { theme } from "../config/theme";
 import ImgVilla1 from "./../assets/store/villa1.jpg";
 import { BtnGeneral } from "./ElementosGenerales";
 
-export default function CardPropiedades({ imgMain, nombre }) {
+export default function CardPropiedades({ prop, imgMain, nombre }) {
   return (
     <Container>
       <CajaInterna>
-        <Img src={imgMain} />
+        <Img src={prop.imagenDestacada} />
         <BtnSimple>Reservar</BtnSimple>
       </CajaInterna>
       <CajaInterna className="titulo">
         <Titulo>
-          <>{nombre}</>
+          <>{prop.titulo}</>
         </Titulo>
-        <Parrafo>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit
-          incidunt quidem vero perspiciatis consectetur amet voluptates possimus
-          debitis nostrum quam, nisi temporibus esse enim ut magni eligendi
-          reiciendis sequi ex.
-        </Parrafo>
+        <Parrafo>{prop.textoPrincipal}</Parrafo>
       </CajaInterna>
     </Container>
   );
@@ -82,6 +77,11 @@ const Titulo = styled.h2`
 `;
 const Parrafo = styled.p`
   color: ${theme.primary.neutralGray};
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* Número de líneas antes de cortar */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 const Ancla = styled.a``;
 const BtnSimple = styled(BtnGeneral)`

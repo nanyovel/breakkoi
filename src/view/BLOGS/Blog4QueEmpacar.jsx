@@ -11,6 +11,7 @@ import { fetchGetDocs, obtenerDocPorId } from "../../libs/FetchFirebase";
 import { useAuth } from "../../context/AuthContext";
 import BotonQuery from "../../components/BotonQuery";
 import { useNavigate } from "react-router";
+import CajaCTApost from "../../components/Blog/CajaCTApost";
 
 export default function Blog4QueEmpacar({
   relacionados,
@@ -213,9 +214,7 @@ export default function Blog4QueEmpacar({
                   ¡Reserva ahora y vive el Caribe al máximo! 🌴✨
                 </Parrafo>
               </CajaRazon>
-              <CajaRazon>
-                <Btnsimple onClick={() => navigate("/")}>Reservar</Btnsimple>
-              </CajaRazon>
+              <CajaCTApost />
             </CajaTexto>
           </CajaInterna>
           <CajaInterna className="der">

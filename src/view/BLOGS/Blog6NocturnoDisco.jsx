@@ -11,6 +11,7 @@ import ImgTirolesa from "./../../../public/img/blog/tirolesa.jpg";
 import ImgCocoBongo from "./../../../public/img/blog/cocoBongo.jpeg";
 import ImgCasino from "./../../../public/img/blog/casino.jpg";
 import ImgDisco from "./../../../public/img/blog/disco1.png";
+import CajaCTApost from "../../components/Blog/CajaCTApost";
 
 export default function Blog6NocturnoDisco({
   relacionados,
@@ -142,9 +143,7 @@ export default function Blog6NocturnoDisco({
                 </WrapConImgSide>
               </CajaRazon>
 
-              <CajaRazon>
-                <Btnsimple onClick={() => navigate("/")}>Reservar</Btnsimple>
-              </CajaRazon>
+              <CajaCTApost />
             </CajaTexto>
           </CajaInterna>
           <CajaInterna className="der">

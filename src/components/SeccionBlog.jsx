@@ -1,73 +1,67 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { theme } from "../config/theme";
-import ImgGirlSand from "./../../public/img/girlSand.jpg";
-import ImgPlata from "./../../public/img/playa.jpg";
-import ImgplayaRomantica from "./../../public/img/playaRomantica.jpg";
-import MaletaPlaya from "./../../public/img/maletaPlaya.jpg";
-import FoodCaribbean from "./../../public/img/foodCaribbean.jpg";
+
+import { fetchGetDocsLimit } from "../libs/FetchFirebase";
+import { NavLink } from "react-router";
 
 export default function SeccionBlog() {
+  const [ultimosPost, setUltimosPost] = useState(null);
+  useEffect(() => {
+    (async () => {
+      const romo = await fetchGetDocsLimit("post", "timestamp", "desc", 5);
+      setUltimosPost(romo);
+    })();
+  }, []);
   return (
-    <Container>
-      <CajaInterna className="izquieda">
-        <WrapPost className="destacada">
-          <CajaImg className="destacada">
-            <Img src={ImgGirlSand} />
-          </CajaImg>
-          <CajaTitulo className="destacada">
-            <Titulo>
-              5 Razones por las que Hospedarte en una Villa es Mejor que un
-              Hotel
-            </Titulo>
-          </CajaTitulo>
-        </WrapPost>
-        <WrapPost className="subDestacada">
-          <CajaImg className="subDestacada">
-            <Img src={ImgPlata} />
-          </CajaImg>
-          <CajaTitulo className="subDestacada">
-            <Titulo>
-              Guía Definitiva y recomendaciones que debes saber para pasar unas
-              Vacaciones Perfectas en Punta Cana
-            </Titulo>
-          </CajaTitulo>
-        </WrapPost>
-      </CajaInterna>
-      <CajaInterna className="derecha">
-        <WrapPost className="itemsRigt">
-          <CajaImg className="itemsRigt">
-            <Img src={ImgplayaRomantica} />
-          </CajaImg>
-          <CajaTitulo className="itemsRigt">
-            <Titulo>
-              Los 10 Mejores Planes para Disfrutar de Punta Cana como un Experto
-            </Titulo>
-          </CajaTitulo>
-        </WrapPost>
-        <WrapPost className="itemsRigt">
-          <CajaImg className="itemsRigt">
-            <Img src={MaletaPlaya} />
-          </CajaImg>
-          <CajaTitulo className="itemsRigt">
-            <Titulo>
-              Qué Empacar para unas Vacaciones en el Paraíso: Punta Cana Edition
-            </Titulo>
-          </CajaTitulo>
-        </WrapPost>
-        <WrapPost className="itemsRigt">
-          <CajaImg className="itemsRigt">
-            <Img src={FoodCaribbean} />
-          </CajaImg>
-          <CajaTitulo className="itemsRigt">
-            <Titulo>
-              Delicias Locales: Qué Comer en Punta Cana para Vivir el Sabor del
-              Caribe
-            </Titulo>
-          </CajaTitulo>
-        </WrapPost>
-      </CajaInterna>
-    </Container>
+    ultimosPost && (
+      <Container>
+        <CajaInterna className="izquieda">
+          <Enlace className="destacada" to={"/blog/" + ultimosPost[1].url}>
+            <CajaImg className="destacada">
+              <Img src={ultimosPost[1].imagenDestacada} />
+            </CajaImg>
+            <CajaTitulo className="destacada">
+              <Titulo>{ultimosPost[1].titulo}</Titulo>
+            </CajaTitulo>
+          </Enlace>
+          <Enlace className="subDestacada" to={"/blog/" + ultimosPost[0].url}>
+            <CajaImg className="subDestacada">
+              <Img src={ultimosPost[0].imagenDestacada} />
+            </CajaImg>
+            <CajaTitulo className="subDestacada">
+              <Titulo>{ultimosPost[0].titulo}</Titulo>
+            </CajaTitulo>
+          </Enlace>
+        </CajaInterna>
+        <CajaInterna className="derecha">
+          <Enlace className="itemsRigt" to={"/blog/" + ultimosPost[2].url}>
+            <CajaImg className="itemsRigt">
+              <Img src={ultimosPost[2].imagenDestacada} />
+            </CajaImg>
+            <CajaTitulo className="itemsRigt">
+              <Titulo>{ultimosPost[2].titulo}</Titulo>
+            </CajaTitulo>
+          </Enlace>
+          <Enlace className="itemsRigt" to={"/blog/" + ultimosPost[3].url}>
+            <CajaImg className="itemsRigt">
+              <Img src={ultimosPost[3].imagenDestacada} />
+            </CajaImg>
+            <CajaTitulo className="itemsRigt">
+              <Titulo>{ultimosPost[3].titulo}</Titulo>
+            </CajaTitulo>
+          </Enlace>
+          <Enlace className="itemsRigt" to={"/blog/" + ultimosPost[4].url}>
+            <CajaImg className="itemsRigt">
+              <Img src={ultimosPost[4].imagenDestacada} />
+            </CajaImg>
+            <CajaTitulo className="itemsRigt">
+              <Titulo>{ultimosPost[4].titulo}</Titulo>
+            </CajaTitulo>
+          </Enlace>
+        </CajaInterna>
+      </Container>
+    )
   );
 }
 const Container = styled.div`
@@ -90,21 +84,51 @@ const CajaInterna = styled.div`
     width: 30%;
   }
 `;
-
-const WrapPost = styled.a`
+const Enlace = styled(NavLink)`
   cursor: pointer;
   display: block;
-  -moz-box-shadow: 3px 7px 11px 0px rgba(0, 0, 0, 0.75);
-  -webkit-box-shadow: 3px 7px 11px 0px rgba(0, 0, 0, 0.75);
-  box-shadow: 3px 7px 11px 0px rgba(0, 0, 0, 0.75);
+  border: 1px solid black;
   transition: all ease 0.2s;
   width: 100%;
+  border-radius: 5px;
+  overflow: hidden;
+  position: relative;
+  background-color: ${theme.primary.turquoiseTenue};
+  text-decoration: none;
+  &:hover {
+    -moz-box-shadow: 3px 7px 11px 0px rgba(0, 0, 0, 0.75);
+    -webkit-box-shadow: 3px 7px 11px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: 3px 7px 11px 0px rgba(0, 0, 0, 0.75);
+  }
+  &.destacada {
+    height: 69%;
+  }
+  &.subDestacada {
+    height: 28%;
+    display: flex;
+    flex-direction: row-reverse;
+  }
+  &.itemsRigt {
+    height: 32%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+`;
+const Enlace2 = styled.a`
+  cursor: pointer;
+  display: block;
+  border: 1px solid black;
+  transition: all ease 0.2s;
+  width: 100%;
+  border-radius: 5px;
+  overflow: hidden;
+  position: relative;
 
   &:hover {
-    -moz-box-box-shadow: 2px 4px 11px 0px ${theme.secondary.coral};
-    -webkit-box-shadow: 2px 4px 11px 0px ${theme.secondary.coral};
-    box-shadow: 2px 4px 11px 0px ${theme.secondary.coral};
-    /* border: 1px solid #423f3f9e; */
+    -moz-box-shadow: 3px 7px 11px 0px rgba(0, 0, 0, 0.75);
+    -webkit-box-shadow: 3px 7px 11px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: 3px 7px 11px 0px rgba(0, 0, 0, 0.75);
   }
   &.destacada {
     height: 69%;
@@ -123,9 +147,10 @@ const WrapPost = styled.a`
 `;
 
 const CajaImg = styled.div`
+  overflow: hidden;
   &.destacada {
     width: 100%;
-    height: 85%;
+    height: 100%;
     position: relative;
     display: flex;
     justify-content: center;
@@ -141,15 +166,32 @@ const CajaImg = styled.div`
     width: 100%;
   }
 `;
+
+const Img = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-bottom: 1px solid black;
+  /* border-radius: 4px; */
+`;
 const CajaTitulo = styled.div`
   padding: 5px;
   font-size: 1.2rem;
+  position: absolute;
+  bottom: 0;
+  z-index: 10;
+  background-color: black;
+  color: ${theme.secondary.gold};
+
   &.destacada {
-    height: 15%;
+    height: auto;
+    background-color: black;
+    color: ${theme.secondary.gold};
   }
   &.subDestacada {
     display: flex;
     align-items: center;
+    position: sticky;
   }
   &.itemsRigt {
     height: 30%;
@@ -157,14 +199,10 @@ const CajaTitulo = styled.div`
   }
 `;
 
-const Img = styled.img`
-  width: 100%;
-  height: 100%;
-`;
 const Titulo = styled.h2`
-  color: ${theme.secondary.coral};
-  color: white;
-  font-size: inherit;
+  color: inherit;
+  font-size: 1.1rem;
+  text-decoration: none;
   &:hover {
     text-decoration: underline;
   }

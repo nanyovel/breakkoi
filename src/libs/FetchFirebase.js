@@ -13,6 +13,19 @@ import {
 } from "firebase/firestore";
 import db from "../firebase/firebaseConfig";
 import { useAuth } from "../context/AuthContext";
+// useEffect(() => {
+//   (async () => {
+//     const listaBlogAux = await fetchGetDocsLimit(
+//       "post",
+//       "timestamp",
+//       "desc",
+//       10
+//     );
+//     console.log(listaBlogAux);
+//     setListaBlog(listaBlogAux);
+//     setDatosParseados(true);
+//   })();
+// }, []);
 
 // ************************** DAME SOLO UN DOC POR ID CON ESCUCHADOR **************************
 
@@ -44,10 +57,8 @@ export const fetchGetDocs = async (collectionName, condicionesDB) => {
     condicionesDB.length > 0
       ? query(
           collection(db, collectionName),
-          where(
-            condicionesDB[0].propiedad,
-            condicionesDB[0].operador,
-            condicionesDB[0].valor
+          ...condicionesDB.map((condicion) =>
+            where(condicion.propiedad, condicion.operador, condicion.valor)
           )
         )
       : query(collection(db, collectionName));

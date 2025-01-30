@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { theme } from "../config/theme";
 // import ContenedorPrincipal from "../components/ContenedorPrincipal";
@@ -30,6 +30,7 @@ import Footer from "../components/Footer";
 import { Link, useNavigate } from "react-router";
 import { BtnGeneral } from "../components/ElementosGenerales";
 import { Villas } from "../DB/Villas";
+import { fetchGetDocs, fetchGetDocsLimit } from "../libs/FetchFirebase";
 
 export default function Home({ userMaster }) {
   const arrayImg = [
@@ -45,6 +46,15 @@ export default function Home({ userMaster }) {
     navigate("/propiedades");
   };
   const villaDB = Villas[0];
+
+  const [propiedadesDB, setPropiedadesDB] = useState([]);
+  useEffect(() => {
+    (async () => {
+      const listaProps = await fetchGetDocs("propiedades", []);
+      console.log(listaProps);
+      setPropiedadesDB(listaProps);
+    })();
+  }, []);
   return (
     <>
       {/* <Header absolute={true} userMaster={userMaster} /> */}
@@ -83,18 +93,22 @@ export default function Home({ userMaster }) {
                       Break Koi: Una escapada de lujo en Punta Cana.
                     </TituloH2Video>
                     <ParrafoVideo>
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Cum necessitatibus, ipsam hic eaque iusto nemo
-                      accusantium. Eos dolorem, temporibus adipisci placeat
-                      magnam nostrum animi veritatis dicta. Atque est libero
-                      assumenda.
+                      Descubre la exclusividad de <b> Break Koi</b>, un refugio
+                      de lujo en <b> Punta Cana </b>donde el confort y la
+                      elegancia se fusionan con la belleza del Caribe. Cada una
+                      de nuestras villas tiene su propio encanto y está diseñada
+                      para brindarte privacidad, tranquilidad y experiencias
+                      inolvidables. Relájate en una piscina privada, disfruta de
+                      una cena con vista al mar o explora las paradisíacas
+                      playas de arena blanca.
                     </ParrafoVideo>
                     <ParrafoVideo>
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Cum necessitatibus, ipsam hic eaque iusto nemo
-                      accusantium. Eos dolorem, temporibus adipisci placeat
-                      magnam nostrum animi veritatis dicta. Atque est libero
-                      assumenda.
+                      En <b> Break Koi</b>, nos encargamos de cada detalle para
+                      que vivas una estancia sin preocupaciones. Nuestro equipo
+                      ofrece un servicio personalizado que hará de tus
+                      vacaciones una experiencia única. Más que un destino,
+                      somos un estilo de vida donde la exclusividad y el
+                      descanso se encuentran en perfecta armonía.
                     </ParrafoVideo>
                   </CajaInternaVideo>
                   <CajaInternaVideo className="derecha">
@@ -120,30 +134,17 @@ export default function Home({ userMaster }) {
               Propiedades
             </TituloSeccion>
             <SubtituloSeccion>
-              4 villas lujosas, en zonas estrategicas de Punta Cana.
+              3 villas lujosas, en zonas estrategicas de Punta Cana.
             </SubtituloSeccion>
             <WrapPropiedades>
-              <EnlacePrincipal to={"propiedades/" + villaDB.url}>
-                <CardPropiedades imgMain={ImgNinniaPool} nombre="Villa Koi" />
-              </EnlacePrincipal>
-              <CardPropiedades
-                imgMain={
-                  "	https://cdn.pixabay.com/photo/2021/08/06/21/25/woman-6527238_960_720.jpg"
-                }
-                nombre="Arena Gorda"
-              />
-              <CardPropiedades
-                imgMain={
-                  "		https://cdn.pixabay.com/photo/2014/07/08/21/39/cocktail-387902_960_720.jpg"
-                }
-                nombre="Arrollo Salado"
-              />
-              <CardPropiedades
-                imgMain={
-                  "	https://cdn.pixabay.com/photo/2021/11/17/15/22/swimming-pool-6803839_960_720.jpg"
-                }
-                nombre="Playa Macao"
-              />
+              {propiedadesDB.length > 0 &&
+                propiedadesDB.map((prop, index) => {
+                  return (
+                    <EnlacePrincipal to={"propiedades/" + prop.url} key={index}>
+                      <CardPropiedades prop={prop} />
+                    </EnlacePrincipal>
+                  );
+                })}
             </WrapPropiedades>
           </Seccion>
           <Seccion>
@@ -154,25 +155,26 @@ export default function Home({ userMaster }) {
                 <TituloLess>¿Quienes somos?</TituloLess>
                 <br />
                 <Parrafo>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Adipisci eius qui, velit quas similique inventore! Saepe eos
-                  nobis repellat, dolores, dicta ab corrupti odio nostrum eius
-                  quisquam necessitatibus hic ullam.
+                  En Break Koi, ofrecemos una colección exclusiva de villas en
+                  Punta Cana, diseñadas para brindar lujo, seguridad y comodidad
+                  en un entorno paradisíaco. Nos apasiona crear experiencias
+                  únicas para nuestros huéspedes, con alojamientos elegantes y
+                  servicios personalizados que garantizan una estadía
+                  inolvidable. Nuestro compromiso es seguir creciendo y
+                  adquiriendo nuevas propiedades para ofrecer siempre lo mejor
+                  en hospitalidad.
                 </Parrafo>
                 <br />
                 <Parrafo>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Adipisci eius qui, velit quas similique inventore! Saepe eos
-                  nobis repellat, dolores, dicta ab corrupti odio nostrum eius
-                  quisquam necessitatibus hic ullam.
+                  Más que un destino, Break Koi es un espacio donde la
+                  exclusividad se combina con un trato cercano y amigable. Nos
+                  enfocamos en la seguridad, el confort y la atención
+                  personalizada, asegurando que cada huésped se sienta como en
+                  casa. Nuestro objetivo es construir relaciones a largo plazo,
+                  creando momentos memorables que hagan de cada visita una
+                  experiencia para repetir.
                 </Parrafo>
                 <br />
-                <Parrafo>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Adipisci eius qui, velit quas similique inventore! Saepe eos
-                  nobis repellat, dolores, dicta ab corrupti odio nostrum eius
-                  quisquam necessitatibus hic ullam.
-                </Parrafo>
               </CajaInterna>
               <CajaInterna className="cajaImg">
                 <Img src={ImgWorkRead} />
@@ -187,25 +189,24 @@ export default function Home({ userMaster }) {
                 <TituloLess>¿Por que elegirnos?</TituloLess>
                 <br />
                 <Parrafo>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Adipisci eius qui, velit quas similique inventore! Saepe eos
-                  nobis repellat, dolores, dicta ab corrupti odio nostrum eius
-                  quisquam necessitatibus hic ullam.
+                  En Break Koi, combinamos lujo, seguridad y hospitalidad para
+                  ofrecerte una experiencia inigualable en Punta Cana. Nuestras
+                  villas elegantes y exclusivas están diseñadas para brindarte
+                  el máximo confort, con espacios cuidadosamente decorados y
+                  amenidades de primera clase. Además, garantizamos privacidad y
+                  tranquilidad en un entorno paradisíaco, ideal para quienes
+                  buscan una escapada perfecta.
                 </Parrafo>
                 <br />
                 <Parrafo>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Adipisci eius qui, velit quas similique inventore! Saepe eos
-                  nobis repellat, dolores, dicta ab corrupti odio nostrum eius
-                  quisquam necessitatibus hic ullam.
+                  Nos distinguimos por nuestro trato personalizado y atención
+                  cercana a cada huésped. En Break Koi, no solo te ofrecemos un
+                  lugar donde hospedarte, sino un servicio cálido y amigable que
+                  hará que te sientas como en casa. Queremos construir
+                  relaciones a largo plazo, asegurándonos de que cada visita sea
+                  una experiencia única que siempre querrás repetir.
                 </Parrafo>
                 <br />
-                <Parrafo>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Adipisci eius qui, velit quas similique inventore! Saepe eos
-                  nobis repellat, dolores, dicta ab corrupti odio nostrum eius
-                  quisquam necessitatibus hic ullam.
-                </Parrafo>
               </CajaInterna>
               <CajaInterna className="cajaImg">
                 <Img src={ImgGirlPool} />
@@ -234,36 +235,110 @@ export default function Home({ userMaster }) {
             <TituloSeccion>Lo que nos hace diferentes</TituloSeccion>
             <WrapTextoImg className="reverse">
               <CajaInterna className="texto">
-                <TituloLess>Factor diferenciador</TituloLess>
+                <CajaRazon>
+                  <TituloLess>Factor diferenciador</TituloLess>
+                  <ListaRazon className="noListStyle">
+                    <WrapElementList>
+                      <ListStyle>✅</ListStyle>
+                      <ElementosRazon>
+                        <b>Exclusividad y lujo: </b> Villas elegantes que
+                        ofrecen privacidad, confort y un ambiente único en Punta
+                        Cana
+                      </ElementosRazon>
+                    </WrapElementList>
+                    <WrapElementList>
+                      <ListStyle>✅</ListStyle>
+                      <ElementosRazon>
+                        <b>Servicio personalizado:</b> Atención adaptada a las
+                        necesidades individuales de cada huésped, creando
+                        estancias memorables.
+                      </ElementosRazon>
+                    </WrapElementList>
+                    <WrapElementList>
+                      <ListStyle>✅</ListStyle>
+                      <ElementosRazon>
+                        <b>Compromiso con la seguridad: </b> Entorno seguro y
+                        confiable para que nuestros huéspedes se sientan
+                        tranquilos y protegidos.
+                      </ElementosRazon>
+                    </WrapElementList>
+                    <WrapElementList>
+                      <ListStyle>✅</ListStyle>
+                      <ElementosRazon>
+                        <b> Sostenibilidad:</b> Prácticas responsables para
+                        preservar el medio ambiente y mantener la belleza
+                        natural de la zona.
+                      </ElementosRazon>
+                    </WrapElementList>
+                    <WrapElementList>
+                      <ListStyle>✅</ListStyle>
+                      <ElementosRazon>
+                        <b>Relaciones duraderas:</b> Buscamos crear lazos a
+                        largo plazo con nuestros huéspedes, convirtiéndolos en
+                        parte de nuestra familia.
+                      </ElementosRazon>
+                    </WrapElementList>
+                  </ListaRazon>
+                </CajaRazon>
+
                 <br />
-                <Parrafo>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Adipisci eius qui, velit quas similique inventore! Saepe eos
-                  nobis repellat, dolores, dicta ab corrupti odio nostrum eius
-                  quisquam necessitatibus hic ullam.
-                </Parrafo>
-                <br />
-                <Parrafo>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Adipisci eius qui, velit quas similique inventore! Saepe eos
-                  nobis repellat, dolores, dicta ab corrupti odio nostrum eius
-                  quisquam necessitatibus hic ullam.
-                </Parrafo>
-                <br />
-                <TituloLess>Nuestros valores</TituloLess>
-                <Parrafo>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Adipisci eius qui, velit quas similique inventore! Saepe eos
-                  nobis repellat, dolores, dicta ab corrupti odio nostrum eius
-                  quisquam necessitatibus hic ullam.
-                </Parrafo>
-                <br />
-                <Parrafo>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Adipisci eius qui, velit quas similique inventore! Saepe eos
-                  nobis repellat, dolores, dicta ab corrupti odio nostrum eius
-                  quisquam necessitatibus hic ullam.
-                </Parrafo>
+                <CajaRazon>
+                  <TituloLess>Nuestros valores</TituloLess>
+                  <ListaRazon className="noListStyle">
+                    <WrapElementList>
+                      <ListStyle>✅</ListStyle>
+                      <ElementosRazon>
+                        <b>Exclusividad: </b> Nos comprometemos a ofrecer villas
+                        únicas, elegantes y de lujo, asegurando una experiencia
+                        exclusiva para cada uno de nuestros huéspedes.
+                      </ElementosRazon>
+                    </WrapElementList>
+                    <WrapElementList>
+                      <ListStyle>✅</ListStyle>
+                      <ElementosRazon>
+                        <b>Seguridad:</b> Priorizamos la seguridad y
+                        tranquilidad de nuestros clientes, brindando un ambiente
+                        confiable y protegido en todo momento.
+                      </ElementosRazon>
+                    </WrapElementList>
+                    <WrapElementList>
+                      <ListStyle>✅</ListStyle>
+                      <ElementosRazon>
+                        <b>Hospitalidad: </b> Creemos en el poder de un trato
+                        personalizado y cercano. Nos aseguramos de que cada
+                        huésped se sienta bienvenido y atendido desde su
+                        llegada.
+                      </ElementosRazon>
+                    </WrapElementList>
+                    <WrapElementList>
+                      <ListStyle>✅</ListStyle>
+                      <ElementosRazon>
+                        <b> Crecimiento:</b> Nos esforzamos por seguir creciendo
+                        y ampliando nuestra oferta de villas, siempre con el
+                        objetivo de ofrecer lo mejor a nuestros clientes.
+                      </ElementosRazon>
+                    </WrapElementList>
+                    <WrapElementList>
+                      <ListStyle>✅</ListStyle>
+                      <ElementosRazon>
+                        <b>Relaciones a largo plazo:</b> Valoramos la creación
+                        de lazos duraderos con nuestros huéspedes, construyendo
+                        una relación de confianza que vaya más allá de una
+                        simple estadía.
+                      </ElementosRazon>
+                    </WrapElementList>
+                    <WrapElementList>
+                      <ListStyle>✅</ListStyle>
+                      <ElementosRazon>
+                        <b> Sostenibilidad: </b>Estamos comprometidos con el
+                        respeto al medio ambiente, implementando prácticas
+                        responsables y sostenibles en la gestión de nuestras
+                        villas para preservar la belleza natural de Punta Cana.
+                      </ElementosRazon>
+                    </WrapElementList>
+                  </ListaRazon>
+                </CajaRazon>
+
                 <br />
               </CajaInterna>
               <CajaInterna className="cajaImg">
@@ -388,7 +463,6 @@ const TituloPieHero = styled.h2`
   color: white;
 `;
 const CajaVideo = styled.div`
-  /* border: 1px solid red; */
   min-height: 300px;
   display: flex;
   border-radius: 15px;
@@ -399,16 +473,13 @@ const CajaVideo = styled.div`
   box-shadow: 3px 7px 11px 0px rgba(0, 0, 0, 0.75);
 `;
 const CajaInternaVideo = styled.div`
-  /* width: 50%; */
   min-height: 300px;
   padding: 20px 40px;
   &.izquierda {
     width: auto;
-    /* border: 1px solid red; */
     align-items: center;
   }
   &.derecha {
-    /* background-color: blue; */
     box-shadow: 0 2px 20px #0003;
     padding: 15px 25px;
     display: flex;
@@ -434,6 +505,7 @@ const ParrafoVideo = styled.p`
   color: ${theme.primary.neutral600};
   font-size: 18px;
   margin-bottom: 15px;
+  line-height: 1.6rem;
 `;
 const TituloSeccion = styled.h2`
   color: ${theme.primary.turquoiseTenue};
@@ -499,7 +571,10 @@ const Img = styled.img`
     width: 80%;
   }
 `;
-const Parrafo = styled.p``;
+const Parrafo = styled.p`
+  line-height: 1.4rem;
+  color: ${theme.primary.neutral650};
+`;
 const CajaHover = styled.div`
   color: #fff;
   text-align: center;
@@ -551,6 +626,7 @@ const Seccion = styled.section`
     width: 100vw;
   }
   &.video {
+    margin-bottom: 0;
     /* background-color: red; */
   }
 `;
@@ -572,6 +648,7 @@ const WrapSeccion = styled.div`
     background-color: ${theme.secondary.coral};
     padding-left: ${theme.config.paddingLateral};
     padding-right: ${theme.config.paddingLateral};
+    /* background-color: blue; */
   }
 `;
 // Parallax
@@ -623,6 +700,11 @@ const EnlacePrincipal = styled(Link)`
   text-decoration: none;
   /* opacity: 0.5; */
   position: relative;
+  color: auto;
+  &:visited {
+    color: black;
+    color: white;
+  }
 
   &:hover {
     opacity: 1;
@@ -638,4 +720,43 @@ const EnlacePrincipal = styled(Link)`
       opacity: 1;
     }
   }
+`;
+
+const CajaRazon = styled.div`
+  margin-bottom: 25px;
+  width: 100%;
+`;
+const CajaEncabezado = styled.div`
+  width: 100%;
+  min-height: 60px;
+  /* border: 1px solid blue; */
+  display: flex;
+  justify-content: start;
+  padding: 5px;
+  padding-left: 10px;
+  align-items: center;
+  border-left: 4px solid ${theme.secondary.coral};
+`;
+const TituloRazon = styled.h2`
+  color: ${theme.primary.turquoise};
+`;
+const ListaRazon = styled.ul`
+  /* color: ${theme.primary.turquoise}; */
+  padding: 15px;
+  padding-left: 35px;
+  &.noListStyle {
+    list-style: none;
+  }
+`;
+const WrapElementList = styled.div`
+  display: flex;
+`;
+const ListStyle = styled.h2`
+  /* background-color: red; */
+  font-size: 1.2rem;
+  /* height: 100%; */
+`;
+const ElementosRazon = styled.li`
+  margin-bottom: 8px;
+  color: ${theme.primary.neutral600};
 `;

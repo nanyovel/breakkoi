@@ -9,6 +9,7 @@ export const theme = {
     white: "#FFFFFF", // Blanco puro
     turquoiseTenue: "#1f8e78",
     turquoiseBrillante: "#55f9d8",
+    neutral650: "#282828",
     neutral600: "#3e3e3e",
     neutral550: "#6b6b6b",
     neutral500: "#7a7a7a",

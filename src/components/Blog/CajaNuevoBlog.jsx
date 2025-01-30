@@ -84,7 +84,7 @@ export default function CajaNuevoBlog() {
 
       try {
         // Cargar foto de perfil
-        const nombreFoto = tituloSlug + "__imgDestacada";
+        const nombreFoto = "imgPost/" + tituloSlug + "__imgDestacada";
         const storageRefFoto = ref(storage, nombreFoto);
         const postActualizar = doc(db, "post", docRef.id);
         if (fileImgDestacada) {

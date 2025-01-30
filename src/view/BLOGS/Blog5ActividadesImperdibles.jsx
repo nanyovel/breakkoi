@@ -9,6 +9,7 @@ import { useNavigate } from "react-router";
 import ImgCenote from "./../../../public/img/blog/cenote.jpg";
 import ImgTirolesa from "./../../../public/img/blog/tirolesa.jpg";
 import ImgCocoBongo from "./../../../public/img/blog/cocoBongo.jpeg";
+import CajaCTApost from "../../components/Blog/CajaCTApost";
 
 export default function Blog5ActividadesImperdibles({
   relacionados,
@@ -215,9 +216,7 @@ export default function Blog5ActividadesImperdibles({
                 </Parrafo>
               </CajaRazon>
 
-              <CajaRazon>
-                <Btnsimple onClick={() => navigate("/")}>Reservar</Btnsimple>
-              </CajaRazon>
+              <CajaCTApost />
             </CajaTexto>
           </CajaInterna>
           <CajaInterna className="der">
