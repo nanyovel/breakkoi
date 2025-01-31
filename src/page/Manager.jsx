@@ -10,6 +10,8 @@ import Admin01Dashboard from "./partes04Admin/admin01Dashboard";
 import Admin01ListaUser from "./partes04Admin/Admin01ListaUser";
 import Admin01ViewPerfilDash from "./partes04Admin/Admin01ViewPerfilDash";
 import Admin04Blog from "./partes04Admin/Admin04Blog";
+import Admin02Feedback from "./partes04Admin/Admin02Feedback";
+import Admin03Propiedades from "./partes04Admin/Admin03Propiedades";
 
 export default function Manager({ setDBUsuarios, dbUsuarios }) {
   // ********************* RECURSOS GENERALES *********************
@@ -91,11 +93,15 @@ export default function Manager({ setDBUsuarios, dbUsuarios }) {
   useEffect(() => {
     (async () => {
       if (usuario) {
+        const propiedadesDB = await fetchGetDocs("propiedades", []);
+        const postDB = await fetchGetDocs("post", []);
         const usuariosDBAux = await fetchGetDocs("usuarios", []);
         setDBUsuarios(usuariosDBAux);
         setStats({
           ...stats,
           usuarios: usuariosDBAux.length,
+          propiedades: propiedadesDB.length,
+          qtyPost: postDB.length,
         });
       }
     })();
@@ -120,7 +126,8 @@ export default function Manager({ setDBUsuarios, dbUsuarios }) {
                   <Admin01Dashboard stats={stats} dbUsuarios={dbUsuarios} />
                 }
               />
-              <Route path="/propiedades" element={<h2>propiedades</h2>} />
+              <Route path="/feedback" element={<Admin02Feedback />} />
+              <Route path="/propiedades" element={<Admin03Propiedades />} />
               <Route path="/blog" element={<Admin04Blog />} />
               <Route
                 path="/usuarios"

@@ -63,13 +63,16 @@ export const TituloH1 = styled.h1`
 
 export const InputGeneral = styled.input`
   width: 100%;
-  height: 40px;
+  height: 35px;
   border-radius: 5px;
   border: 1px solid #000;
   outline: none;
   padding: 10px;
   color: ${theme.primary.turquoiseBrillante};
   background-color: ${theme.complementary.midnightBlue};
+  &:focus {
+    border: 1px solid ${theme.primary.turquoiseBrillante};
+  }
 `;
 export const TextAreaGeneral = styled.textarea`
   width: 100%;
@@ -80,6 +83,9 @@ export const TextAreaGeneral = styled.textarea`
   padding: 10px;
   color: ${theme.primary.turquoiseBrillante};
   background-color: ${theme.complementary.midnightBlue};
+  &:focus {
+    border: 1px solid ${theme.primary.turquoiseBrillante};
+  }
 `;
 
 export const OpciongGneral = styled.option``;
@@ -93,7 +99,6 @@ const CajaInput = styled.div`
     width: 100%;
     display: flex;
     justify-content: center;
-    /* margin-bottom: 40px; */
   }
   &.links {
     display: flex;
@@ -134,6 +139,39 @@ const Input = styled(InputGeneral)`
     }
   }
 `;
+
+export const MenuDesplegable = styled.select`
+  outline: none;
+  border: none;
+  color: ${theme.primary.turquoiseBrillante};
+  background-color: ${theme.complementary.midnightBlue};
+  height: 35px;
+  min-width: 180px;
+  padding: 5px;
+  border-radius: 4px;
+  &.cabecera {
+    border: 1px solid ${theme.azulOscuro1Sbetav2};
+  }
+
+  &:focus {
+    border: 1px solid ${theme.primary.turquoiseBrillante};
+  }
+
+  &.altoDetalle {
+    height: 20px;
+    border-radius: 0;
+  }
+  &.disabled {
+    background-color: ${theme.fondo};
+    color: black;
+  }
+`;
+
+export const Opciones = styled.option`
+  border: none;
+  background-color: ${theme.azulOscuro1Sbetav};
+`;
+
 <CajaInput>
   <TituloInput>Perfil de instagram</TituloInput>
 

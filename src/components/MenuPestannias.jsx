@@ -5,26 +5,34 @@ import styled from "styled-components";
 
 import { Fragment } from "react";
 
-export default function MenuPestannias({ arrayOpciones, handlePestannias }) {
+export default function MenuPestannias({
+  arrayOpciones,
+  handlePestannias,
+  tab,
+}) {
   return (
-    <CajaBarraOpciones>
-      <ListaOpciones>
+    <CajaBarraOpciones className={tab ? "tab" : ""}>
+      <ListaOpciones className={tab ? "tab" : ""}>
         {arrayOpciones.map((opciones, index) => {
           return (
-            <Fragment key={index}>
+            <WrapOpcion key={index} className={tab ? "tab" : ""}>
               <OpcionLI
                 key={index}
                 name={opciones.nombre}
-                className={opciones.select ? " selected " : ""}
+                className={`
+                  ${opciones.select ? " selected " : ""}
+                  ${tab ? " tab " : ""}
+                `}
               >
                 <AnchorText
                   data-id={index}
                   onClick={(e) => handlePestannias(e)}
+                  className={tab ? "tab" : ""}
                 >
                   {opciones.nombre}
                 </AnchorText>
               </OpcionLI>
-            </Fragment>
+            </WrapOpcion>
           );
         })}
       </ListaOpciones>
@@ -35,10 +43,17 @@ export default function MenuPestannias({ arrayOpciones, handlePestannias }) {
 const CajaBarraOpciones = styled.div`
   color: ${theme.textoBlancoEdtem};
   border-bottom: 1px solid ${theme.primary.neutral200};
+
+  &.tab {
+    background-color: ${theme.secondary.coral};
+  }
 `;
 const ListaOpciones = styled.ul`
   display: flex;
   list-style: none;
+`;
+const WrapOpcion = styled.div`
+  height: 40px;
 `;
 const OpcionLI = styled.li`
   font-size: 1.1rem;
@@ -46,11 +61,21 @@ const OpcionLI = styled.li`
   /* margin: 5px; */
   padding: 6px;
   border-bottom: 4px solid transparent;
+  transition: 0.2s ease all;
   &.selected {
     border-bottom-color: white;
     color: ${theme.primary.turquoise};
     color: white;
   }
+  &.tab {
+    border-bottom: none;
+    background-color: ${theme.primary.neutral200};
+    color: black;
+    &.selected {
+      background-color: ${theme.secondary.coral};
+    }
+  }
+  /* background-color: ${theme.primary.neutral600}; */
 `;
 const AnchorText = styled.a`
   cursor: pointer;
@@ -58,5 +83,8 @@ const AnchorText = styled.a`
   padding: 4px;
   &:hover {
     color: ${theme.primary.sand};
+    &.tab {
+      color: ${theme.primary.neutral500};
+    }
   }
 `;

@@ -9,7 +9,6 @@ import PageContact from "../page/PageContact";
 import Nosotros from "../page/Nosotros";
 
 import ListaBlog from "../page/ListaBlog";
-import DetalleBlog from "../view/DetalleBlog";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Perfil from "../page/Perfil";
@@ -24,6 +23,7 @@ import Registrarse from "../Auth/Registrarse";
 import ResetPassword from "../Auth/ResetPassword";
 import MenuLateral from "../components/MenuLateral";
 import Manager from "../page/Manager";
+import DetalleBlog2 from "../view/DetalleBlog";
 
 export default function MasterRoutes({
   userMaster,
@@ -78,7 +78,7 @@ export default function MasterRoutes({
         <Route path="/blog/" element={<ListaBlog />} />
         <Route
           path="/blog/*"
-          element={<DetalleBlog userMaster={userMaster} />}
+          element={<DetalleBlog2 userMaster={userMaster} />}
         />
         <Route path="/contactos/" element={<PageContact />} />
         <Route

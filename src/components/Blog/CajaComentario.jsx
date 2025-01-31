@@ -99,6 +99,8 @@ export default function CajaComentario({ currentPost, userMaster }) {
     }
 
     // Si todo esta correcto
+    console.log(currentPost);
+    console.log(userMaster);
     try {
       const postCargar = {
         ...CommentSchema,

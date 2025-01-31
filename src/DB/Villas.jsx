@@ -88,9 +88,9 @@ import ImgDucha from "./../../public/icon/ducha.png";
 export const Villas = [
   {
     // id: "",
-    url: "villa-koi-punta-cana",
+    url: "villa-koi-punta-cana-firebase",
     titulo: "Villa Koi Punta Cana",
-    fotoPrincipal: "",
+    imagenDestacada: "",
     fotos: [
       "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTE1NjEzMDE3NDA5MjQ3Mjg5MQ%3D%3D/original/3513a864-90ce-457b-a8eb-6f7c9faa9548.jpeg?im_w=1200&im_format=avif",
       "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTE1NjEzMDE3NDA5MjQ3Mjg5MQ%3D%3D/original/629d535f-22f5-45d7-8f62-e6a9e846acf5.jpeg?im_w=720&im_format=avif",

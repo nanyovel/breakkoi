@@ -4,7 +4,6 @@ import { theme } from "../config/theme";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { TituloSeccion } from "../components/ElementosGenerales";
-// import { BlogsDB } from "../DB/BlogsDB";
 import { Route, Routes } from "react-router";
 import Blog1RazonesVillaVSHotel from "./BLOGS/Blog1RazonesVillaVSHotel";
 import Blog2GuiaVacacionesPuntaCana from "./BLOGS/Blog2GuiaVacacionesPuntaCana";
@@ -18,7 +17,7 @@ import Blog4QueEmpacar from "./BLOGS/Blog4QueEmpacar";
 import Blog5ActividadesImperdibles from "./BLOGS/Blog5ActividadesImperdibles";
 import Blog6NocturnoDisco from "./BLOGS/Blog6NocturnoDisco";
 
-export default function DetalleBlog({ userMaster }) {
+export default function DetalleBlog2({ userMaster }) {
   const usuario = useAuth().usuario;
   const [currentPost, setCurrentPost] = useState(null);
 
