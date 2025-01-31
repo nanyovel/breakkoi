@@ -9,7 +9,7 @@ import ImgPost from "./../../../public/icon/stats/post.png";
 import ImgUser from "./../../../public/icon/stats/usuario.png";
 import { NavLink } from "react-router";
 
-export default function Admin01Dashboard({ stats }) {
+export default function Admin01Dashboard2({ stats }) {
   const [arrayElement, setArrayElements] = useState([]);
   useEffect(() => {
     setArrayElements([

@@ -6,12 +6,13 @@ import { Route, Routes, useLocation, useNavigate } from "react-router";
 
 import { fetchGetDocs } from "../libs/FetchFirebase";
 import { useAuth } from "../context/AuthContext";
-import Admin01Dashboard from "./partes04Admin/admin01Dashboard";
+
 import Admin01ListaUser from "./partes04Admin/Admin01ListaUser";
 import Admin01ViewPerfilDash from "./partes04Admin/Admin01ViewPerfilDash";
 import Admin04Blog from "./partes04Admin/Admin04Blog";
 import Admin02Feedback from "./partes04Admin/Admin02Feedback";
 import Admin03Propiedades from "./partes04Admin/Admin03Propiedades";
+import Admin01Dashboard2 from "./partes04Admin/Admin01Dashboard2";
 
 export default function Manager({ setDBUsuarios, dbUsuarios }) {
   // ********************* RECURSOS GENERALES *********************
@@ -123,7 +124,7 @@ export default function Manager({ setDBUsuarios, dbUsuarios }) {
               <Route
                 path="/dashboard"
                 element={
-                  <Admin01Dashboard stats={stats} dbUsuarios={dbUsuarios} />
+                  <Admin01Dashboard2 stats={stats} dbUsuarios={dbUsuarios} />
                 }
               />
               <Route path="/feedback" element={<Admin02Feedback />} />
