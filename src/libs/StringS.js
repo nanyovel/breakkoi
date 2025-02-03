@@ -9,3 +9,17 @@ export const formatoCorreo = (value) => {
 // -webkit-box-orient: vertical;
 // overflow: hidden;
 // text-overflow: ellipsis;
+export const generarSlug = (texto) => {
+  return texto
+    .toLowerCase() // Convierte todo a minúsculas
+    .replace(/á|à|ä|â/g, "a") // Reemplaza acentos
+    .replace(/é|è|ë|ê/g, "e")
+    .replace(/í|ì|ï|î/g, "i")
+    .replace(/ó|ò|ö|ô/g, "o")
+    .replace(/ú|ù|ü|û/g, "u")
+    .replace(/ñ/g, "n") // Reemplaza la ñ por n
+    .replace(/[^a-z0-9\s-]/g, "") // Elimina caracteres especiales
+    .trim() // Elimina espacios en los extremos
+    .replace(/\s+/g, "-") // Reemplaza espacios por guiones
+    .replace(/-+/g, "-"); // Evita múltiples guiones seguidos
+};

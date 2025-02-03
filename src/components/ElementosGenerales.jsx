@@ -14,7 +14,7 @@ export const BtnGeneral = styled.button`
   border: 1px solid ${theme.primary.neutral200};
   font-size: 1rem;
   background-color: ${theme.primary.turquoise};
-  color: white;
+  color: ${theme.primary.neutral650};
   box-shadow: 3px 3px 3px -1px rgba(0, 0, 0, 0.43);
   display: inline-block;
 
@@ -31,7 +31,7 @@ export const BtnGeneral = styled.button`
 
   &.danger {
     background-color: red;
-    color: white;
+    color: ${theme.primary.neutral650};
     &:hover {
       color: red;
       background-color: white;

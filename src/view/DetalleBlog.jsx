@@ -1,16 +1,12 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { theme } from "../config/theme";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
-import { TituloSeccion } from "../components/ElementosGenerales";
 import { Route, Routes } from "react-router";
 import Blog1RazonesVillaVSHotel from "./BLOGS/Blog1RazonesVillaVSHotel";
 import Blog2GuiaVacacionesPuntaCana from "./BLOGS/Blog2GuiaVacacionesPuntaCana";
 import CajaFinal from "../components/Blog/CajaFinal";
 import { useAuth } from "../context/AuthContext";
 import { fetchFindAnyContains } from "../libs/FetchFirebase";
-import BotonQuery from "../components/BotonQuery";
 import CajaComentario from "../components/Blog/CajaComentario";
 import Blog3GuiaComida from "./BLOGS/Blog3GuiaComida";
 import Blog4QueEmpacar from "./BLOGS/Blog4QueEmpacar";

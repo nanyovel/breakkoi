@@ -1,10 +1,11 @@
-const propiedad = {
+export const PropsSchema = {
   url: "",
   titulo: "",
   subTitulo: "",
   imagenDestacada: "",
+  textoResumen: "",
 
-  imagenes: [
+  areas: [
     {
       fotos: [
         {
@@ -34,13 +35,10 @@ const propiedad = {
   amenidades: [
     {
       categoria: "",
-      amenidades: [
-        {
-          amenidad: "",
-          icono: "",
-          texto: "",
-        },
-      ],
+      code: "",
+      icono: "",
+      texto: "",
+      resumido: false,
     },
   ],
   textoCopy: {

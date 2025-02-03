@@ -50,12 +50,7 @@ export default function Amenidades({ amenidades, bntOff }) {
               return (
                 <Item key={index}>
                   {am.iconoImg ? (
-                    <ImgIcon
-                      // src={ImgPeriquera}
-                      // width={anchoIconos}
-                      $width={anchoIconos}
-                      src={am.icono}
-                    />
+                    <ImgIcon $width={anchoIconos} src={am.icono} />
                   ) : (
                     <am.icono
                       width={anchoIconos}
@@ -85,7 +80,6 @@ const Lista = styled.ul`
   &.scroll {
     overflow-y: scroll;
     height: 100%;
-    /* background-color: red; */
   }
 `;
 const Item = styled.li`
@@ -93,7 +87,6 @@ const Item = styled.li`
   justify-content: start;
   gap: 20px;
   align-items: center;
-  /* border: 1px solid red; */
   text-align: start;
   font-size: 1.1rem;
   color: ${theme.primary.neutral600};
@@ -102,9 +95,6 @@ const Item = styled.li`
 const CajaBnt = styled.div`
   width: 100%;
   display: flex;
-  /* border: 1px solid ; */
-  /* justify-content: center; */
-  /* border-bottom: 1px solid ${theme.primary.neutral200}; */
 `;
 const BtnSimple = styled(BtnGeneral)``;
 const ImgIcon = styled.img`

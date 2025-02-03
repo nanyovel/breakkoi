@@ -20,7 +20,7 @@ export default function CardVillas({ villa }) {
   return (
     <WrapPropiedades>
       <CajaInt className="izq">
-        <ImgPrincipal src="http://localhost:5173/src/assets/store/ninniaPool.png" />
+        <ImgPrincipal src="https://firebasestorage.googleapis.com/v0/b/breakkoi.firebasestorage.app/o/imgPost%2FIMG-20250130-WA0019.jpg?alt=media&token=2768067a-60a9-4972-a1b8-ecc9263aa5d4" />
       </CajaInt>
       <CajaInt className="der">
         <TituloCard>{villa.titulo}</TituloCard>
