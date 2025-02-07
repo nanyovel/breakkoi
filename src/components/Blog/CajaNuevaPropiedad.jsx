@@ -19,7 +19,6 @@ import {
 } from "firebase/firestore";
 
 import db, { storage } from "../../firebase/firebaseConfig";
-import { PostSchema } from "../../model/PostSchema";
 import { ES6AFormat } from "../../libs/FechaFormat";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { AreasPropiedades, TipoLugaresCercanos } from "../../libs/Corporativo";
@@ -27,21 +26,38 @@ import { PropsSchema } from "../../model/PropsSchema";
 import ListaAmenidades from "../../libs/ListaAmenidades";
 import { generarSlug } from "../../libs/StringS";
 import Modal from "../Modal";
+import { ModalLoading } from "../ModalLoading";
 
 export default function CajaNuevaPropiedad() {
+  const [isLoading, setIsLoading] = useState(false);
+
   const valueOpcionFotoArea = {
     ...PropsSchema.areas[0].fotos[0],
     // ❌❌❌Estas dos propiedades son provisionales y no debe ser subida a la base de datos❌❌❌
     fotosAreaUrlLocal: [],
     filesImg: [],
   };
+  const valueOpcionFotoLugar = {
+    ...PropsSchema.lugaresCercano[0].lugares[0],
+    // ❌❌❌Estas dos propiedades son provisionales y no debe ser subida a la base de datos❌❌❌
+    fotosLugarUrlLocal: [],
+    filesImg: [],
+  };
   const initialValue = {
     ...PropsSchema,
     areas: AreasPropiedades.map((area, index) => {
       return {
-        area: area,
+        ...area,
+        area: area.nombre,
         select: false,
-        fotos: [{ ...valueOpcionFotoArea }, { ...valueOpcionFotoArea }],
+
+        fotos: [
+          { ...valueOpcionFotoArea },
+          { ...valueOpcionFotoArea },
+          { ...valueOpcionFotoArea },
+          { ...valueOpcionFotoArea },
+          { ...valueOpcionFotoArea },
+        ],
       };
     }),
     amenidades: ListaAmenidades.map((am, index) => {
@@ -49,6 +65,28 @@ export default function CajaNuevaPropiedad() {
         ...am,
         disponible: true,
         resumida: am.resumida == true,
+      };
+    }),
+    textoCopy: {
+      ...PropsSchema.textoCopy,
+      parrafos: [
+        ...PropsSchema.textoCopy.parrafos,
+        ...PropsSchema.textoCopy.parrafos,
+        ...PropsSchema.textoCopy.parrafos,
+      ],
+    },
+    lugaresCercano: TipoLugaresCercanos.map((lugar, index) => {
+      return {
+        ...lugar,
+        tipo: lugar.nombre,
+        select: false,
+        lugares: [
+          { ...valueOpcionFotoLugar },
+          { ...valueOpcionFotoLugar },
+          { ...valueOpcionFotoLugar },
+          { ...valueOpcionFotoLugar },
+          { ...valueOpcionFotoLugar },
+        ],
       };
     }),
 
@@ -67,22 +105,68 @@ export default function CajaNuevaPropiedad() {
     const tipoData = e.target.dataset.tipo;
     const indexData = e.target.dataset.index;
 
-    if (name == "area") {
-      const nuevaAreas = valueInputProps.areas.map((opcion, index) => {
-        if (value == opcion.area) {
-          return {
-            ...opcion,
-            select: true,
-          };
-        } else {
-          return { ...opcion, select: false };
-        }
-      });
+    if (tipoData == "areas") {
+      if (name == "area") {
+        const nuevaAreas = valueInputProps.areas.map((opcion, index) => {
+          if (value == opcion.area) {
+            return {
+              ...opcion,
+              select: true,
+            };
+          } else {
+            return { ...opcion, select: false };
+          }
+        });
 
-      setValueInputProps({
-        ...valueInputProps,
-        areas: [...nuevaAreas],
-      });
+        setValueInputProps({
+          ...valueInputProps,
+          areas: [...nuevaAreas],
+        });
+      } else if (name == "textoImagen") {
+        setValueInputProps((prevState) => ({
+          ...prevState,
+          areas: prevState.areas.map((area, index) => {
+            if (area.select == true) {
+              return {
+                ...area,
+                fotos: area.fotos.map((foto, i) => {
+                  if (i == indexData) {
+                    return {
+                      ...foto,
+                      texto: value,
+                    };
+                  } else {
+                    return foto;
+                  }
+                }),
+              };
+            } else {
+              return area;
+            }
+          }),
+        }));
+      } else if (name == "otra" || name == "subTextoImagen") {
+        if (name == "otra") {
+          setValueOtra({
+            ...valueOtra,
+            area: value,
+          });
+        } else if (name == "subTextoImagen") {
+          setValueOtra({
+            ...valueOtra,
+            fotos: valueOtra.fotos.map((foto, index) => {
+              if (index == indexData) {
+                return {
+                  ...foto,
+                  texto: value,
+                };
+              } else {
+                return foto;
+              }
+            }),
+          });
+        }
+      }
     } else if (tipoData == "principales") {
       setValueInputProps({
         ...valueInputProps,
@@ -95,15 +179,100 @@ export default function CajaNuevaPropiedad() {
         },
       });
     } else if (tipoData == "amenidades") {
-      setValueInputProps({
-        ...valueInputProps,
-        amenidades: valueInputProps.amenidades.map((am, index) => {
-          return {
-            ...am,
-            [name]: index == indexData ? e.target.checked : am[name],
-          };
-        }),
-      });
+      if (name == "resumida") {
+        setValueInputProps({
+          ...valueInputProps,
+          amenidades: valueInputProps.amenidades.map((am, index) => {
+            return {
+              ...am,
+              resumida: index == indexData ? e.target.checked : am.resumida,
+              disponible:
+                index == indexData
+                  ? e.target.checked == true
+                    ? true
+                    : am.disponible
+                  : am.disponible,
+            };
+          }),
+        });
+      } else if (name == "disponible") {
+        setValueInputProps({
+          ...valueInputProps,
+          amenidades: valueInputProps.amenidades.map((am, index) => {
+            return {
+              ...am,
+              disponible: index == indexData ? e.target.checked : am.disponible,
+            };
+          }),
+        });
+      }
+    } else if (tipoData == "textoCopy") {
+      if (name == "tituloPrincipal" || name == "copyResumido") {
+        setValueInputProps((prevState) => ({
+          ...prevState,
+          textoCopy: {
+            ...prevState.textoCopy,
+            [name]: value,
+          },
+        }));
+      } else {
+        setValueInputProps((prevState) => ({
+          ...prevState,
+          textoCopy: {
+            ...prevState.textoCopy,
+            parrafos: prevState.textoCopy.parrafos.map((parrafo, index) => {
+              return {
+                ...parrafo,
+                [name]: index == indexData ? value : parrafo[name],
+              };
+            }),
+          },
+        }));
+      }
+    } else if (tipoData == "lugaresCercano") {
+      if (name == "lugar") {
+        const lugarAux = valueInputProps.lugaresCercano.map((opcion, index) => {
+          if (value == opcion.tipo) {
+            return {
+              ...opcion,
+              select: true,
+            };
+          } else {
+            return { ...opcion, select: false };
+          }
+        });
+        console.log(lugarAux);
+        setValueInputProps({
+          ...valueInputProps,
+          lugaresCercano: [...lugarAux],
+        });
+      } else if (name == "otroTipoLugar") {
+        setValueOtroTipoLugar({
+          ...valueOtroTipoLugar,
+          tipo: value,
+        });
+      } else {
+        const romo = {
+          ...valueInputProps,
+          lugaresCercano: valueInputProps.lugaresCercano.map((tipoLugar, i) => {
+            if (tipoLugar.select) {
+              return {
+                ...tipoLugar,
+                lugares: tipoLugar.lugares.map((place, i) => {
+                  return {
+                    ...place,
+                    [name]: indexData == i ? value : place[name],
+                  };
+                }),
+              };
+            } else {
+              return tipoLugar;
+            }
+          }),
+        };
+        console.log(romo);
+        setValueInputProps(romo);
+      }
     } else {
       setValueInputProps((prevState) => ({
         ...prevState,
@@ -111,51 +280,7 @@ export default function CajaNuevaPropiedad() {
       }));
     }
   };
-
-  const [hasModal, setHasModal] = useState(false);
-  const [imagenesSelectArea, setImagenesSelectArea] = useState([]);
-  const handleInputSub = (e) => {
-    const { name, value } = e.target;
-    const indexData = e.target.dataset.index;
-    if (name == "textoImagen") {
-      setValueInputProps((prevState) => ({
-        ...prevState,
-        areas: prevState.areas.map((area, index) => {
-          if (area.select == true) {
-            return {
-              ...area,
-              fotos: area.fotos.map((foto, i) => {
-                if (i == indexData) {
-                  return {
-                    ...foto,
-                    texto: value,
-                  };
-                } else {
-                  return foto;
-                }
-              }),
-            };
-          } else {
-            return area;
-          }
-        }),
-      }));
-    } else if (name == "mostrarFotos") {
-      let areaSelect = [];
-      console.log(hasOtra);
-      if (!hasOtra) {
-        areaSelect = valueInputProps.areas.find((area) => area.select);
-      } else if (hasOtra) {
-        areaSelect = valueOtra;
-      }
-
-      setHasModal(true);
-      console.log(areaSelect);
-      setImagenesSelectArea(areaSelect.fotos);
-    }
-  };
-
-  //   Manejo de la imagen principal
+  // ********** CARGA DE IMAGENES **********
   const [fileImgDestacada, setFileImgDestacada] = useState(null);
   const handleFile = (e) => {
     const { name, files } = e.target;
@@ -167,8 +292,9 @@ export default function CajaNuevaPropiedad() {
         setValueInputProps((prevState) => ({
           ...prevState,
           imagenDestacada: imgUrl,
+
+          fileImgDestacada: archivo,
         }));
-        setFileImgDestacada(archivo);
       } else if (name == "imagenArea") {
         const archivo = files[0];
         const imgUrl = URL.createObjectURL(archivo);
@@ -196,200 +322,274 @@ export default function CajaNuevaPropiedad() {
             }
           }),
         }));
-      } else if (name == "imagenAreaOtra") {
+      } else if (name == "logo") {
         const archivo = files[0];
         const imgUrl = URL.createObjectURL(archivo);
-        setValueOtra({
-          ...valueOtra,
-          fotos: valueOtra.fotos.map((foto, i) => {
-            if (i == indexData) {
+        setValueInputProps((prevState) => ({
+          ...prevState,
+          lugaresCercano: prevState.lugaresCercano.map((lugar) => {
+            if (lugar.select) {
               return {
-                ...foto,
-                fotosAreaUrlLocal: imgUrl,
-                filesImg: archivo,
+                ...lugar,
+                lugares: lugar.lugares.map((place, i) => {
+                  if (i == indexData) {
+                    return {
+                      ...place,
+                      fotosAreaUrlLocal: imgUrl,
+                      filesImg: archivo,
+                    };
+                  } else {
+                    return place;
+                  }
+                }),
               };
             } else {
-              return foto;
+              return lugar;
             }
           }),
-        });
+        }));
       }
     }
   };
 
-  // ********* MANEJANDO NUEVA AREA *********
-  const [hasOtra, setHasOtra] = useState(false);
+  // ********** SOBRE AREAS **********
+  const [hasModal, setHasModal] = useState(false);
+  const [imagenesSelectArea, setImagenesSelectArea] = useState([]);
+
+  // nueva area
   const initialOtra = {
     ...initialValue.areas[0],
     area: "",
   };
   const [valueOtra, setValueOtra] = useState({ ...initialOtra });
+  //
+  const initialOtroTipoLugar = {
+    ...initialValue.lugaresCercano[0],
+    tipo: "",
+  };
+  const [valueOtroTipoLugar, setValueOtroTipoLugar] = useState({
+    ...initialOtroTipoLugar,
+  });
 
-  const handleOtra = (e) => {
-    const indexData = e.target.dataset.index;
-    const { name, value } = e.target;
-    if (name == "otra") {
-      setValueOtra({
-        ...valueOtra,
-        area: value,
-      });
-    } else if (name == "subTextoImagen") {
-      setValueOtra({
-        ...valueOtra,
-        fotos: valueOtra.fotos.map((foto, i) => {
-          if (i == indexData) {
-            return {
-              ...foto,
-              texto: value,
-            };
-          } else {
-            return foto;
-          }
-        }),
-      });
-    }
-
-    // Adicionar o quitar otra
-    const dataNombre = e.target.dataset.nombre;
-    if (dataNombre == "hasOtra") {
-      setValueInputProps({
-        ...valueInputProps,
-        areas: valueInputProps.areas.map((area, index) => {
-          return {
-            ...area,
-            select: false,
-          };
-        }),
-      });
-      setHasOtra(true);
-    } else if (dataNombre == "noneOtra") {
-      setHasOtra(false);
-      setValueOtra({ ...initialOtra });
-    } else if (dataNombre == "salvar") {
-      setHasOtra(false);
-      // const nuevoValor = { select:
-      // false, fotos: [], area: "francia" };
+  const handleBtnsSome = (e) => {
+    const { name } = e.target;
+    console.log(name);
+    // ***Areas****
+    if (name == "addOtra") {
       const areas = [...valueInputProps.areas, valueOtra];
-      // setValueInputProps((prevState) => ({
-      //   ...prevState,
-      //   areas: areas,
-      // }));
-
       setValueInputProps({
         ...valueInputProps,
         areas: areas,
       });
       setValueOtra({ ...initialOtra });
+    } else if (name == "verFotos") {
+      setHasModal(true);
+      const areaSelect = valueInputProps.areas.find((area) => area.select);
+
+      setImagenesSelectArea(areaSelect.fotos);
+    }
+    // ***Lugares Cercanos****
+    else if (name == "verLugar") {
+      setHasModal(true);
+      const areaSelect = valueInputProps.areas.find((area) => area.select);
+
+      setImagenesSelectArea(areaSelect.fotos);
+    }
+    if (name == "addOtroTipoLugar") {
+      const tipoLugar = [...valueInputProps.lugaresCercano, valueOtroTipoLugar];
+      setValueInputProps({
+        ...valueInputProps,
+        lugaresCercano: tipoLugar,
+      });
+      setValueOtroTipoLugar({ ...initialOtroTipoLugar });
     }
   };
 
-  const addFotoArea = (operacion) => {
-    console.log(hasOtra);
-    console.log(operacion);
-    if (operacion == "suma") {
-      if (!hasOtra) {
-        setValueInputProps((prevState) => ({
-          ...prevState,
-          areas: prevState.areas.map((area, index) => {
-            return {
-              ...area,
-              fotos: area.select
-                ? [...area.fotos, { ...valueOpcionFotoArea }]
-                : [...area.fotos],
-            };
-          }),
-        }));
-      } else {
-        setValueOtra({
-          ...valueOtra,
-          fotos: [...valueOtra.fotos, { ...valueOpcionFotoArea }],
-        });
-      }
-    } else if (operacion == "resta") {
-      if (!hasOtra) {
-        setValueInputProps((prevState) => ({
-          ...prevState,
-          areas: prevState.areas.map((area, index) => {
-            return {
-              ...area,
-              fotos: area.select
-                ? area.fotos.filter(
-                    (_, index) => index !== area.fotos.length - 1
-                  )
-                : [...area.fotos],
-            };
-          }),
-        }));
-      } else {
-        console.log("llega");
-        setValueOtra({
-          ...valueOtra,
-          fotos: valueOtra.fotos.filter(
-            (_, index) => index !== valueOtra.fotos.length - 1
-          ),
-        });
-      }
-    }
-  };
-
+  // verificar
   const anchoIconos = "2rem";
-
-  const valueOpcionLugares = {
-    ...PropsSchema.lugaresCercano[0].lugares[0],
-  };
-  const tipoLugarCercanoAux = [...TipoLugaresCercanos];
-  const [valueLugarCercano, setValueLugarCercano] = useState({
-    lugares: tipoLugarCercanoAux.map((area, index) => {
-      return {
-        select: false,
-        area: area,
-        lugares: [{ ...valueOpcionLugares }],
-      };
-    }),
-  });
 
   const enviarObjeto = async () => {
     // SI algun campo esta vacio
-    // SI algun campo esta vacio
-    // SI algun campo esta vacio
 
+    // FILTROS----ELIMINAR PROPIEDADES QUE NO NECESITE
+    const { fileImgDestacada, ...valueParsedImgDest } = valueInputProps;
+
+    // ----LUGARES CERCANOS
+    const valueParsedLugaresCercanos = {
+      ...valueParsedImgDest,
+      lugaresCercano: valueParsedImgDest.lugaresCercano.map((lugar) => {
+        const lugaresParsed = lugar.lugares
+          .filter((place) => {
+            if (place.filesImg.name) {
+              return place;
+            }
+          })
+          .map((place) => {
+            return {
+              ...place,
+              filesImg: "",
+            };
+          });
+        return {
+          ...lugar,
+          lugares: lugaresParsed,
+        };
+      }),
+    };
+    console.log(valueParsedLugaresCercanos);
+    const valueParsedLugares = {
+      ...valueParsedLugaresCercanos,
+      lugaresCercano: valueParsedLugaresCercanos.lugaresCercano.filter(
+        (lugar) => {
+          if (lugar.lugares.length > 0) {
+            return lugar;
+          }
+        }
+      ),
+    };
+    console.log(valueParsedLugares);
+    // ----AMENIDADES
+    const valueParsedAmenidades = {
+      ...valueParsedLugares,
+      amenidades: valueParsedLugares.amenidades
+        .map((am, index) => {
+          return {
+            ...am,
+            icono: "",
+          };
+        })
+        .filter((ame, index) => {
+          if (ame.disponible) {
+            return {
+              ...ame,
+            };
+          }
+        }),
+    };
+
+    const subirImagen = async (file, nombre) => {
+      const storageRef = ref(storage, `imgProps/${nombre}-${Date.now()}`);
+      await uploadBytes(storageRef, file);
+      return getDownloadURL(storageRef);
+    };
+    // return;
     try {
-      const tituloSlug = generarSlug(valueInputProps.titulo);
-      const docRef = doc(collection(db, "post"));
+      setIsLoading(true);
+      const urlImgDestacada = await subirImagen(
+        fileImgDestacada,
+        "imgDestacada"
+      );
 
-      const urlSinEspacios = valueInputProps.keyWords.replaceAll(" ", ",");
-      const texto = urlSinEspacios;
-      const textoSinComasRepetidas = texto.replace(/,+/g, ",");
-      const textoMin = textoSinComasRepetidas.toLowerCase();
-      const urlArray = textoMin.split(",");
-      await setDoc(docRef, {
-        ...PostSchema,
-        ...valueInputProps,
+      // ****AREAS*****
+      // PARSEAR LAS FOTOS DE LAS AREAS Y GENERAL LAS URLS
+      const arrayAreas = await Promise.all(
+        valueInputProps.areas.map(async (area) => {
+          const fotosConURLs = await Promise.all(
+            area.fotos
+              .filter(async (foto) => {
+                if (foto.filesImg.name) {
+                  return { ...foto };
+                }
+              })
+              .map(async (foto) => {
+                const url = await subirImagen(foto.fileImg, foto.texto);
+
+                const {
+                  fotosAreaUrlLocal,
+                  fotosLugarUrlLocal,
+                  filesImg,
+                  ...fotoParsed
+                } = foto;
+
+                return { ...fotoParsed, url: url }; // Reemplaza fileImg con la URL
+              })
+          );
+          console.log(fotosConURLs);
+
+          return { ...area, fotos: fotosConURLs };
+        })
+      );
+      console.log(arrayAreas);
+      const arrayAreasFilter = arrayAreas.filter((area) => {
+        if (area.fotos.length > 0) {
+          return area;
+        }
+      });
+
+      // ****** LUGARESCERCANOS ****
+      // PARSEAR LAS FOTOS DE LUGARES CERCANOS Y GENERAL LAS URLS
+      console.log(valueInputProps);
+      const arrayLugares = await Promise.all(
+        valueInputProps.lugaresCercano.map(async (lugar) => {
+          const fotosConURLs = await Promise.all(
+            lugar.lugares
+              .filter((place) => {
+                if (place.filesImg.name) {
+                  return { ...place };
+                }
+              })
+              .map(async (place) => {
+                const url = await subirImagen(place.fileImg, place.texto);
+
+                const {
+                  fotosAreaUrlLocal,
+                  fotosLugarUrlLocal,
+                  filesImg,
+                  ...placeParsed
+                } = place;
+
+                return { ...placeParsed, url: url }; // Reemplaza fileImg con la URL
+              })
+          );
+          return { ...lugar, lugares: fotosConURLs };
+        })
+      );
+
+      console.log(arrayLugares);
+
+      const arrayLugaresCercanoFilter = arrayLugares.filter((lugar) => {
+        if (lugar.lugares.length > 0) {
+          return lugar;
+        }
+      });
+      console.log(arrayLugaresCercanoFilter);
+      const tituloSlug = generarSlug(valueParsedAmenidades.titulo);
+      const docRef = doc(collection(db, "propiedades"));
+
+      const doSubir = {
+        ...PropsSchema,
+        ...valueParsedAmenidades,
+        fileImgDestacada: urlImgDestacada,
+        areas: arrayAreasFilter,
+        lugaresCercano: arrayLugaresCercanoFilter,
         createAt: ES6AFormat(new Date()),
         timestamp: Timestamp.fromDate(new Date()),
         url: tituloSlug,
-        keyWords: urlArray,
-      });
-      setValueInputProps({ ...initialValue });
+      };
+      console.log(doSubir);
 
-      try {
-        // Cargar foto de perfil
-        const nombreFoto = "imgPost/" + tituloSlug + "__imgDestacada";
-        const storageRefFoto = ref(storage, nombreFoto);
-        const postActualizar = doc(db, "post", docRef.id);
-        if (fileImgDestacada) {
-          await uploadBytes(storageRefFoto, fileImgDestacada).then(() => {}); // Ahora entregame la url de la foto  y colocasela en una propiedad del objeto a actulizar en la base de datos
-          getDownloadURL(ref(storage, storageRefFoto)).then((url) =>
-            updateDoc(postActualizar, {
-              imagenDestacada: url,
-            })
-          );
-        }
-      } catch (error) {
-        console.error(error);
-      }
+      await setDoc(docRef, doSubir);
+      setValueInputProps({ ...initialValue });
+      setIsLoading(false);
+      // try {
+      //   // Cargar foto de perfil
+      //   const nombreFoto = "imgPost/" + tituloSlug + "__imgDestacada";
+      //   const storageRefFoto = ref(storage, nombreFoto);
+      //   const postActualizar = doc(db, "post", docRef.id);
+      //   if (fileImgDestacada) {
+      //     await uploadBytes(storageRefFoto, fileImgDestacada).then(() => {}); // Ahora entregame la url de la foto  y colocasela en una propiedad del objeto a actulizar en la base de datos
+      //     getDownloadURL(ref(storage, storageRefFoto)).then((url) =>
+      //       updateDoc(postActualizar, {
+      //         imagenDestacada: url,
+      //       })
+      //     );
+      //   }
+      // } catch (error) {
+      //   console.error(error);
+      // }
     } catch (error) {
       console.error(error);
+      setIsLoading(false);
     }
   };
   return (
@@ -435,21 +635,11 @@ export default function CajaNuevaPropiedad() {
             onChange={(e) => handleFile(e)}
           />
         </CajaInput>
-        <CajaInput>
-          <TituloInput>Texto resumido</TituloInput>
-          <Textarea
-            value={valueInputProps.textoResumen}
-            name="textoResumen"
-            onChange={(e) => handleInput(e)}
-            type="text"
-            placeholder="Resumen"
-            autoComplete="off"
-          />
-        </CajaInput>
+
         <CajaInput>
           <TituloInput>Fotos de las areas:</TituloInput>
-          <SubCajaInputN1>
-            {!hasOtra ? (
+          <SubCajaInputN1 className="colum">
+            <WrapInputRow>
               <CajaInput className="internalN1">
                 <TituloInternoN2>Area</TituloInternoN2>
                 <MenuDespSimple
@@ -459,6 +649,7 @@ export default function CajaNuevaPropiedad() {
                   }
                   name="area"
                   onChange={(e) => handleInput(e)}
+                  data-tipo={"areas"}
                 >
                   <Opciones disabled defaultValue value={""}>
                     Seleccione area
@@ -471,177 +662,82 @@ export default function CajaNuevaPropiedad() {
                     );
                   })}
                 </MenuDespSimple>
-                <WrapSubInternal>
-                  {"" ||
-                    valueInputProps.areas
-                      .find((opcion) => opcion.select)
-                      ?.fotos.map((opcion, index) => {
-                        return (
-                          <CajaInput key={index} className="subInternalN2">
-                            <Input
-                              value={opcion.texto}
-                              name="textoImagen"
-                              onChange={(e) => handleInputSub(e)}
-                              placeholder="Texto imagen (opcional)"
-                              autoComplete="off"
-                              className="tituloImg"
-                              data-index={index}
-                            />
-                            <Input
-                              className="tituloImg"
-                              type="file"
-                              name="imagenArea"
-                              accept="image/*"
-                              onChange={(e) => handleFile(e)}
-                              // multiple={true}
-                              data-index={index}
-                            />
-                          </CajaInput>
-                        );
-                      })}
-                </WrapSubInternal>
-
-                {valueInputProps.areas.find((opcion) => opcion.select) && (
-                  <CajaBtnInternal>
-                    <BtnSimple
-                      onClick={(e) => addFotoArea("suma")}
-                      className="small"
-                    >
-                      +
-                    </BtnSimple>
-                    <BtnSimple
-                      onClick={(e) => addFotoArea("resta")}
-                      className="small"
-                    >
-                      -
-                    </BtnSimple>
-                    <BtnSimple
-                      className="small"
-                      name="mostrarFotos"
-                      onClick={(e) => handleInputSub(e)}
-                    >
-                      Fotos
-                    </BtnSimple>
-                  </CajaBtnInternal>
-                )}
               </CajaInput>
-            ) : (
               <CajaInput className="internalN1">
-                <TituloInternoN2>Otra indique cual:</TituloInternoN2>
+                <TituloInternoN2>Add area</TituloInternoN2>
                 <Input
                   value={valueOtra.area}
                   name="otra"
-                  onChange={(e) => handleOtra(e)}
-                  placeholder="Area adicional"
-                  autoComplete="off"
+                  onChange={(e) => handleInput(e)}
+                  data-tipo="areas"
                 />
-                <WrapSubInternal>
-                  {valueOtra.fotos.map((foto, index) => {
-                    return (
-                      <CajaInput key={index} className="subInternalN2">
-                        <Input
-                          value={foto.texto}
-                          name="subTextoImagen"
-                          onChange={(e) => handleOtra(e)}
-                          placeholder="Texto imagen (opcional)"
-                          autoComplete="off"
-                          className="tituloImg"
-                          data-index={index}
-                        />
-                        <Input
-                          className="tituloImg"
-                          type="file"
-                          name="imagenAreaOtra"
-                          accept="image/*"
-                          onChange={(e) => handleFile(e)}
-                          // multiple={true}
-                          data-index={index}
-                        />
-                      </CajaInput>
-                    );
-                  })}
-                </WrapSubInternal>
-                <CajaBtnInternal>
-                  <BtnSimple
-                    onClick={(e) => addFotoArea("suma")}
-                    className="small"
-                  >
-                    +
-                  </BtnSimple>
-                  <BtnSimple
-                    onClick={(e) => addFotoArea("resta")}
-                    className="small"
-                  >
-                    -
-                  </BtnSimple>
-                  <BtnSimple
-                    className="small"
-                    name="mostrarFotos"
-                    onClick={(e) => handleInputSub(e)}
-                  >
-                    Fotos
-                  </BtnSimple>
-                </CajaBtnInternal>
-              </CajaInput>
-            )}
-            <CajaInput className="internalN1">
-              <TituloInternoN2>Adicionar area</TituloInternoN2>
-              <Input
-                name="parrafoPrincipalResumido"
-                autoComplete="off"
-                className="none"
-                disabled
-              />
-              {!hasOtra ? (
-                <WrapSubInternal
-                  onClick={(e) => handleOtra(e)}
-                  className="adicional"
-                  title="Adicionar area"
-                  data-nombre="hasOtra"
+                <BtnSimple
+                  name="addOtra"
+                  onClick={(e) => {
+                    handleBtnsSome(e);
+                  }}
                 >
-                  <Parrafo
-                    onClick={(e) => handleOtra(e)}
-                    data-nombre="hasOtra"
-                    className="mas"
-                  >
-                    +
-                  </Parrafo>
-                </WrapSubInternal>
-              ) : (
-                <>
-                  <WrapSubInternal
-                    onClick={(e) => handleOtra(e)}
-                    className="adicional none"
-                    title="Adicionar area"
-                    data-nombre="salvar"
-                  >
-                    <Parrafo
-                      onClick={(e) => handleOtra(e)}
-                      data-nombre="salvar"
-                      className="mas"
-                    >
-                      Salvar
-                    </Parrafo>
-                  </WrapSubInternal>
-                  <WrapSubInternal
-                    onClick={(e) => handleOtra(e)}
-                    className="adicional none"
-                    title="Adicionar area"
-                    data-nombre="noneOtra"
-                  >
-                    <Parrafo
-                      onClick={(e) => handleOtra(e)}
-                      data-nombre="noneOtra"
-                      className="mas"
-                    >
-                      Cancelar
-                    </Parrafo>
-                  </WrapSubInternal>
-                </>
-              )}
-            </CajaInput>
+                  +
+                </BtnSimple>
+              </CajaInput>
+            </WrapInputRow>
+            <CajaTabla>
+              <Tabla>
+                <thead>
+                  <Filas className="cabeza">
+                    <CeldaHead>N°</CeldaHead>
+                    <CeldaHead>Titulo</CeldaHead>
+                    <CeldaHead>Img</CeldaHead>
+                    <CeldaHead>Ver</CeldaHead>
+                  </Filas>
+                </thead>
+                <tbody>
+                  {"" ||
+                    valueInputProps.areas
+                      .find((area) => area.select)
+                      ?.fotos.map((foto, index) => {
+                        return (
+                          <Filas key={index} className="body">
+                            <CeldasBody>{index + 1}</CeldasBody>
+                            <CeldasBody>
+                              <Input
+                                data-tipo="areas"
+                                name="textoImagen"
+                                className="tabla"
+                                value={foto.texto}
+                                data-index={index}
+                                onChange={(e) => handleInput(e)}
+                              />
+                            </CeldasBody>
+
+                            <CeldasBody>
+                              <Input
+                                className="tabla"
+                                data-index={index}
+                                name="imagenArea"
+                                type="file"
+                                accept="image/*"
+                                onChange={(e) => handleFile(e)}
+                              />
+                            </CeldasBody>
+                            <CeldasBody>
+                              <BtnSimple
+                                onClick={(e) => handleBtnsSome(e)}
+                                className="tabla"
+                                name="verFotos"
+                              >
+                                Ver
+                              </BtnSimple>
+                            </CeldasBody>
+                          </Filas>
+                        );
+                      })}
+                </tbody>
+              </Tabla>
+            </CajaTabla>
           </SubCajaInputN1>
         </CajaInput>
+
         <CajaInput>
           <TituloInput>Principales</TituloInput>
           <SubCajaInputN1 className="row">
@@ -710,7 +806,7 @@ export default function CajaNuevaPropiedad() {
                   {valueInputProps.amenidades.map((am, index) => {
                     return (
                       <Filas key={index}>
-                        <CeldasBody>{index}</CeldasBody>
+                        <CeldasBody>{index + 1}</CeldasBody>
                         <CeldasBody> {am.categoria} </CeldasBody>
                         <CeldasBody>
                           {am.iconoImg ? (
@@ -760,21 +856,23 @@ export default function CajaNuevaPropiedad() {
             <CajaInput className="internalN1 ancho100">
               <TituloInternoN1>Titulo principal</TituloInternoN1>
               <Input
-                value={valueInputProps.parrafoPrincipalResumido}
-                name="parrafoPrincipalResumido"
+                value={valueInputProps.textoCopy.tituloPrincipal}
+                name="tituloPrincipal"
                 onChange={(e) => handleInput(e)}
-                placeholder="Parrafo principal"
+                placeholder="Titulo principal texto copy"
                 autoComplete="off"
+                data-tipo={"textoCopy"}
               />
             </CajaInput>
             <CajaInput className="internalN1 ancho100">
               <TituloInternoN1>Texto resumido</TituloInternoN1>
               <Textarea
-                value={valueInputProps.parrafoPrincipalResumido}
-                name="parrafoPrincipalResumido"
+                value={valueInputProps.textoCopy.copyResumido}
+                name="copyResumido"
                 onChange={(e) => handleInput(e)}
-                placeholder="Parrafo principal"
+                placeholder="Resumen texto copy"
                 autoComplete="off"
+                data-tipo={"textoCopy"}
               />
             </CajaInput>
             <CajaInput className="internalN1 ancho100 scroll">
@@ -782,57 +880,69 @@ export default function CajaNuevaPropiedad() {
                 <TituloInternoN1 className=" romo">Parrafo 1</TituloInternoN1>
                 <TituloInternoN2>Titulo</TituloInternoN2>
                 <Input
-                  value={valueInputProps.parrafoPrincipalResumido}
-                  name="parrafoPrincipalResumido"
+                  value={valueInputProps.textoCopy.parrafos[0].titulo}
+                  name="titulo"
                   onChange={(e) => handleInput(e)}
-                  placeholder="Parrafo principal"
+                  placeholder="Titulo"
                   autoComplete="off"
+                  data-tipo={"textoCopy"}
+                  data-index={0}
                 />
                 <TituloInternoN2>Parrafo</TituloInternoN2>
                 <Textarea
-                  value={valueInputProps.parrafoPrincipalResumido}
-                  name="parrafoPrincipalResumido"
+                  value={valueInputProps.textoCopy.parrafos[0].texto}
+                  name="texto"
                   onChange={(e) => handleInput(e)}
-                  placeholder="Parrafo"
+                  placeholder="Texto"
                   autoComplete="off"
+                  data-tipo={"textoCopy"}
+                  data-index={0}
                 />
               </CajaSubInternalN2>
               <CajaSubInternalN2 className="parrafo">
                 <TituloInternoN1 className=" romo">Parrafo 2</TituloInternoN1>
                 <TituloInternoN2>Titulo</TituloInternoN2>
                 <Input
-                  value={valueInputProps.parrafoPrincipalResumido}
-                  name="parrafoPrincipalResumido"
+                  value={valueInputProps.textoCopy.parrafos[1].titulo}
+                  name="titulo"
                   onChange={(e) => handleInput(e)}
-                  placeholder="Parrafo"
+                  placeholder="Titulo"
                   autoComplete="off"
+                  data-tipo={"textoCopy"}
+                  data-index={1}
                 />
                 <TituloInternoN2>Parrafo</TituloInternoN2>
                 <Textarea
-                  value={valueInputProps.parrafoPrincipalResumido}
-                  name="parrafoPrincipalResumido"
+                  value={valueInputProps.textoCopy.parrafos[1].texto}
+                  name="texto"
                   onChange={(e) => handleInput(e)}
-                  placeholder="Parrafo "
+                  placeholder="Parrafo"
                   autoComplete="off"
+                  data-tipo={"textoCopy"}
+                  data-index={1}
                 />
               </CajaSubInternalN2>
               <CajaSubInternalN2 className="parrafo">
                 <TituloInternoN1 className=" romo">Parrafo 3</TituloInternoN1>
                 <TituloInternoN2>Titulo</TituloInternoN2>
                 <Input
-                  value={valueInputProps.parrafoPrincipalResumido}
-                  name="parrafoPrincipalResumido"
+                  value={valueInputProps.textoCopy.parrafos[2].titulo}
+                  name="titulo"
                   onChange={(e) => handleInput(e)}
-                  placeholder="Parrafo principal"
+                  placeholder="Titulo"
                   autoComplete="off"
+                  data-tipo={"textoCopy"}
+                  data-index={2}
                 />
                 <TituloInternoN2>Parrafo</TituloInternoN2>
                 <Textarea
-                  value={valueInputProps.parrafoPrincipalResumido}
-                  name="parrafoPrincipalResumido"
+                  value={valueInputProps.textoCopy.parrafos[2].texto}
+                  name="texto"
                   onChange={(e) => handleInput(e)}
-                  placeholder="Parrafo principal"
+                  placeholder="Parrafo"
                   autoComplete="off"
+                  data-tipo={"textoCopy"}
+                  data-index={2}
                 />
               </CajaSubInternalN2>
             </CajaInput>
@@ -840,228 +950,166 @@ export default function CajaNuevaPropiedad() {
         </CajaInput>
         <CajaInput>
           <TituloInput>Lugares cercanos:</TituloInput>
-          <SubCajaInputN1>
-            {!hasOtra ? (
+          <SubCajaInputN1 className="colum">
+            <WrapInputRow>
               <CajaInput className="internalN1">
-                <TituloInternoN2>Area</TituloInternoN2>
+                <TituloInternoN2>Tipo</TituloInternoN2>
                 <MenuDespSimple
-                  // value={
-                  //   valueInput.areas.find((opcion) => opcion.select)?.area || ""
-                  // }
-                  name="area"
-                  // onChange={(e) => handleInput2(e)}
+                  value={
+                    valueInputProps.lugaresCercano.find(
+                      (opcion) => opcion.select
+                    )?.tipo || ""
+                  }
+                  name="lugar"
+                  onChange={(e) => handleInput(e)}
+                  data-tipo={"lugaresCercano"}
                 >
                   <Opciones disabled defaultValue value={""}>
-                    Seleccione tipo
+                    Seleccione tipo de lugar
                   </Opciones>
-                  {valueLugarCercano.lugares.map((opcion, index) => {
+                  {valueInputProps.lugaresCercano.map((opcion, index) => {
                     return (
-                      <Opciones key={index} value={opcion}>
-                        {opcion.area}
+                      <Opciones key={index} value={opcion.tipo}>
+                        {opcion.tipo}
                       </Opciones>
                     );
                   })}
                 </MenuDespSimple>
-                <WrapSubInternal>
+              </CajaInput>
+              <CajaInput className="internalN1">
+                <TituloInternoN2>Add tipo</TituloInternoN2>
+                <Input
+                  value={valueOtroTipoLugar.tipo}
+                  name="otroTipoLugar"
+                  onChange={(e) => handleInput(e)}
+                  data-tipo="lugaresCercano"
+                />
+                <BtnSimple
+                  name="addOtroTipoLugar"
+                  onClick={(e) => {
+                    handleBtnsSome(e);
+                  }}
+                >
+                  +
+                </BtnSimple>
+              </CajaInput>
+            </WrapInputRow>
+            <CajaTabla>
+              <Tabla>
+                <thead>
+                  <Filas className="cabeza">
+                    <CeldaHead>N°</CeldaHead>
+                    <CeldaHead>Nombre</CeldaHead>
+                    <CeldaHead className="small">Logo</CeldaHead>
+                    <CeldaHead className="small">Distancia KMs</CeldaHead>
+                    <CeldaHead className="small">Distancia mnts</CeldaHead>
+                    <CeldaHead>Como llegar</CeldaHead>
+                    <CeldaHead>Ver</CeldaHead>
+                  </Filas>
+                </thead>
+                <tbody>
                   {"" ||
-                    valueInputProps.areas
-                      .find((opcion) => opcion.select)
-                      ?.fotos.map((opcion, index) => {
+                    valueInputProps.lugaresCercano
+                      .find((lugar) => lugar.select)
+                      ?.lugares.map((place, index) => {
                         return (
-                          <CajaInput key={index} className="subInternalN2">
-                            <Input
-                              value={valueInputProps.parrafoPrincipalResumido}
-                              name="parrafoPrincipalResumido"
-                              onChange={(e) => handleInput(e)}
-                              placeholder="Texto imagen (opcional)"
-                              autoComplete="off"
-                              className="tituloImg"
-                            />
-                            <Input
-                              className="tituloImg"
-                              type="file"
-                              name="imagenDestacada"
-                              accept="image/*"
-                              onChange={handleFile}
-                            />
-                          </CajaInput>
+                          <Filas key={index} className="body">
+                            <CeldasBody>{index + 1}</CeldasBody>
+                            <CeldasBody>
+                              <Input
+                                data-tipo="lugaresCercano"
+                                name="nombre"
+                                className="tabla alto100"
+                                value={place.nombre}
+                                data-index={index}
+                                onChange={(e) => handleInput(e)}
+                              />
+                            </CeldasBody>
+
+                            <CeldasBody>
+                              <Input
+                                className="tabla alto100"
+                                data-index={index}
+                                name="logo"
+                                type="file"
+                                accept="image/*"
+                                onChange={(e) => handleFile(e)}
+                              />
+                            </CeldasBody>
+
+                            <CeldasBody>
+                              <Input
+                                data-tipo="lugaresCercano"
+                                name="distanciaKM"
+                                className="tabla alto100"
+                                value={place.distanciaKM}
+                                data-index={index}
+                                onChange={(e) => handleInput(e)}
+                              />
+                            </CeldasBody>
+                            <CeldasBody>
+                              <Input
+                                data-tipo="lugaresCercano"
+                                name="mntsDistancia"
+                                className="tabla alto100"
+                                value={place.mntsDistancia}
+                                data-index={index}
+                                onChange={(e) => handleInput(e)}
+                              />
+                            </CeldasBody>
+                            <CeldasBody>
+                              <Input
+                                data-tipo="lugaresCercano"
+                                name="comoLlegar"
+                                className="tabla alto100"
+                                value={place.comoLlegar}
+                                data-index={index}
+                                onChange={(e) => handleInput(e)}
+                              />
+                            </CeldasBody>
+                            <CeldasBody className="long">
+                              <ImgArea src={place.fotosAreaUrlLocal} />
+                            </CeldasBody>
+                          </Filas>
                         );
                       })}
-                </WrapSubInternal>
-                <CajaBtnInternal>
-                  <BtnSimple
-                    onClick={(e) => addFotoArea("suma")}
-                    className="small"
-                  >
-                    +
-                  </BtnSimple>
-                  <BtnSimple
-                    onClick={(e) => addFotoArea("resta")}
-                    className="small"
-                  >
-                    -
-                  </BtnSimple>
-                  <BtnSimple
-                    className="small"
-                    name="mostrarFotos"
-                    onClick={(e) => handleInputSub(e)}
-                  >
-                    Fotos
-                  </BtnSimple>
-                </CajaBtnInternal>
-              </CajaInput>
-            ) : (
-              <CajaInput className="internalN1">
-                <TituloInternoN2>Otra indique cual:</TituloInternoN2>
-                <Input
-                  value={valueOtra.area}
-                  name="otra"
-                  onChange={(e) => handleOtra(e)}
-                  placeholder="Area adicional"
-                  autoComplete="off"
-                />
-                <WrapSubInternal>
-                  <CajaInput className="subInternalN2">
-                    <Input
-                      value={valueInputProps.parrafoPrincipalResumido}
-                      name="parrafoPrincipalResumido"
-                      onChange={(e) => handleInput(e)}
-                      placeholder="Texto imagen (opcional)"
-                      autoComplete="off"
-                      className="tituloImg"
-                    />
-                    <Input
-                      type="file"
-                      name="imagenDestacada"
-                      accept="image/*"
-                      onChange={handleFile}
-                    />
-                  </CajaInput>
-                  <CajaInput className="subInternalN2">
-                    <Input
-                      value={valueInputProps.parrafoPrincipalResumido}
-                      name="parrafoPrincipalResumido"
-                      onChange={(e) => handleInput(e)}
-                      placeholder="Texto imagen (opcional)"
-                      autoComplete="off"
-                      className="tituloImg"
-                    />
-                    <Input
-                      type="file"
-                      name="imagenDestacada"
-                      accept="image/*"
-                      onChange={handleFile}
-                    />
-                  </CajaInput>
-                </WrapSubInternal>
-                <CajaBtnInternal>
-                  <BtnSimple
-                    onClick={(e) => addFotoArea("suma")}
-                    className="small"
-                  >
-                    +
-                  </BtnSimple>
-                  <BtnSimple
-                    onClick={(e) => addFotoArea("resta")}
-                    className="small"
-                  >
-                    -
-                  </BtnSimple>
-                  <BtnSimple
-                    className="small"
-                    name="mostrarFotos"
-                    onClick={(e) => handleInputSub(e)}
-                  >
-                    Fotos
-                  </BtnSimple>
-                </CajaBtnInternal>
-              </CajaInput>
-            )}
-            <CajaInput className="internalN1">
-              <TituloInternoN2>Adicionar area</TituloInternoN2>
-              <Input
-                name="parrafoPrincipalResumido"
-                autoComplete="off"
-                className="none"
-                disabled
-              />
-              {!hasOtra ? (
-                <WrapSubInternal
-                  onClick={(e) => handleOtra(e)}
-                  className="adicional"
-                  title="Adicionar area"
-                  data-nombre="hasOtra"
-                >
-                  <Parrafo
-                    onClick={(e) => handleOtra(e)}
-                    data-nombre="hasOtra"
-                    className="mas"
-                  >
-                    +
-                  </Parrafo>
-                </WrapSubInternal>
-              ) : (
-                <>
-                  <WrapSubInternal
-                    onClick={(e) => handleOtra(e)}
-                    className="adicional none"
-                    title="Adicionar area"
-                    data-nombre="salvar"
-                  >
-                    <Parrafo
-                      onClick={(e) => handleOtra(e)}
-                      data-nombre="salvar"
-                      className="mas"
-                    >
-                      Salvar
-                    </Parrafo>
-                  </WrapSubInternal>
-                  <WrapSubInternal
-                    onClick={(e) => handleOtra(e)}
-                    className="adicional none"
-                    title="Adicionar area"
-                    data-nombre="noneOtra"
-                  >
-                    <Parrafo
-                      onClick={(e) => handleOtra(e)}
-                      data-nombre="noneOtra"
-                      className="mas"
-                    >
-                      Cancelar
-                    </Parrafo>
-                  </WrapSubInternal>
-                </>
-              )}
-            </CajaInput>
+                </tbody>
+              </Tabla>
+            </CajaTabla>
           </SubCajaInputN1>
         </CajaInput>
+
         <CajaInput>
           <TituloInput>Location</TituloInput>
           <Input
-            value={valueInputProps.titulo}
-            name="titulo"
+            value={valueInputProps.location}
+            name="location"
             onChange={(e) => handleInput(e)}
             type="text"
-            placeholder="Titulo del propiedad"
+            placeholder="Ubicacion de Goole Maps"
             autoComplete="off"
           />
         </CajaInput>
         <CajaInput>
           <TituloInput>Calificacion promedio</TituloInput>
           <Input
-            value={valueInputProps.titulo}
-            name="titulo"
+            value={valueInputProps.calificacionPromedio}
+            name="calificacionPromedio"
             onChange={(e) => handleInput(e)}
             type="text"
-            placeholder="Titulo del propiedad"
+            placeholder="Calificacion promedio"
             autoComplete="off"
           />
         </CajaInput>
-        <CajaInput>
-          <BtnSimple onClick={() => enviarObjeto()}>Aceptar</BtnSimple>
-        </CajaInput>
+
         {hasModal && (
-          <Modal setHasModal={setHasModal} titulo={"Fotos area: "}>
+          <Modal
+            setHasModal={setHasModal}
+            titulo={
+              "Fotos area: " +
+                valueInputProps.areas.find((area) => area.select).area || " "
+            }
+          >
             <CajaViewFotoArea>
               {imagenesSelectArea.map((img, index) => {
                 return (
@@ -1075,6 +1123,10 @@ export default function CajaNuevaPropiedad() {
             </CajaViewFotoArea>
           </Modal>
         )}
+        <CajaInput>
+          <BtnSimple onClick={() => enviarObjeto()}>Aceptar</BtnSimple>
+        </CajaInput>
+        {isLoading && <ModalLoading />}
       </Container>
     )
   );
@@ -1157,6 +1209,16 @@ const Input = styled(InputGeneral)`
     background-color: transparent;
     border: none;
   }
+  &.tabla {
+    height: 30px;
+    border-radius: 0;
+    width: 100%;
+    padding: 0 3px;
+  }
+  &.alto100 {
+    height: 100%;
+    /* width: 100; */
+  }
 `;
 const Textarea = styled(TextAreaGeneral)`
   resize: vertical;
@@ -1168,6 +1230,12 @@ const BtnSimple = styled(BtnGeneral)`
     padding: 0;
     font-size: 0.9rem;
     color: ${theme.primary.neutral650};
+  }
+  &.tabla {
+    height: 30px;
+    margin: 0;
+    border: none;
+    border-radius: 0;
   }
 `;
 
@@ -1328,6 +1396,9 @@ const CeldaHead = styled.th`
   border: 1px solid ${theme.azul1};
 
   font-size: 0.9rem;
+  &.small {
+    max-width: 80px;
+  }
 `;
 const CeldasBody = styled.td`
   font-size: 0.9rem;
@@ -1335,14 +1406,16 @@ const CeldasBody = styled.td`
 
   border: 1px solid ${theme.azul1};
   height: 25px;
-  padding-left: 5px;
-  padding-right: 5px;
 
   &.clicKeable {
     cursor: pointer;
     &:hover {
       /* text-decoration: underline; */
     }
+  }
+  &.long {
+    min-width: 80px;
+    min-height: 80px;
   }
 
   text-align: center;
@@ -1381,4 +1454,9 @@ const ImgArea = styled.img`
 const TituloImg = styled.h2`
   text-decoration: underline;
   color: ${theme.secondary.coral};
+`;
+
+const WrapInputRow = styled.div`
+  display: flex;
+  gap: 8px;
 `;

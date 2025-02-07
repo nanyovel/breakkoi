@@ -67,8 +67,8 @@ export default function CajaNuevoBlog() {
       const tituloSlug = generarSlug(valuePost.titulo);
       const docRef = doc(collection(db, "post"));
 
-      const urlSinEspacios = valuePost.keyWords.replaceAll(" ", ",");
-      const texto = urlSinEspacios;
+      const keyWordsSinEspacios = valuePost.keyWords.replaceAll(" ", ",");
+      const texto = keyWordsSinEspacios;
       const textoSinComasRepetidas = texto.replace(/,+/g, ",");
       const textoMin = textoSinComasRepetidas.toLowerCase();
       const urlArray = textoMin.split(",");

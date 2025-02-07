@@ -3,17 +3,16 @@ export const PropsSchema = {
   titulo: "",
   subTitulo: "",
   imagenDestacada: "",
-  textoResumen: "",
 
   areas: [
     {
+      area: "",
       fotos: [
         {
           url: "",
           texto: "",
         },
       ],
-      area: "",
     },
   ],
 
