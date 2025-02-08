@@ -1,28 +1,39 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { theme } from "../../config/theme";
 
-export default function Galeria() {
+export default function Galeria({ villaMaster }) {
+  const [imgResumida, setImgResumida] = useState({});
+  useEffect(() => {
+    const imgResAux = villaMaster.areas.flatMap((areas) => areas.fotos);
+    console.log(imgResAux);
+    setImgResumida(imgResAux.filter((foto) => foto.resumida));
+  }, []);
   return (
     <CajaGaleriaMain>
       <CajaInt className="der">
         <CajaIntDer>
           <Img
             className="main"
-            src="https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTE1NjEzMDE3NDA5MjQ3Mjg5MQ%3D%3D/original/3513a864-90ce-457b-a8eb-6f7c9faa9548.jpeg?im_w=1200&im_format=avif"
+            // src="https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTE1NjEzMDE3NDA5MjQ3Mjg5MQ%3D%3D/original/3513a864-90ce-457b-a8eb-6f7c9faa9548.jpeg?im_w=1200&im_format=avif"
+            src={villaMaster.urlFotoDestacada}
           />
         </CajaIntDer>
         <CajaIntDer>
-          <Img src="https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTE1NjEzMDE3NDA5MjQ3Mjg5MQ%3D%3D/original/629d535f-22f5-45d7-8f62-e6a9e846acf5.jpeg?im_w=720&im_format=avif" />
+          <Img src={imgResumida[0]?.url || ""} />
+          {/* <Img src="https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTE1NjEzMDE3NDA5MjQ3Mjg5MQ%3D%3D/original/629d535f-22f5-45d7-8f62-e6a9e846acf5.jpeg?im_w=720&im_format=avif" /> */}
         </CajaIntDer>
         <CajaIntDer>
-          <Img src="https://a0.muscache.com/im/pictures/miso/Hosting-1156130174092472891/original/0b4854e6-28a2-4c43-9089-98d3717fa9b8.jpeg?im_w=720&im_format=avif" />
+          <Img src={imgResumida[1]?.url || ""} />
+          {/* <Img src="https://a0.muscache.com/im/pictures/miso/Hosting-1156130174092472891/original/0b4854e6-28a2-4c43-9089-98d3717fa9b8.jpeg?im_w=720&im_format=avif" /> */}
         </CajaIntDer>
         <CajaIntDer>
-          <Img src="https://a0.muscache.com/im/pictures/miso/Hosting-1156130174092472891/original/b60754b4-01b9-4215-a0f1-841290e9ebae.jpeg?im_w=720&im_format=avif" />
+          <Img src={imgResumida[2]?.url || ""} />
+          {/* <Img src="https://a0.muscache.com/im/pictures/miso/Hosting-1156130174092472891/original/b60754b4-01b9-4215-a0f1-841290e9ebae.jpeg?im_w=720&im_format=avif" /> */}
         </CajaIntDer>
         <CajaIntDer>
-          <Img src="https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTE1NjEzMDE3NDA5MjQ3Mjg5MQ%3D%3D/original/4fdbed20-b049-4254-9bed-e23f21aa8ad2.jpeg?im_w=720&im_format=avif" />
+          <Img src={imgResumida[3]?.url || ""} />
+          {/* <Img src="https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTE1NjEzMDE3NDA5MjQ3Mjg5MQ%3D%3D/original/4fdbed20-b049-4254-9bed-e23f21aa8ad2.jpeg?im_w=720&im_format=avif" /> */}
         </CajaIntDer>
       </CajaInt>
     </CajaGaleriaMain>

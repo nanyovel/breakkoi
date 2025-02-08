@@ -28,6 +28,7 @@ const Contenedor = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 500;
 `;
 const CajaModal = styled.div`
   width: 50%;

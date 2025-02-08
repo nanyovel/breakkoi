@@ -11,6 +11,7 @@ export const PropsSchema = {
         {
           url: "",
           texto: "",
+          resumida: false,
         },
       ],
     },

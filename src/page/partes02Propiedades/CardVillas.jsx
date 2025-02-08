@@ -12,7 +12,6 @@ import LugaresCercanos from "../../view/PartesVilla/LugaresCercanos";
 import Amenidades from "../../view/PartesVilla/Amenidades";
 
 export default function CardVillas({ villa }) {
-  // const [villa, setVilla] = useState(Villas[0]);
   const [hasModal, setHasModal] = useState(false);
   const [hasModal2, setHasModal2] = useState(false);
 
@@ -20,13 +19,13 @@ export default function CardVillas({ villa }) {
   return (
     <WrapPropiedades>
       <CajaInt className="izq">
-        <ImgPrincipal src="https://firebasestorage.googleapis.com/v0/b/breakkoi.firebasestorage.app/o/imgPost%2FIMG-20250130-WA0019.jpg?alt=media&token=2768067a-60a9-4972-a1b8-ecc9263aa5d4" />
+        <ImgPrincipal src={villa.urlFotoDestacada} />
       </CajaInt>
       <CajaInt className="der">
         <TituloCard>{villa.titulo}</TituloCard>
         <DescripcionVilla resumido={true} villa={villa} />
-        <Principal resumido={true} principal={villa.principal} />
-        <CopyDescription resumido={true} texto={villa.textoCopyDescription} />
+        <Principal resumido={true} principal={villa.principales} />
+        <CopyDescription resumido={true} texto={villa.textoCopy} />
         <CajaBtnFinal>
           <CajaFinal onClick={() => setHasModal(true)}>
             <IconoSimple src={IconoLugarCerca} />

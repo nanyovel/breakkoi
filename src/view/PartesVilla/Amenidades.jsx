@@ -1,19 +1,39 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { theme } from "../../config/theme";
 
 import { BtnGeneral } from "../../components/ElementosGenerales";
 import Modal from "../../components/Modal";
 import { Villas } from "../../DB/Villas";
+import ListaAmenidades from "../../libs/ListaAmenidades";
 
 export default function Amenidades({ amenidades, bntOff }) {
   const anchoIconos = "2rem";
 
+  const [amenidadMaster, setAmenidadMaster] = useState([]);
+  useEffect(() => {
+    const amenidadAux = amenidades.map((am, index) => {
+      const amenFind = ListaAmenidades.find(
+        (amenidad) => amenidad.code == am.code
+      );
+      if (amenFind.iconoImg) {
+        return {
+          ...am,
+          iconoImg: amenFind.iconoImg,
+          icono: amenFind.icono,
+        };
+      } else {
+        return { ...am, icono: amenFind.icono };
+      }
+    });
+
+    setAmenidadMaster(amenidadAux);
+  }, [amenidades]);
   const [hasModal, setHasModal] = useState(false);
   return (
     <Container>
       <Lista>
-        {amenidades
+        {amenidadMaster
           .filter((amenidad) => {
             if (amenidad.resumida) {
               return amenidad;
@@ -46,9 +66,9 @@ export default function Amenidades({ amenidades, bntOff }) {
       {hasModal && (
         <Modal setHasModal={setHasModal} titulo="Amenidades">
           <Lista className="scroll">
-            {amenidades.map((am, index) => {
+            {amenidadMaster.map((am, index) => {
               return (
-                <Item key={index}>
+                <Item key={index + "p"}>
                   {am.iconoImg ? (
                     <ImgIcon $width={anchoIconos} src={am.icono} />
                   ) : (

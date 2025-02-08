@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { theme } from "../../config/theme";
+
 import {
   BtnGeneral,
   InputGeneral,
   MenuDesplegable,
   Opciones,
   TextAreaGeneral,
-} from "../ElementosGenerales";
-import BotonQuery from "../BotonQuery";
+} from "./ElementosGenerales";
+
 import {
   addDoc,
   collection,
@@ -18,15 +18,17 @@ import {
   updateDoc,
 } from "firebase/firestore";
 
-import db, { storage } from "../../firebase/firebaseConfig";
-import { ES6AFormat } from "../../libs/FechaFormat";
+import db, { storage } from "../firebase/firebaseConfig";
+import { ES6AFormat } from "../libs/FechaFormat";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { AreasPropiedades, TipoLugaresCercanos } from "../../libs/Corporativo";
-import { PropsSchema } from "../../model/PropsSchema";
-import ListaAmenidades from "../../libs/ListaAmenidades";
-import { generarSlug } from "../../libs/StringS";
-import Modal from "../Modal";
-import { ModalLoading } from "../ModalLoading";
+import { AreasPropiedades, TipoLugaresCercanos } from "../libs/Corporativo";
+import { PropsSchema } from "../model/PropsSchema";
+import ListaAmenidades from "../libs/ListaAmenidades";
+import { generarSlug } from "../libs/StringS";
+import Modal from "./Modal";
+import { ModalLoading } from "./ModalLoading";
+import { theme } from "../config/theme";
+import BotonQuery from "./BotonQuery";
 
 export default function CajaNuevaPropiedad() {
   const [isLoading, setIsLoading] = useState(false);
@@ -78,6 +80,7 @@ export default function CajaNuevaPropiedad() {
     lugaresCercano: TipoLugaresCercanos.map((lugar, index) => {
       return {
         ...lugar,
+        icono: "",
         tipo: lugar.nombre,
         select: false,
         lugares: [
@@ -166,6 +169,29 @@ export default function CajaNuevaPropiedad() {
             }),
           });
         }
+      } else if (name == "resumida") {
+        setValueInputProps((prevState) => ({
+          ...prevState,
+          areas: prevState.areas.map((area, index) => {
+            if (area.select == true) {
+              return {
+                ...area,
+                fotos: area.fotos.map((foto, i) => {
+                  if (i == indexData) {
+                    return {
+                      ...foto,
+                      resumida: e.target.checked,
+                    };
+                  } else {
+                    return foto;
+                  }
+                }),
+              };
+            } else {
+              return area;
+            }
+          }),
+        }));
       }
     } else if (tipoData == "principales") {
       setValueInputProps({
@@ -281,7 +307,6 @@ export default function CajaNuevaPropiedad() {
     }
   };
   // ********** CARGA DE IMAGENES **********
-  const [fileImgDestacada, setFileImgDestacada] = useState(null);
   const handleFile = (e) => {
     const { name, files } = e.target;
     const indexData = e.target.dataset.index;
@@ -349,6 +374,32 @@ export default function CajaNuevaPropiedad() {
           }),
         }));
       }
+    } else if (name == "quitarFoto") {
+      console.log("as");
+      setValueInputProps((prevState) => ({
+        ...prevState,
+        areas: prevState.areas.map((area) => {
+          if (area.select) {
+            return {
+              ...area,
+              fotos: area.fotos.map((foto, i) => {
+                if (i == indexData) {
+                  return {
+                    ...foto,
+                    fotosAreaUrlLocal: "",
+                    filesImg: [],
+                    texto: "",
+                  };
+                } else {
+                  return foto;
+                }
+              }),
+            };
+          } else {
+            return area;
+          }
+        }),
+      }));
     }
   };
 
@@ -412,46 +463,13 @@ export default function CajaNuevaPropiedad() {
     // SI algun campo esta vacio
 
     // FILTROS----ELIMINAR PROPIEDADES QUE NO NECESITE
-    const { fileImgDestacada, ...valueParsedImgDest } = valueInputProps;
+    const { fileImgDestacada, imagenDestacada, ...valueParsedImgDest } =
+      valueInputProps;
 
-    // ----LUGARES CERCANOS
-    const valueParsedLugaresCercanos = {
-      ...valueParsedImgDest,
-      lugaresCercano: valueParsedImgDest.lugaresCercano.map((lugar) => {
-        const lugaresParsed = lugar.lugares
-          .filter((place) => {
-            if (place.filesImg.name) {
-              return place;
-            }
-          })
-          .map((place) => {
-            return {
-              ...place,
-              filesImg: "",
-            };
-          });
-        return {
-          ...lugar,
-          lugares: lugaresParsed,
-        };
-      }),
-    };
-    console.log(valueParsedLugaresCercanos);
-    const valueParsedLugares = {
-      ...valueParsedLugaresCercanos,
-      lugaresCercano: valueParsedLugaresCercanos.lugaresCercano.filter(
-        (lugar) => {
-          if (lugar.lugares.length > 0) {
-            return lugar;
-          }
-        }
-      ),
-    };
-    console.log(valueParsedLugares);
     // ----AMENIDADES
     const valueParsedAmenidades = {
-      ...valueParsedLugares,
-      amenidades: valueParsedLugares.amenidades
+      ...valueParsedImgDest,
+      amenidades: valueParsedImgDest.amenidades
         .map((am, index) => {
           return {
             ...am,
@@ -468,15 +486,19 @@ export default function CajaNuevaPropiedad() {
     };
 
     const subirImagen = async (file, nombre) => {
-      const storageRef = ref(storage, `imgProps/${nombre}-${Date.now()}`);
-      await uploadBytes(storageRef, file);
-      return getDownloadURL(storageRef);
+      if (file?.name) {
+        const storageRef = ref(storage, `imgProps/${nombre}-${Date.now()}`);
+        await uploadBytes(storageRef, file);
+        return getDownloadURL(storageRef);
+      } else {
+        return "";
+      }
     };
     // return;
     try {
       setIsLoading(true);
-      const urlImgDestacada = await subirImagen(
-        fileImgDestacada,
+      const urlGeneradaImgDestacada = await subirImagen(
+        valueInputProps.fileImgDestacada,
         "imgDestacada"
       );
 
@@ -486,13 +508,15 @@ export default function CajaNuevaPropiedad() {
         valueInputProps.areas.map(async (area) => {
           const fotosConURLs = await Promise.all(
             area.fotos
-              .filter(async (foto) => {
+              .filter((foto) => {
                 if (foto.filesImg.name) {
                   return { ...foto };
                 }
               })
               .map(async (foto) => {
-                const url = await subirImagen(foto.fileImg, foto.texto);
+                console.log(foto.filesImg.length);
+                console.log(foto.filesImg.name);
+                const url = await subirImagen(foto.filesImg, foto.texto);
 
                 const {
                   fotosAreaUrlLocal,
@@ -518,7 +542,6 @@ export default function CajaNuevaPropiedad() {
 
       // ****** LUGARESCERCANOS ****
       // PARSEAR LAS FOTOS DE LUGARES CERCANOS Y GENERAL LAS URLS
-      console.log(valueInputProps);
       const arrayLugares = await Promise.all(
         valueInputProps.lugaresCercano.map(async (lugar) => {
           const fotosConURLs = await Promise.all(
@@ -529,7 +552,7 @@ export default function CajaNuevaPropiedad() {
                 }
               })
               .map(async (place) => {
-                const url = await subirImagen(place.fileImg, place.texto);
+                const url = await subirImagen(place.filesImg, place.texto);
 
                 const {
                   fotosAreaUrlLocal,
@@ -538,7 +561,7 @@ export default function CajaNuevaPropiedad() {
                   ...placeParsed
                 } = place;
 
-                return { ...placeParsed, url: url }; // Reemplaza fileImg con la URL
+                return { ...placeParsed, logo: url }; // Reemplaza fileImg con la URL
               })
           );
           return { ...lugar, lugares: fotosConURLs };
@@ -559,7 +582,7 @@ export default function CajaNuevaPropiedad() {
       const doSubir = {
         ...PropsSchema,
         ...valueParsedAmenidades,
-        fileImgDestacada: urlImgDestacada,
+        urlFotoDestacada: urlGeneradaImgDestacada,
         areas: arrayAreasFilter,
         lugaresCercano: arrayLugaresCercanoFilter,
         createAt: ES6AFormat(new Date()),
@@ -571,22 +594,6 @@ export default function CajaNuevaPropiedad() {
       await setDoc(docRef, doSubir);
       setValueInputProps({ ...initialValue });
       setIsLoading(false);
-      // try {
-      //   // Cargar foto de perfil
-      //   const nombreFoto = "imgPost/" + tituloSlug + "__imgDestacada";
-      //   const storageRefFoto = ref(storage, nombreFoto);
-      //   const postActualizar = doc(db, "post", docRef.id);
-      //   if (fileImgDestacada) {
-      //     await uploadBytes(storageRefFoto, fileImgDestacada).then(() => {}); // Ahora entregame la url de la foto  y colocasela en una propiedad del objeto a actulizar en la base de datos
-      //     getDownloadURL(ref(storage, storageRefFoto)).then((url) =>
-      //       updateDoc(postActualizar, {
-      //         imagenDestacada: url,
-      //       })
-      //     );
-      //   }
-      // } catch (error) {
-      //   console.error(error);
-      // }
     } catch (error) {
       console.error(error);
       setIsLoading(false);
@@ -596,7 +603,6 @@ export default function CajaNuevaPropiedad() {
     datosParsed && (
       <Container>
         <BotonQuery
-          fileImgDestacada={fileImgDestacada}
           valueInputProps={valueInputProps}
           valueOtra={valueOtra}
           ListaAmenidades={ListaAmenidades}
@@ -689,6 +695,8 @@ export default function CajaNuevaPropiedad() {
                     <CeldaHead>Titulo</CeldaHead>
                     <CeldaHead>Img</CeldaHead>
                     <CeldaHead>Ver</CeldaHead>
+                    <CeldaHead>Quitar</CeldaHead>
+                    <CeldaHead>Resumida</CeldaHead>
                   </Filas>
                 </thead>
                 <tbody>
@@ -728,6 +736,27 @@ export default function CajaNuevaPropiedad() {
                               >
                                 Ver
                               </BtnSimple>
+                            </CeldasBody>
+                            <CeldasBody>
+                              <BtnSimple
+                                onClick={(e) => handleFile(e)}
+                                className="tabla"
+                                name="quitarFoto"
+                                data-index={index}
+                              >
+                                Quitar
+                              </BtnSimple>
+                            </CeldasBody>
+                            <CeldasBody>
+                              <Input
+                                checked={foto.resumida}
+                                onChange={(e) => handleInput(e)}
+                                className="checkbox"
+                                name="resumida"
+                                type="checkbox"
+                                data-tipo={"areas"}
+                                data-index={index}
+                              />
                             </CeldasBody>
                           </Filas>
                         );
@@ -1096,7 +1125,7 @@ export default function CajaNuevaPropiedad() {
             value={valueInputProps.calificacionPromedio}
             name="calificacionPromedio"
             onChange={(e) => handleInput(e)}
-            type="text"
+            type="number"
             placeholder="Calificacion promedio"
             autoComplete="off"
           />

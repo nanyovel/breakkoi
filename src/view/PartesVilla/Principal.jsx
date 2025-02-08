@@ -1,48 +1,30 @@
 import React from "react";
 import styled from "styled-components";
 import { theme } from "../../config/theme";
+import ImgPeople from "./../../../public/icon/people.png";
 import ImgCama from "./../../../public/icon/cama.png";
 import ImgHabitacion from "./../../../public/icon/habitacion.png";
-import ImgPeople from "./../../../public/icon/people.png";
 import ImgDucha from "./../../../public/icon/ducha.png";
 
 export default function Principal({ principal, resumido }) {
-  // const Principal = [
-  //   {
-  //     texto: "6 Huespedes",
-  //     icono: ImgPeople,
-  //   },
-  //   {
-  //     texto: "3 habitaciones",
-  //     icono: ImgHabitacion,
-  //   },
-  //   {
-  //     texto: "3 Camas",
-  //     icono: ImgCama,
-  //   },
-  //   {
-  //     texto: "2 baños",
-  //     icono: ImgDucha,
-  //   },
-  // ];
-  console.log(principal);
   return (
     <Container className={resumido ? "resumido" : ""}>
-      {principal.map((pri, index) => {
-        return (
-          <CajaItem
-            key={index}
-            className={`
-            ${resumido ? " resumido " : ""}
-            ${index < principal.length - 1 ? " borderRight " : ""}
-          
-          `}
-          >
-            {!resumido && <Img src={pri.icono} />}
-            <Titulo>{pri.texto}</Titulo>
-          </CajaItem>
-        );
-      })}
+      <CajaItem className={`${resumido ? " resumido " : ""}`}>
+        {!resumido && <Img src={ImgPeople} />}
+        <Titulo>{principal.huespedes.qty + " Huespedes"}</Titulo>
+      </CajaItem>
+      <CajaItem className={`${resumido ? " resumido " : ""}`}>
+        {!resumido && <Img src={ImgHabitacion} />}
+        <Titulo>{principal.habitaciones.qty + " Habitaciones"}</Titulo>
+      </CajaItem>
+      <CajaItem className={`${resumido ? " resumido " : ""}`}>
+        {!resumido && <Img src={ImgCama} />}
+        <Titulo>{principal.camas.qty + " Camas"}</Titulo>
+      </CajaItem>
+      <CajaItem className={`${resumido ? " resumido " : ""}`}>
+        {!resumido && <Img src={ImgDucha} />}
+        <Titulo>{principal.bannios.qty + " Baños"}</Titulo>
+      </CajaItem>
     </Container>
   );
 }

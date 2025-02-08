@@ -54,7 +54,7 @@ export default function DescripcionVilla({ villa, hacerScroll, resumido }) {
   useEffect(() => {
     console.log(villa);
     const auxQtyEstrellas = [];
-    for (let i = 0; i < villa.calificacion; i++) {
+    for (let i = 0; i < villa.calificacionPromedio; i++) {
       auxQtyEstrellas.push(ImgStar);
     }
     setQtyEstrellas(auxQtyEstrellas);
@@ -64,8 +64,10 @@ export default function DescripcionVilla({ villa, hacerScroll, resumido }) {
       <CajaDetail>
         <CajaResumenValoraciones className={resumido ? "resumido" : ""}>
           <ContenedorIntValor>
-            {!resumido && (
-              <Texto5Star>{villa.calificacion.toString() + ".0"}</Texto5Star>
+            {true && (
+              <Texto5Star>
+                {villa.calificacionPromedio.toString() + ".0"}
+              </Texto5Star>
             )}
             <CajaEstrellas className={resumido ? "resumido" : ""}>
               {qtyEstrellas.map((star, index) => {

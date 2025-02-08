@@ -27,8 +27,8 @@ export default function ListaPropiedades() {
         <CajaVilla>
           {listaPropiedades.map((pro, index) => {
             return (
-              <Enlace key={index} to={Villas[0].url}>
-                <CardVillas villa={Villas[0]} />
+              <Enlace key={index} to={pro.url}>
+                <CardVillas villa={pro} />
               </Enlace>
             );
           })}

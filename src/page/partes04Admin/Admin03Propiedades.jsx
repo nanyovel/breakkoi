@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { theme } from "../../config/theme";
-import CajaNuevaPropiedad from "../../components/Blog/CajaNuevaPropiedad";
+import CajaNuevaPropiedad from "../../components/CajaNuevaPropiedad";
 
 export default function Admin03Propiedades() {
   return (

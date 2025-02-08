@@ -20,13 +20,32 @@ import CajaAnfritrion from "./PartesVilla/CajaAnfritrion";
 import { useParams } from "react-router";
 import { Villas } from "../DB/Villas";
 import BotonQuery from "../components/BotonQuery";
+import { fetchGetDocs, obtenerDocPorId } from "../libs/FetchFirebase";
 
 export default function DetalleVilla() {
-  // /***************RECURSOS GENERALES******* */
+  const [villaMaster, setVillaMaster] = useState({});
   const params = useParams();
   const docUser = params.id;
+  const condicionesDB = [
+    {
+      propiedad: "url",
+      operador: "==",
+      valor: docUser,
+    },
+  ];
+  useEffect(() => {
+    (async () => {
+      const propiedadesAux = await fetchGetDocs("propiedades", condicionesDB);
 
-  const [villaMaster, setVillaMaster] = useState({});
+      if (propiedadesAux.length > 0) {
+        console.log(propiedadesAux);
+        setVillaMaster(propiedadesAux[0]);
+        setDatosParsed(true);
+      }
+    })();
+  }, []);
+  // /***************RECURSOS GENERALES******* */
+
   const [datosParsed, setDatosParsed] = useState(false);
   useEffect(() => {
     const villaBuscada = Villas.find((villa) => {
@@ -34,11 +53,6 @@ export default function DetalleVilla() {
         return villa;
       }
     });
-    if (villaBuscada) {
-      console.log(villaBuscada);
-      setVillaMaster(villaBuscada);
-      setDatosParsed(true);
-    }
   }, [docUser]);
   const galeriaRef = useRef(null);
   const lugaresCercanosRef = useRef(null);
@@ -76,6 +90,7 @@ export default function DetalleVilla() {
       }, 500); // Ajusta este tiempo si es necesario
     }
   };
+
   return (
     <>
       {/* <Header noFixed={true} /> */}
@@ -83,8 +98,11 @@ export default function DetalleVilla() {
       {datosParsed && (
         <Container>
           <TituloVilla ref={galeriaRef}>{villaMaster.titulo}</TituloVilla>
-          <Galeria />
-          <ControlesDetalles hacerScroll={hacerScroll} />
+          <Galeria villaMaster={villaMaster} />
+          <ControlesDetalles
+            hacerScroll={hacerScroll}
+            villaMaster={villaMaster}
+          />
           <Seccion className="anchoCompleto sinBorde">
             <Subtitulo className=" pocoMargin">
               {villaMaster.Subtitulo}
@@ -94,11 +112,11 @@ export default function DetalleVilla() {
           </Seccion>
           <Seccion>
             <Subtitulo>Principal</Subtitulo>
-            <Principal principal={villaMaster.principal} />
+            <Principal principal={villaMaster.principales} />
           </Seccion>
           <Seccion>
             <Subtitulo ref={lugaresCercanosRef}>Lugares cercanos</Subtitulo>
-            <LugaresCercanos lugares={villaMaster.lugaresCercanos} />
+            <LugaresCercanos lugares={villaMaster.lugaresCercano} />
           </Seccion>
           <Seccion>
             <Subtitulo ref={amenidadesRef}>Amenidades</Subtitulo>
@@ -107,7 +125,7 @@ export default function DetalleVilla() {
 
           <Seccion>
             <Subtitulo>Detalles</Subtitulo>
-            <CopyDescription texto={villaMaster.textoCopyDescription} />
+            <CopyDescription texto={villaMaster.textoCopy} />
           </Seccion>
           <Seccion>
             <Subtitulo>Ubicacion</Subtitulo>
@@ -115,11 +133,11 @@ export default function DetalleVilla() {
           </Seccion>
           <Seccion>
             <Subtitulo ref={resenniasRef}>Ult. Reseñas</Subtitulo>
-            <CajaResennias resennias={villaMaster.resennias} />
+            {/* <CajaResennias resennias={villaMaster.resennias} /> */}
           </Seccion>
           <Seccion className="anchoCompleto">
             <Subtitulo>Anfritrion</Subtitulo>
-            <CajaAnfritrion anfitrion={villaMaster.anfitrion} />
+            {/* <CajaAnfritrion anfitrion={villaMaster.anfitrion} /> */}
           </Seccion>
         </Container>
       )}

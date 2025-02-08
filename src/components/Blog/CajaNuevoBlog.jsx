@@ -64,14 +64,16 @@ export default function CajaNuevoBlog() {
     // SI algun campo esta vacio
 
     try {
-      const tituloSlug = generarSlug(valuePost.titulo);
       const docRef = doc(collection(db, "post"));
+      const tituloSlug = generarSlug(valuePost.titulo);
 
+      // Palabras clave
       const keyWordsSinEspacios = valuePost.keyWords.replaceAll(" ", ",");
       const texto = keyWordsSinEspacios;
       const textoSinComasRepetidas = texto.replace(/,+/g, ",");
       const textoMin = textoSinComasRepetidas.toLowerCase();
       const urlArray = textoMin.split(",");
+
       await setDoc(docRef, {
         ...PostSchema,
         ...valuePost,

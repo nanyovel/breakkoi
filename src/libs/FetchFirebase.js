@@ -53,6 +53,7 @@ export const useDocById = (collectionName, setState, idUsuario) => {
 // ****************** DOCUMENTOS SIN ESCUCHADOR **********************
 export const fetchGetDocs = async (collectionName, condicionesDB) => {
   console.log("DB 😐😐😐😐😐" + collectionName);
+  console.log(condicionesDB);
   const q =
     condicionesDB.length > 0
       ? query(

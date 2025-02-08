@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { theme } from "../../config/theme";
 import {
@@ -6,8 +6,26 @@ import {
   IconoFotos,
   IconoShare,
 } from "../../components/ConjuntoIconos";
+import Modal from "../../components/Modal";
+import ImageGallery from "react-image-gallery";
+import "react-image-gallery/styles/css/image-gallery.css";
 
-export default function ControlesDetalles({ hacerScroll }) {
+export default function ControlesDetalles({ hacerScroll, villaMaster }) {
+  const [hasModal, setHasModal] = useState(false);
+  const [listaImagenes, setListaImagenes] = useState([]);
+  useEffect(() => {
+    const imgAux = villaMaster.areas.flatMap((areas) => areas.fotos);
+    console.log(imgAux);
+    const imgParsed = imgAux.map((img) => {
+      return {
+        original: img.url,
+        thumbnail: img.url,
+        description: img.texto,
+      };
+    });
+    console.log(imgParsed);
+    setListaImagenes(imgParsed);
+  }, []);
   return (
     <CajaControles>
       <CajitaDetalles>
@@ -16,7 +34,7 @@ export default function ControlesDetalles({ hacerScroll }) {
       </CajitaDetalles>
       <CajitaDetalles>
         <IconoFotos width="1.3rem" />
-        <TituloFunt>Ver mas fotos</TituloFunt>
+        <TituloFunt onClick={() => setHasModal(true)}>Ver mas fotos</TituloFunt>
       </CajitaDetalles>
       <CajitaDetalles>
         <IconoComida width="1.3rem" />
@@ -24,9 +42,24 @@ export default function ControlesDetalles({ hacerScroll }) {
           Lugares cercados
         </TituloFunt>
       </CajitaDetalles>
+
+      {hasModal && (
+        <Modal setHasModal={setHasModal} titulo={"Imagenes del lugar"}>
+          <CajaGaleria>
+            <ImageGallery items={listaImagenes} />
+          </CajaGaleria>
+        </Modal>
+      )}
     </CajaControles>
   );
 }
+const CajaGaleria = styled.div`
+  width: 80%;
+  /* height: 70%; */
+  /* border: 4px solid red; */
+  margin: auto;
+`;
+
 const Container = styled.div``;
 
 const CajaControles = styled.div`

@@ -13,10 +13,10 @@ export default function CopyDescription({ texto, resumido }) {
     <Container>
       <CajaTextoView className={resumido ? "resumido" : ""}>
         {!resumido ? (
-          texto.parrafos[0].texto
+          texto.copyResumido
         ) : (
           <>
-            {texto.parrafos[0].textoResumido}
+            {texto.copyResumido}
             <Vermas onClick={() => setHasModal(true)}>Ver mas.</Vermas>
           </>
         )}
@@ -25,18 +25,24 @@ export default function CopyDescription({ texto, resumido }) {
         <BtnSimple onClick={() => setHasModal(true)}>Texto completo</BtnSimple>
       )}
       {hasModal && (
-        <Modal titulo={texto.tituloPrincipal} setHasModal={setHasModal}>
-          <CajaTextoView>
-            {texto.parrafos.map((parrafo, index) => {
-              return (
-                <CajaParrafo>
-                  <SubTitulo>{parrafo.titulo}</SubTitulo>
-                  <Parrafo>{parrafo.texto}</Parrafo>
-                </CajaParrafo>
-              );
-            })}
-          </CajaTextoView>
-        </Modal>
+        <>
+          <Modal titulo={texto.tituloPrincipal} setHasModal={setHasModal}>
+            <Titulo>{texto.tituloPrincipal}</Titulo>
+            <CajaTextoView className={resumido ? "resumido" : ""}>
+              {texto.copyResumido}
+            </CajaTextoView>
+            <CajaTextoView>
+              {texto.parrafos.map((parrafo, index) => {
+                return (
+                  <CajaParrafo>
+                    <SubTitulo>{parrafo.titulo}</SubTitulo>
+                    <Parrafo>{parrafo.texto}</Parrafo>
+                  </CajaParrafo>
+                );
+              })}
+            </CajaTextoView>
+          </Modal>
+        </>
       )}
     </Container>
   );
@@ -54,6 +60,11 @@ const CajaTextoView = styled.div`
   &.resumido {
     padding: 0;
     margin-bottom: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Limita el texto a 4 líneas */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 `;
 const BtnSimple = styled(BtnGeneral)``;
@@ -76,3 +87,4 @@ const Vermas = styled.span`
     color: ${theme.secondary.sandDark};
   }
 `;
+const Titulo = styled.h2``;

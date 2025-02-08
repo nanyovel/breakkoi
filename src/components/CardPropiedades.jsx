@@ -8,14 +8,14 @@ export default function CardPropiedades({ prop, imgMain, nombre }) {
   return (
     <Container>
       <CajaInterna>
-        <Img src={prop.imagenDestacada} />
+        <Img src={prop.urlFotoDestacada} />
         <BtnSimple>Reservar</BtnSimple>
       </CajaInterna>
       <CajaInterna className="titulo">
         <Titulo>
           <>{prop.titulo}</>
         </Titulo>
-        <Parrafo>{prop.textoPrincipal}</Parrafo>
+        <Parrafo>{prop.textoCopy.copyResumido}</Parrafo>
       </CajaInterna>
     </Container>
   );
