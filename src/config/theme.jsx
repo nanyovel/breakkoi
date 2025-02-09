@@ -46,6 +46,8 @@ export const theme = {
     userMale: ImgMale,
     userFemale: ImgFemale,
     paddingLateral: "200px",
+    paddingLateral100: "100px",
+    paddingLateral70: "60px",
     sombra: "3px 7px 11px 0px rgba(0, 0, 0, 0.75)",
   },
 };

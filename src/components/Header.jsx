@@ -32,136 +32,180 @@ export default function Header({ userMaster, absolute }) {
     };
   }, []);
 
-  return (
-    <ContenedorHeader className={absolute ? "absolute" : ""}>
-      <NavBar>
-        <CajaInternaHeader>
-          <CajaLogo>
-            <Enlaces to={"/"} className={"logo"}>
-              <Img src={ImgLogo} />
-            </Enlaces>
-          </CajaLogo>
-          <WrapTel>
-            <TextoTel className="tel">
-              <Ancla
-                target="_blank"
-                href="https://api.whatsapp.com/send?phone=+18299069059&text=Hola%20equipo%20BreakKoi,%20quisiera%20por%20favor%20ser%20asistido."
-              >
-                <Icono icon={faWhatsapp} />
-                <SpanTel>Tel:</SpanTel>
-                829-906-9059
-              </Ancla>
-            </TextoTel>
-            <TextoTel className="tel">
-              <Ancla
-                target="_blank"
-                href="https://api.whatsapp.com/send?phone=+18299069059&text=Hola%20equipo%20BreakKoi,%20quisiera%20por%20favor%20ser%20asistido."
-              >
-                <Icono icon={faWhatsapp} />
-                <SpanTel>Tel:</SpanTel>
-                829-906-0000
-              </Ancla>
-            </TextoTel>
-          </WrapTel>
-        </CajaInternaHeader>
-        <CajaInternaHeader className="nav">
-          <NavList>
-            <NavItem>
-              <Enlaces to={"/"} className={"menu"}>
-                Home
-              </Enlaces>
-            </NavItem>
-            <NavItem
-              className="idioma"
-              onClick={() => setHasIdioma(!hasIdioma)}
-            >
-              Idiomas
-              <CajaArrowVIcon>
-                <IconoAngleV width="1rem" />
-              </CajaArrowVIcon>
-              {hasIdioma && (
-                <CajaIdiomas ref={menuRef}>
-                  <Lista>
-                    <Item>
-                      <ImgFlag src={ImgSpain} />
-                      Español
-                    </Item>
-                    <Item>
-                      {" "}
-                      <ImgFlag src={ImgInglaterra} />
-                      Ingles
-                    </Item>
-                    <Item>
-                      {" "}
-                      <ImgFlag src={ImgFrancia} />
-                      Frances
-                    </Item>
-                  </Lista>
-                </CajaIdiomas>
-              )}
-            </NavItem>
-            <NavItem>
-              <Enlaces className={"menu"} to={"/propiedades"}>
-                Propiedades
-              </Enlaces>
-            </NavItem>
-            <NavItem>
-              <Enlaces className={"menu"} to={"/blog"}>
-                Blog
-              </Enlaces>
-            </NavItem>
-            <NavItem>
-              <Enlaces className={"menu"} to={"/contactos"}>
-                Contactos
-              </Enlaces>
-            </NavItem>
-            <NavItem>
-              <Enlaces className={"menu"} to={"/nosotros"}>
-                Sobre nosotros
-              </Enlaces>
-            </NavItem>
-          </NavList>
-          {!userMaster && (
-            <CajaLog>
-              <Enlaces className={"menu login"} to={"/login"}>
-                <Icono className="user" icon={faUser} />
-              </Enlaces>
-              {/* <TextoSingle>Login</TextoSingle> */}
-            </CajaLog>
-          )}
-          {userMaster && (
-            <Enlaces className={"perfil"} to={"/perfil"}>
-              <CajaPerfil>
-                {userMaster.urlFotoPerfil ? (
-                  <CajaAvatar>
-                    <ImgAvatar src={userMaster.urlFotoPerfil} />
-                  </CajaAvatar>
-                ) : (
-                  <CajaAvatar>
-                    <ImgAvatar
-                      className="icon"
-                      src={
-                        userMaster.genero == "Femenino"
-                          ? theme.config.userFemale
-                          : theme.config.userMale
-                      }
-                    />
-                  </CajaAvatar>
-                )}
+  const [isMovil, setIsMovil] = useState(false);
 
-                <CajaNombrePerfil>
-                  <NombrePerfil>{userMaster.nombre}</NombrePerfil>
-                </CajaNombrePerfil>
-              </CajaPerfil>
-            </Enlaces>
-          )}
-        </CajaInternaHeader>
-      </NavBar>
-    </ContenedorHeader>
+  useEffect(() => {
+    const hasMovil = window.screen.width < 620 ? true : false;
+    console.log(hasMovil);
+    setIsMovil(hasMovil);
+  }, [window.screen.width]);
+
+  const datosContacto = {
+    tel1: "829-906-9059",
+    tel2: "829-906-0000",
+    linkWhta1:
+      "https://api.whatsapp.com/send?phone=+18299069059&text=Hola%20equipo%20BreakKoi,%20quisiera%20por%20favor%20ser%20asistido.",
+    linkWhta2:
+      "https://api.whatsapp.com/send?phone=+18299069059&text=Hola%20equipo%20BreakKoi,%20quisiera%20por%20favor%20ser%20asistido.",
+  };
+  return (
+    <>
+      <ContenedorHeader className={absolute ? "absolute" : ""}>
+        <NavBar>
+          <CajaInternaHeader>
+            <CajaLogo>
+              <Enlaces to={"/"} className={"logo"}>
+                <Img src={ImgLogo} />
+              </Enlaces>
+            </CajaLogo>
+            <WrapTel>
+              <TextoTel className="tel">
+                <Ancla target="_blank" href={datosContacto.linkWhta1}>
+                  <Icono icon={faWhatsapp} />
+                  <SpanTel>Tel:</SpanTel>
+                  {datosContacto.tel1}
+                </Ancla>
+              </TextoTel>
+              <TextoTel className="tel">
+                <Ancla target="_blank" href={datosContacto.linkWhta2}>
+                  <Icono icon={faWhatsapp} />
+                  <SpanTel>Tel:</SpanTel>
+                  {datosContacto.tel2}
+                </Ancla>
+              </TextoTel>
+            </WrapTel>
+            {userMaster && isMovil && (
+              <Enlaces className={"perfil"} to={"/perfil"}>
+                <CajaPerfil>
+                  {userMaster.urlFotoPerfil ? (
+                    <CajaAvatar>
+                      <ImgAvatar src={userMaster.urlFotoPerfil} />
+                    </CajaAvatar>
+                  ) : (
+                    <CajaAvatar>
+                      <ImgAvatar
+                        className="icon"
+                        src={
+                          userMaster.genero == "Femenino"
+                            ? theme.config.userFemale
+                            : theme.config.userMale
+                        }
+                      />
+                    </CajaAvatar>
+                  )}
+
+                  <CajaNombrePerfil>
+                    <NombrePerfil>{userMaster.nombre}</NombrePerfil>
+                  </CajaNombrePerfil>
+                </CajaPerfil>
+              </Enlaces>
+            )}
+          </CajaInternaHeader>
+          <CajaInternaHeader className="nav">
+            <NavList>
+              <NavItem>
+                <Enlaces to={"/"} className={"menu"}>
+                  Home
+                </Enlaces>
+              </NavItem>
+              <NavItem
+                className="idioma"
+                onClick={() => setHasIdioma(!hasIdioma)}
+              >
+                Idiomas
+                <CajaArrowVIcon>
+                  <IconoAngleV width="1rem" />
+                </CajaArrowVIcon>
+                {hasIdioma && (
+                  <CajaIdiomas ref={menuRef}>
+                    <Lista>
+                      <Item>
+                        <ImgFlag src={ImgSpain} />
+                        Español
+                      </Item>
+                      <Item>
+                        {" "}
+                        <ImgFlag src={ImgInglaterra} />
+                        Ingles
+                      </Item>
+                      <Item>
+                        {" "}
+                        <ImgFlag src={ImgFrancia} />
+                        Frances
+                      </Item>
+                    </Lista>
+                  </CajaIdiomas>
+                )}
+              </NavItem>
+              <NavItem>
+                <Enlaces className={"menu"} to={"/propiedades"}>
+                  Propiedades
+                </Enlaces>
+              </NavItem>
+              <NavItem>
+                <Enlaces className={"menu"} to={"/blog"}>
+                  Blog
+                </Enlaces>
+              </NavItem>
+              <NavItem>
+                <Enlaces className={"menu"} to={"/contactos"}>
+                  Contactos
+                </Enlaces>
+              </NavItem>
+              <NavItem>
+                <Enlaces className={"menu"} to={"/nosotros"}>
+                  Sobre nosotros
+                </Enlaces>
+              </NavItem>
+            </NavList>
+            {!userMaster && (
+              <CajaLog>
+                <Enlaces className={"menu login"} to={"/login"}>
+                  <Icono className="user" icon={faUser} />
+                </Enlaces>
+                {/* <TextoSingle>Login</TextoSingle> */}
+              </CajaLog>
+            )}
+            {userMaster && isMovil == false && (
+              <Enlaces className={"perfil"} to={"/perfil"}>
+                <CajaPerfil>
+                  {userMaster.urlFotoPerfil ? (
+                    <CajaAvatar>
+                      <ImgAvatar src={userMaster.urlFotoPerfil} />
+                    </CajaAvatar>
+                  ) : (
+                    <CajaAvatar>
+                      <ImgAvatar
+                        className="icon"
+                        src={
+                          userMaster.genero == "Femenino"
+                            ? theme.config.userFemale
+                            : theme.config.userMale
+                        }
+                      />
+                    </CajaAvatar>
+                  )}
+
+                  <CajaNombrePerfil>
+                    <NombrePerfil>{userMaster.nombre}</NombrePerfil>
+                  </CajaNombrePerfil>
+                </CajaPerfil>
+              </Enlaces>
+            )}
+          </CajaInternaHeader>
+        </NavBar>
+      </ContenedorHeader>
+    </>
   );
 }
 
 // Navbar
+
+// BrekPoints a considerar en ancho pixeles
+// 1200
+// 1000
+// 980
+// 620
 const ContenedorHeader = styled.header`
   /* background-color: ${theme.primary.turquoise}; */
   background-color: rgba(26, 188, 156, 0.8);
@@ -170,9 +214,23 @@ const ContenedorHeader = styled.header`
   /* padding: 16px; */
   height: 60px;
   padding: 0 150px;
-  z-index: 2;
+  z-index: 150;
   &.absolute {
     position: absolute;
+  }
+
+  @media screen and (max-width: 1200px) {
+    padding: 0 80px;
+  }
+  @media screen and (max-width: 1000px) {
+    padding: 0 60px;
+  }
+  @media screen and (max-width: 980px) {
+    height: 100px;
+  }
+  @media screen and (max-width: 620px) {
+    padding: 10px 0;
+    height: auto;
   }
 `;
 const NavBar = styled.nav`
@@ -180,14 +238,29 @@ const NavBar = styled.nav`
   justify-content: space-between;
   align-items: center;
   height: 100%;
+  @media screen and (max-width: 980px) {
+    flex-direction: column;
+  }
 `;
 const CajaInternaHeader = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100%;
+  &.nav {
+    padding: 8px;
+    @media screen and (max-width: 620px) {
+      width: 100%;
+      height: auto;
+    }
+  }
 `;
-const WrapTel = styled.div``;
+const WrapTel = styled.div`
+  @media screen and (max-width: 620px) {
+    display: flex;
+    gap: 15px;
+  }
+`;
 
 const TextoTel = styled.h2`
   font-size: 1.1rem;
@@ -195,6 +268,13 @@ const TextoTel = styled.h2`
   &:hover {
     color: ${theme.primary.sand};
     text-decoration: underline;
+  }
+  @media screen and (max-width: 980px) {
+    display: flex;
+    gap: 15px;
+  }
+  @media screen and (max-width: 620px) {
+    font-size: 14px;
   }
 `;
 const Ancla = styled.a`
@@ -215,6 +295,13 @@ const NavList = styled.ul`
   list-style: none;
   padding: 0;
   align-items: center;
+  @media screen and (max-width: 620px) {
+    width: 100%;
+    overflow-x: scroll;
+    height: 50px;
+    background-color: red;
+    padding: 0 10px;
+  }
 `;
 
 const NavItem = styled.li`
@@ -228,6 +315,7 @@ const NavItem = styled.li`
     gap: 3px;
     position: relative;
     border-bottom: 3px solid transparent;
+    z-index: 50;
     &:hover {
       color: ${theme.primary.sand};
       color: white;
@@ -271,6 +359,9 @@ const Enlaces = styled(NavLink)`
     &.active {
       color: white;
     }
+    @media screen and (max-width: 620px) {
+      white-space: nowrap;
+    }
   }
   &.logo {
     height: 100%;
@@ -298,7 +389,7 @@ const Enlaces = styled(NavLink)`
 `;
 const CajaLogo = styled.div`
   width: 50px;
-  height: 100%;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -345,6 +436,15 @@ const CajaPerfil = styled.div`
   border: 1px solid transparent;
   transition: ease 0.2s all;
 
+  @media screen and (max-width: 620px) {
+    display: flex;
+    flex-direction: row;
+    border: 1px solid black;
+    margin: 5px;
+    border-radius: 4px;
+    padding: 3px;
+  }
+
   &:hover {
     /* border: 1px solid ${theme.secondary.coral}; */
     border-radius: 4px;
@@ -369,4 +469,13 @@ const NombrePerfil = styled.h3`
   font-weight: 400;
   white-space: nowrap;
   /* border-bottom: 3px transparent; */
+`;
+const CajaTopCelMovil = styled.div`
+  position: absolute;
+  z-index: 100;
+  left: 0;
+  top: 0;
+  width: 100%;
+  background-color: ${theme.primary.turquoise};
+  /* min-height: 60px; */
 `;

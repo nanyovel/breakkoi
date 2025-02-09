@@ -4,7 +4,7 @@ import { theme } from "../config/theme";
 import ImgVilla1 from "./../assets/store/villa1.jpg";
 import { BtnGeneral } from "./ElementosGenerales";
 
-export default function CardPropiedades({ prop, imgMain, nombre }) {
+export default function CardPropiedades({ prop }) {
   return (
     <Container>
       <CajaInterna>

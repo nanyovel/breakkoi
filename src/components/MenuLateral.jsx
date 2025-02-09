@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { theme } from "../config/theme";
 import { NavLink, useLocation } from "react-router";
@@ -17,6 +17,9 @@ import {
   faChartLine,
   faBed,
   faNewspaper,
+  faArrowLeft,
+  faAngleLeft,
+  faAngleRight,
 } from "@fortawesome/free-solid-svg-icons";
 import { faComments, faUser } from "@fortawesome/free-regular-svg-icons";
 
@@ -24,103 +27,141 @@ export default function MenuLateral() {
   let location = useLocation();
   let lugar = location.pathname;
   const [menuOpen, setMenuOpen] = useState(false);
+
+  const [hasMenu, setHasMenu] = useState(true);
+  const quitarMenu = () => {
+    setHasMenu(!hasMenu);
+  };
+
+  const [isMovil, setIsMovil] = useState(false);
+
+  useEffect(() => {
+    const hasMovil = window.screen.width < 620 ? true : false;
+    console.log(hasMovil);
+    setIsMovil(hasMovil);
+  }, [window.screen.width]);
   return (
-    <Container
-      className={menuOpen ? "open" : ""}
-      onMouseEnter={() => setMenuOpen(true)}
-      onMouseLeave={() => setMenuOpen(false)}
-    >
-      <NamePage>
-        <BoxBarsMenu onClick={() => setMenuOpen(!menuOpen)}>
-          <Linea1 className={`${menuOpen ? " activeline1" : ""}`}></Linea1>
-          <Linea2 className={`${menuOpen ? " activeline2" : ""}`}></Linea2>
-          <Linea3 className={`${menuOpen ? " activeline3" : ""}`}></Linea3>
-        </BoxBarsMenu>
-      </NamePage>
+    <>
+      <Icono
+        onClick={() => quitarMenu()}
+        className={`
+          angulo
+          ${hasMenu ? "  " : "sinOpacity"}
+          `}
+        icon={faAngleLeft}
+      />
+      <Icono
+        onClick={() => quitarMenu()}
+        className={`
+          angulo
+          ${hasMenu ? " sinOpacity " : "  "}
+          `}
+        icon={faAngleRight}
+      />
 
-      <CajaOptionMenu>
-        <Enlaces to={"/"}>
-          <Option>
-            <Icono
-              icon={faHouse}
-              className={`${lugar === "/" ? "iconoSelect" : ""}`}
-            />
-            <TituloMenu className={menuOpen ? "menuOpen" : ""}>
-              Inicio
-            </TituloMenu>
-          </Option>
-        </Enlaces>
+      <Container
+        className={`
+        ${menuOpen ? "open" : ""}
+        ${hasMenu ? "" : "quitarMenu"}
+      
+      `}
+        onMouseEnter={() => setMenuOpen(true)}
+        onMouseLeave={() => setMenuOpen(false)}
+      >
+        <NamePage>
+          <BoxBarsMenu onClick={() => setMenuOpen(!menuOpen)}>
+            <Linea1 className={`${menuOpen ? " activeline1" : ""}`}></Linea1>
+            <Linea2 className={`${menuOpen ? " activeline2" : ""}`}></Linea2>
+            <Linea3 className={`${menuOpen ? " activeline3" : ""}`}></Linea3>
+          </BoxBarsMenu>
+        </NamePage>
 
-        <Enlaces
-          to={"/admin/dashboard"}
-          className={({ isActive, isPending }) =>
-            isPending ? "pending" : isActive ? "active" : ""
-          }
-        >
-          <Option>
-            <Icono
-              icon={faChartLine}
-              className={`${lugar === "/materiales" ? "iconoSelect" : ""}`}
-            />
-            <TituloMenu className={menuOpen ? "menuOpen" : ""}>
-              Dashboard
-            </TituloMenu>
-          </Option>
-        </Enlaces>
-        <Enlaces
-          to={"/admin/feedback"}
-          placeholder="Modulo Nuevo"
-          className={({ isActive, isPending }) =>
-            isPending ? "pending" : isActive ? "active" : ""
-          }
-        >
-          <Option>
-            <Icono
-              icon={faComments}
-              className={`${lugar === "/importaciones" ? "iconoSelect" : ""}`}
-            />
-            <TituloMenu className={menuOpen ? "menuOpen" : ""}>
-              Feedback
-            </TituloMenu>
-          </Option>
-        </Enlaces>
+        <CajaOptionMenu>
+          <Enlaces to={"/"}>
+            <Option>
+              <Icono
+                icon={faHouse}
+                className={`${lugar === "/" ? "iconoSelect" : ""}`}
+              />
+              <TituloMenu className={menuOpen ? "menuOpen" : ""}>
+                Inicio
+              </TituloMenu>
+            </Option>
+          </Enlaces>
 
-        <Enlaces to={"/admin/propiedades"}>
-          <Option>
-            <Icono
-              icon={faWaterLadder}
-              className={`${lugar === "/fletes" ? "iconoSelect" : ""}`}
-            />
-            <TituloMenu className={menuOpen ? "menuOpen" : ""}>
-              Propiedades
-            </TituloMenu>
-          </Option>
-        </Enlaces>
-        <Enlaces to={"/admin/blog"}>
-          <Option>
-            <Icono
-              icon={faNewspaper}
-              className={`${lugar === "/fletes" ? "iconoSelect" : ""}`}
-            />
-            <TituloMenu className={menuOpen ? "menuOpen" : ""}>Blog</TituloMenu>
-          </Option>
-        </Enlaces>
+          <Enlaces
+            to={"/admin/dashboard"}
+            className={({ isActive, isPending }) =>
+              isPending ? "pending" : isActive ? "active" : ""
+            }
+          >
+            <Option>
+              <Icono
+                icon={faChartLine}
+                className={`${lugar === "/materiales" ? "iconoSelect" : ""}`}
+              />
+              <TituloMenu className={menuOpen ? "menuOpen" : ""}>
+                Dashboard
+              </TituloMenu>
+            </Option>
+          </Enlaces>
+          <Enlaces
+            to={"/admin/feedback"}
+            placeholder="Modulo Nuevo"
+            className={({ isActive, isPending }) =>
+              isPending ? "pending" : isActive ? "active" : ""
+            }
+          >
+            <Option>
+              <Icono
+                icon={faComments}
+                className={`${lugar === "/importaciones" ? "iconoSelect" : ""}`}
+              />
+              <TituloMenu className={menuOpen ? "menuOpen" : ""}>
+                Feedback
+              </TituloMenu>
+            </Option>
+          </Enlaces>
 
-        <Enlaces to={"/admin/hospedajes"}>
-          <Option>
-            <Icono
-              icon={faBed}
-              className={`icono  ${
-                lugar === "/transportes" ? "iconoSelect" : ""
-              }`}
-            />
-            <TituloMenu className={menuOpen ? "menuOpen" : ""}>
-              Hospedajes
-            </TituloMenu>
-          </Option>
-        </Enlaces>
-      </CajaOptionMenu>
-    </Container>
+          <Enlaces to={"/admin/propiedades"}>
+            <Option>
+              <Icono
+                icon={faWaterLadder}
+                className={`${lugar === "/fletes" ? "iconoSelect" : ""}`}
+              />
+              <TituloMenu className={menuOpen ? "menuOpen" : ""}>
+                Propiedades
+              </TituloMenu>
+            </Option>
+          </Enlaces>
+          <Enlaces to={"/admin/blog"}>
+            <Option>
+              <Icono
+                icon={faNewspaper}
+                className={`${lugar === "/fletes" ? "iconoSelect" : ""}`}
+              />
+              <TituloMenu className={menuOpen ? "menuOpen" : ""}>
+                Blog
+              </TituloMenu>
+            </Option>
+          </Enlaces>
+
+          <Enlaces to={"/admin/hospedajes"}>
+            <Option>
+              <Icono
+                icon={faBed}
+                className={`icono  ${
+                  lugar === "/transportes" ? "iconoSelect" : ""
+                }`}
+              />
+              <TituloMenu className={menuOpen ? "menuOpen" : ""}>
+                Hospedajes
+              </TituloMenu>
+            </Option>
+          </Enlaces>
+        </CajaOptionMenu>
+      </Container>
+    </>
   );
 }
 const Container = styled.div`
@@ -132,10 +173,18 @@ const Container = styled.div`
   background-color: ${theme.primary.turquoiseTenue};
   border-right: 1px solid ${theme.primary.turquoiseBrillante};
   transition: all 0.1s cubic-bezier(0.785, 0.135, 0.15, 0.86);
+  z-index: 500;
   &.open {
     width: 300px;
   }
   overflow: hidden;
+
+  &.quitarMenu {
+    display: none;
+  }
+  @media screen and (max-width: 620px) {
+    width: 0;
+  }
 `;
 
 const NamePage = styled.div`
@@ -167,7 +216,7 @@ const BoxBarsMenu = styled.div`
   }
   @media screen and (max-width: 620px) {
     border: 1px solid ${theme.azul2};
-    background-color: ${theme.azulOscuro1Sbetav3};
+    background-color: ${theme.primary.turquoise};
     border-radius: 5px 0 5px 0;
     padding: 4px;
     width: 40px;
@@ -257,6 +306,25 @@ const Icono = styled(FontAwesomeIcon)`
   &.debajo {
     position: absolute;
     left: -5px;
+  }
+  &.angulo {
+    /* left: -5px; */
+    left: 10px;
+    top: 80px;
+    border: 1px solid ${theme.primary.turquoise};
+    color: ${theme.secondary.coral};
+    border-radius: 4px;
+    position: fixed;
+    width: 40px;
+    height: 40px;
+    z-index: 100;
+    transition: ease all 0.3s;
+    &.sinOpacity {
+      opacity: 0;
+    }
+    @media screen and (max-width: 620px) {
+      display: none;
+    }
   }
 `;
 

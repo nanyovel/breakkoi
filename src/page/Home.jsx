@@ -118,7 +118,7 @@ export default function Home({ userMaster }) {
         </BarraPieHero>
         <ContainerSemi>
           <WrapSeccion>
-            <WrapSeccion className="internal">
+            <WrapSeccionInternal>
               <Seccion className="video">
                 <CajaVideo>
                   <CajaInternaVideo className="izquierda">
@@ -146,21 +146,19 @@ export default function Home({ userMaster }) {
                   </CajaInternaVideo>
                   <CajaInternaVideo className="derecha">
                     <CajaYouTube>
-                      <iframe
-                        width="560"
-                        height="315"
+                      <FramYT
                         src="https://www.youtube.com/embed/S7gJV3Jwmh4?si=2jlzF4_GiNiLP7o0"
                         title="YouTube video player"
                         frameBorder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                         referrerPolicy="strict-origin-when-cross-origin"
                         allowFullScreen
-                      ></iframe>
+                      ></FramYT>
                     </CajaYouTube>
                   </CajaInternaVideo>
                 </CajaVideo>
               </Seccion>
-            </WrapSeccion>
+            </WrapSeccionInternal>
           </WrapSeccion>
           <Seccion>
             <TituloSeccion className="sinMarginBottom">
@@ -388,14 +386,14 @@ export default function Home({ userMaster }) {
             </WrapTextoImg>
           </Seccion>
         </ContainerSemi>
-        <ContainerSemi2>
+        <CajaBlog>
           <Seccion>
             <TituloSeccion className="coral">Noticias (Blog)</TituloSeccion>
             <WrapTextoImg>
               <CardBlog />
             </WrapTextoImg>
           </Seccion>
-        </ContainerSemi2>
+        </CajaBlog>
         <Seccion>
           <TituloSeccion>Envianos un mensaje</TituloSeccion>
           <FormContact userMaster={userMaster} />
@@ -410,13 +408,26 @@ const Container2 = styled.div``;
 const ContainerSemi = styled.div`
   padding-left: ${theme.config.paddingLateral};
   padding-right: ${theme.config.paddingLateral};
+  @media screen and (max-width: 1100px) {
+    padding-left: ${theme.config.paddingLateral100};
+    padding-right: ${theme.config.paddingLateral100};
+  }
+  @media screen and (max-width: 750px) {
+    padding-left: ${theme.config.paddingLateral70};
+    padding-right: ${theme.config.paddingLateral70};
+  }
 `;
-const ContainerSemi2 = styled(ContainerSemi)`
+const CajaBlog = styled.div`
+  padding-left: ${theme.config.paddingLateral};
+  padding-right: ${theme.config.paddingLateral};
   background-color: ${theme.primary.turquoise};
   padding: 80px ${theme.config.paddingLateral};
   margin-bottom: 50px;
+  @media screen and (max-width: 750px) {
+    padding-left: ${theme.config.paddingLateral70};
+    padding-right: ${theme.config.paddingLateral70};
+  }
 `;
-
 // ***** HERO ******
 const ContainerHeader = styled.div`
   position: relative;
@@ -467,7 +478,9 @@ const BarraPieHero = styled.div`
   margin-bottom: 120px;
   background-color: ${theme.primary.turquoiseTenue};
   width: 100%;
-  height: 80px;
+  min-height: 80px;
+  display: flex;
+  align-items: center;
 `;
 
 const TituloPieHero = styled.h2`
@@ -481,6 +494,7 @@ const TituloPieHero = styled.h2`
 `;
 const CajaVideo = styled.div`
   min-height: 300px;
+  height: 100%;
   display: flex;
   border-radius: 15px;
   background-color: white;
@@ -488,6 +502,10 @@ const CajaVideo = styled.div`
   -moz-box-shadow: 3px 7px 11px 0px rgba(0, 0, 0, 0.75);
   -webkit-box-shadow: 3px 7px 11px 0px rgba(0, 0, 0, 0.75);
   box-shadow: 3px 7px 11px 0px rgba(0, 0, 0, 0.75);
+  @media screen and (max-width: 1350px) {
+    display: flex;
+    flex-direction: column;
+  }
 `;
 const CajaInternaVideo = styled.div`
   min-height: 300px;
@@ -495,6 +513,10 @@ const CajaInternaVideo = styled.div`
   &.izquierda {
     width: auto;
     align-items: center;
+    overflow-y: scroll;
+    @media screen and (max-width: 1350px) {
+      overflow: auto;
+    }
   }
   &.derecha {
     box-shadow: 0 2px 20px #0003;
@@ -509,6 +531,15 @@ const CajaYouTube = styled.div`
   box-shadow: 0 2px 20px #0003;
   /* width: 80%; */
   /* border: 1px solid red; */
+`;
+const FramYT = styled.iframe`
+  width: 560px;
+  height: 315px;
+  @media screen and (max-width: 1350px) {
+    overflow: auto;
+    width: 448px;
+    height: 252px;
+  }
 `;
 const TituloH2Video = styled.h2`
   text-align: center;
@@ -559,6 +590,12 @@ const WrapTextoImg = styled.div`
   gap: 30px;
   &.reverse {
     flex-direction: row-reverse;
+    @media screen and (max-width: 900px) {
+      display: flex;
+      justify-content: center;
+      flex-direction: column-reverse;
+      align-items: center;
+    }
   }
 `;
 const CajaInterna = styled.div`
@@ -570,10 +607,15 @@ const CajaInterna = styled.div`
     position: relative;
     overflow: hidden;
     border-radius: 5px;
-
+    width: 40%;
     &:hover .hover {
       transform: translateX(0%);
     }
+    /* width: 30%; */
+    /* width: ; */
+  }
+  @media screen and (max-width: 900px) {
+    width: 100%;
   }
 `;
 const Img = styled.img`
@@ -585,7 +627,8 @@ const Img = styled.img`
   height: 100%;
   object-fit: cover;
   &.svg {
-    width: 80%;
+    width: 100%;
+    height: auto;
   }
 `;
 const Parrafo = styled.p`
@@ -612,11 +655,9 @@ const CajaHover = styled.div`
 `;
 
 const CajaWave = styled.div`
-  /* border: 2px solid red; */
   position: absolute;
   bottom: -100px;
   width: 100%;
-  /* overflow: hidden; */
 `;
 const ImgWave = styled.img`
   position: absolute;
@@ -636,7 +677,8 @@ const Seccion = styled.section`
   margin-bottom: 100px;
   &.parallax {
     height: 100vh;
-    width: 100vw;
+    width: 100%;
+    /* overflow-x: hidden; */
   }
   &.fondo {
     background-color: ${theme.primary.turquoise};
@@ -644,41 +686,46 @@ const Seccion = styled.section`
   }
   &.video {
     margin-bottom: 0;
-    /* background-color: red; */
+    height: 130%;
   }
 `;
 
 const WrapSeccion = styled.div`
-  /* background-color: blue; */
-  /* width: 100vw; */
-  height: 90vh;
+  height: 800px;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   margin-bottom: 40px;
-  &.internal {
-    width: 100vw;
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: ${theme.secondary.coral};
-    padding-left: ${theme.config.paddingLateral};
-    padding-right: ${theme.config.paddingLateral};
-    /* background-color: blue; */
+`;
+
+const WrapSeccionInternal = styled.div`
+  height: 60%;
+  margin-bottom: 40px;
+  width: 100vw;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: ${theme.secondary.coral};
+  padding-left: ${theme.config.paddingLateral};
+  padding-right: ${theme.config.paddingLateral};
+  @media screen and (max-width: 1350px) {
+    height: 90%;
   }
 `;
 // Parallax
 const SeccionParralla = styled(Seccion)`
-  /* border: 2px solid red; */
-  /* position: relative; */
   width: 100%;
   height: 100vh;
   left: 0;
   position: absolute;
 `;
 const BarraParallax = styled.div`
-  height: 100px;
+  min-height: 100px;
+  display: flex;
+  align-items: center;
+
   width: 100vw;
   background-color: ${theme.secondary.coral};
   position: absolute;
@@ -688,6 +735,8 @@ const BarraParallax = styled.div`
   }
   &.bottom {
     bottom: 0;
+  }
+  @media screen {
   }
 `;
 const TituloParallax = styled.h2`
@@ -700,7 +749,6 @@ const TituloParallax = styled.h2`
   color: white;
 `;
 const CajaParallax = styled.div`
-  /* position: absolute; */
   height: 90vh;
   width: 100%;
   position: absolute;
@@ -743,22 +791,8 @@ const CajaRazon = styled.div`
   margin-bottom: 25px;
   width: 100%;
 `;
-const CajaEncabezado = styled.div`
-  width: 100%;
-  min-height: 60px;
-  /* border: 1px solid blue; */
-  display: flex;
-  justify-content: start;
-  padding: 5px;
-  padding-left: 10px;
-  align-items: center;
-  border-left: 4px solid ${theme.secondary.coral};
-`;
-const TituloRazon = styled.h2`
-  color: ${theme.primary.turquoise};
-`;
+
 const ListaRazon = styled.ul`
-  /* color: ${theme.primary.turquoise}; */
   padding: 15px;
   padding-left: 35px;
   &.noListStyle {
@@ -769,9 +803,7 @@ const WrapElementList = styled.div`
   display: flex;
 `;
 const ListStyle = styled.h2`
-  /* background-color: red; */
   font-size: 1.2rem;
-  /* height: 100%; */
 `;
 const ElementosRazon = styled.li`
   margin-bottom: 8px;
