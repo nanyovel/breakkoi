@@ -107,6 +107,7 @@ export default function CajaComentario({ currentPost, userMaster }) {
         createdAt: ES6AFormat(new Date()),
         timestamp: Timestamp.fromDate(new Date()),
         comment: inputValue,
+        slugPost: currentPost.url,
       };
       await addDoc(collection(db, "comentariosPost"), postCargar);
       setInputValue("");

@@ -3,6 +3,10 @@ import styled from "styled-components";
 import { theme } from "../../config/theme";
 import CajaNuevoBlog from "../../components/Blog/CajaNuevoBlog";
 import MenuPestannias from "../../components/MenuPestannias";
+import BotonQuery from "../../components/BotonQuery";
+import ListaMensajes from "../../components/Dashboard/ListaMensajes";
+import ListaComentarios from "../../components/Dashboard/ListaComentarios";
+import ListaResennias from "../../components/Dashboard/ListaResennias";
 
 export default function Admin02Feedback() {
   const [pestannias, setPestannias] = useState([
@@ -34,8 +38,12 @@ export default function Admin02Feedback() {
     );
   };
 
+  const [mensajesDB, setMensajesDB] = useState([]);
+  const [comentariosDB, setComentariosDB] = useState([]);
+  const [resenniasDB, setResenniasDB] = useState([]);
   return (
     <Container>
+      <BotonQuery pestannias={pestannias} />
       <CajaMenu>
         <MenuPestannias
           arrayOpciones={pestannias}
@@ -43,6 +51,26 @@ export default function Admin02Feedback() {
           tab={true}
         />
       </CajaMenu>
+      <CajaResult>
+        {pestannias?.find((pes) => pes.select)?.key == "mensajes" && (
+          <ListaMensajes
+            setMensajesDB={setMensajesDB}
+            mensajesDB={mensajesDB}
+          />
+        )}
+        {pestannias?.find((pes) => pes.select)?.key == "comentarios" && (
+          <ListaComentarios
+            setComentariosDB={setComentariosDB}
+            comentariosDB={comentariosDB}
+          />
+        )}
+        {pestannias?.find((pes) => pes.select)?.key == "resennias" && (
+          <ListaResennias
+            setResenniasDB={setResenniasDB}
+            resenniasDB={resenniasDB}
+          />
+        )}
+      </CajaResult>
     </Container>
   );
 }
@@ -59,3 +87,4 @@ const CajaMenu = styled.div`
   width: 100%;
   text-align: start;
 `;
+const CajaResult = styled.div``;

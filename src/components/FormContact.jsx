@@ -1,28 +1,83 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { theme } from "../config/theme";
 import { BtnGeneral } from "./ElementosGenerales";
+import MensajeSchema from "../model/MensajeSchema";
+import { addDoc, collection, Timestamp } from "firebase/firestore";
+import db from "../firebase/firebaseConfig";
+import { ES6AFormat } from "../libs/FechaFormat";
 
-export default function FormContact() {
+export default function FormContact({ userMaster }) {
+  const initialValue = {
+    ...MensajeSchema,
+  };
+  const [datos, setDatos] = useState({ ...initialValue });
+  const handleInput = (e) => {
+    const { value, name } = e.target;
+    setDatos((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+  const [mensajeEnviado, setMensajeEnviado] = useState(false);
+  const enviarMensaje = async () => {
+    try {
+      const docRef = collection(db, "mensajes");
+      await addDoc(docRef, {
+        ...datos,
+        createdAt: ES6AFormat(new Date()),
+        timestamp: Timestamp.fromDate(new Date()),
+        userId: userMaster?.id ? userMaster.id : "",
+      });
+      setDatos({ ...initialValue });
+      setMensajeEnviado(true);
+      setTimeout(() => {
+        setMensajeEnviado(false);
+      }, 3000);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <Container>
+      {mensajeEnviado && <Parrafo>Gracias, su mensaje sera atendido.</Parrafo>}
       <CajaInput>
         <TituloInput>Nombre</TituloInput>
-        <Input type="text" />
+        <Input
+          type="text"
+          value={datos.nombre}
+          name="nombre"
+          onChange={(e) => handleInput(e)}
+        />
       </CajaInput>
       <CajaInput>
         <TituloInput>Telefono</TituloInput>
-        <Input type="text" />
+        <Input
+          type="text"
+          onChange={(e) => handleInput(e)}
+          name="telefono"
+          value={datos.telefono}
+        />
       </CajaInput>
       <CajaInput>
         <TituloInput>Correo</TituloInput>
-        <Input type="text" />
+        <Input
+          type="text"
+          onChange={(e) => handleInput(e)}
+          name="correo"
+          value={datos.correo}
+        />
       </CajaInput>
       <CajaInput>
         <TituloInput>Mensaje</TituloInput>
-        <TextArea type="text" />
+        <TextArea
+          type="text"
+          onChange={(e) => handleInput(e)}
+          name="mensaje"
+          value={datos.mensaje}
+        />
       </CajaInput>
-      <BtnSimple>Enviar</BtnSimple>
+      <BtnSimple onClick={() => enviarMensaje()}>Enviar</BtnSimple>
     </Container>
   );
 }
@@ -74,4 +129,9 @@ const TextArea = styled.textarea`
 `;
 const BtnSimple = styled(BtnGeneral)`
   border: 1px solid ${theme.primary.turquoise};
+`;
+
+const Parrafo = styled.p`
+  color: ${theme.primary.turquoise};
+  font-weight: bold;
 `;

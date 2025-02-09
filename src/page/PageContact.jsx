@@ -1,29 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { theme } from "../config/theme";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
 import FormContact from "../components/FormContact";
 import ImgCarta from "../../public/img/carta.png";
 import { TituloSeccion } from "../components/ElementosGenerales";
 
-export default function PageContact() {
+export default function PageContact({ userMaster }) {
   return (
     <>
-      {/* <Header /> */}
       <CajaPrincipal>
         <CajaTitulo>
           <TituloSimple>Envianos un mensaje</TituloSimple>
           <Subtitulo>Nos interesa saber lo que tienes que decir</Subtitulo>
         </CajaTitulo>
         <WrapContenido>
-          <FormContact />
+          <FormContact userMaster={userMaster} />
           <CajaImg>
             <Img src={ImgCarta} />
           </CajaImg>
         </WrapContenido>
       </CajaPrincipal>
-      {/* <Footer /> */}
     </>
   );
 }

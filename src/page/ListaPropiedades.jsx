@@ -56,6 +56,7 @@ const Enlace = styled(NavLink)`
   display: inline-block;
   color: auto;
   text-decoration: auto;
+  width: 100%;
   &:active {
     color: auto;
   }

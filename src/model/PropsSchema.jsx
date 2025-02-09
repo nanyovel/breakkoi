@@ -2,7 +2,6 @@ export const PropsSchema = {
   url: "",
   titulo: "",
   subTitulo: "",
-  imagenDestacada: "",
 
   areas: [
     {

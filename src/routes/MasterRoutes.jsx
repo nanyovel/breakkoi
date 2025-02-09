@@ -83,7 +83,10 @@ export default function MasterRoutes({
           path="/blog/*"
           element={<DetalleBlog2 userMaster={userMaster} />}
         />
-        <Route path="/contactos/" element={<PageContact />} />
+        <Route
+          path="/contactos/"
+          element={<PageContact userMaster={userMaster} />}
+        />
         <Route
           path="/admin/*"
           element={

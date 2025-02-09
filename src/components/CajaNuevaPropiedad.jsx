@@ -17,6 +17,7 @@ import {
   Timestamp,
   updateDoc,
 } from "firebase/firestore";
+import imageCompression from "browser-image-compression";
 
 import db, { storage } from "../firebase/firebaseConfig";
 import { ES6AFormat } from "../libs/FechaFormat";
@@ -487,6 +488,16 @@ export default function CajaNuevaPropiedad() {
 
     const subirImagen = async (file, nombre) => {
       if (file?.name) {
+        // Comprimir imagenes
+        // Configuración de compresión
+        // const options = {
+        //   maxSizeMB: 0.6, // Tamaño máximo en MB (ajusta según lo necesites)
+        //   maxWidthOrHeight: 1200, // Ancho o alto máximo en px
+        //   useWebWorker: true,
+        // };
+        // Comprimir la imagen
+        // const compressedFile = await imageCompression(file, options);
+
         const storageRef = ref(storage, `imgProps/${nombre}-${Date.now()}`);
         await uploadBytes(storageRef, file);
         return getDownloadURL(storageRef);
@@ -577,7 +588,8 @@ export default function CajaNuevaPropiedad() {
       });
       console.log(arrayLugaresCercanoFilter);
       const tituloSlug = generarSlug(valueParsedAmenidades.titulo);
-      const docRef = doc(collection(db, "propiedades"));
+      // const docRef = doc(collection(db, "propiedades"));
+      const docRef = collection(db, "propiedades");
 
       const doSubir = {
         ...PropsSchema,
@@ -591,7 +603,7 @@ export default function CajaNuevaPropiedad() {
       };
       console.log(doSubir);
 
-      await setDoc(docRef, doSubir);
+      await addDoc(docRef, doSubir);
       setValueInputProps({ ...initialValue });
       setIsLoading(false);
     } catch (error) {

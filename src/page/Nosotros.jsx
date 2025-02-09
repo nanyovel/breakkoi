@@ -25,25 +25,56 @@ export default function Nosotros() {
             <TituloLess>¿Quienes somos?</TituloLess>
             <br />
             <Parrafo>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci
-              eius qui, velit quas similique inventore! Saepe eos nobis
-              repellat, dolores, dicta ab corrupti odio nostrum eius quisquam
-              necessitatibus hic ullam.
+              En <b>Break Koi,</b> ofrecemos una colección exclusiva de villas
+              en <b>Punta Cana,</b> diseñadas para brindar lujo, seguridad y
+              comodidad en un entorno paradisíaco. Nos apasiona crear
+              experiencias únicas para nuestros huéspedes, con alojamientos
+              elegantes y servicios personalizados que garantizan una estadía
+              inolvidable. Nuestro compromiso es seguir creciendo y adquiriendo
+              nuevas propiedades para ofrecer siempre lo mejor en hospitalidad.
             </Parrafo>
             <br />
             <Parrafo>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci
-              eius qui, velit quas similique inventore! Saepe eos nobis
-              repellat, dolores, dicta ab corrupti odio nostrum eius quisquam
-              necessitatibus hic ullam.
+              Más que un destino, <b>Break Koi,</b> es un espacio donde la
+              exclusividad se combina con un trato cercano y amigable. Nos
+              enfocamos en la seguridad, el confort y la atención personalizada,
+              asegurando que cada huésped se sienta como en casa. Nuestro
+              objetivo es construir relaciones a largo plazo, creando momentos
+              memorables que hagan de cada visita una experiencia para repetir.
+            </Parrafo>
+            <br />
+          </CajaInterna>
+          <CajaInterna className="cajaImg">
+            <Img src={ImgWorkRead} />
+            <CajaHover className="hover">
+              Somos una excelente opcion de alquileres vacacionales en Punta
+              Cana.
+            </CajaHover>
+          </CajaInterna>
+        </WrapTextoImg>
+        <WrapTextoImg className="reverse">
+          <CajaInterna className="texto">
+            <TituloLess>¿Por que elegirnos?</TituloLess>
+            <br />
+            <Parrafo>
+              En <b>Break Koi,</b> combinamos lujo, seguridad y hospitalidad
+              para ofrecerte una experiencia inigualable en Punta Cana. Nuestras
+              villas elegantes y exclusivas están diseñadas para brindarte el
+              máximo confort, con espacios cuidadosamente decorados y amenidades
+              de primera clase. Además, garantizamos privacidad y tranquilidad
+              en un entorno paradisíaco, ideal para quienes buscan una escapada
+              perfecta.
             </Parrafo>
             <br />
             <Parrafo>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci
-              eius qui, velit quas similique inventore! Saepe eos nobis
-              repellat, dolores, dicta ab corrupti odio nostrum eius quisquam
-              necessitatibus hic ullam.
+              Nos distinguimos por nuestro trato personalizado y atención
+              cercana a cada huésped. En <b>Break Koi,</b> no solo te ofrecemos
+              un lugar donde hospedarte, sino un servicio cálido y amigable que
+              hará que te sientas como en casa. Queremos construir relaciones a
+              largo plazo, asegurándonos de que cada visita sea una experiencia
+              única que siempre querrás repetir.
             </Parrafo>
+            <br />
           </CajaInterna>
           <CajaInterna className="cajaImg">
             <Img src={ImgWorkRead} />
@@ -196,7 +227,10 @@ const Img = styled.img`
     /* width: 100%; */
   }
 `;
-const Parrafo = styled.p``;
+const Parrafo = styled.p`
+  line-height: 1.4rem;
+  color: ${theme.primary.neutral650};
+`;
 const CajaHover = styled.div`
   color: #fff;
   text-align: center;

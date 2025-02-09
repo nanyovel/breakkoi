@@ -121,10 +121,12 @@ export default function CajaResennias({ villaMaster, userMaster }) {
         userId: userMaster.id,
         nacionalidad: userMaster.nacionalidad,
         propiedadId: villaMaster.id,
+        nombrePropiedad: villaMaster.titulo,
         createdAt: ES6AFormat(new Date()),
         timestamp: Timestamp.fromDate(new Date()),
         texto: inputValue,
         puntuacion: puntuacionStar,
+        slugPropiedad: villaMaster.url,
       };
       await addDoc(collection(db, "resennias"), reviewCargar);
       setInputValue("");

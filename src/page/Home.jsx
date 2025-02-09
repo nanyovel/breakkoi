@@ -188,18 +188,18 @@ export default function Home({ userMaster }) {
                 <TituloLess>¿Quienes somos?</TituloLess>
                 <br />
                 <Parrafo>
-                  En Break Koi, ofrecemos una colección exclusiva de villas en
-                  Punta Cana, diseñadas para brindar lujo, seguridad y comodidad
-                  en un entorno paradisíaco. Nos apasiona crear experiencias
-                  únicas para nuestros huéspedes, con alojamientos elegantes y
-                  servicios personalizados que garantizan una estadía
-                  inolvidable. Nuestro compromiso es seguir creciendo y
-                  adquiriendo nuevas propiedades para ofrecer siempre lo mejor
-                  en hospitalidad.
+                  En <b>Break Koi,</b> ofrecemos una colección exclusiva de
+                  villas en <b>Punta Cana,</b> diseñadas para brindar lujo,
+                  seguridad y comodidad en un entorno paradisíaco. Nos apasiona
+                  crear experiencias únicas para nuestros huéspedes, con
+                  alojamientos elegantes y servicios personalizados que
+                  garantizan una estadía inolvidable. Nuestro compromiso es
+                  seguir creciendo y adquiriendo nuevas propiedades para ofrecer
+                  siempre lo mejor en hospitalidad.
                 </Parrafo>
                 <br />
                 <Parrafo>
-                  Más que un destino, Break Koi es un espacio donde la
+                  Más que un destino, <b>Break Koi,</b> es un espacio donde la
                   exclusividad se combina con un trato cercano y amigable. Nos
                   enfocamos en la seguridad, el confort y la atención
                   personalizada, asegurando que cada huésped se sienta como en
@@ -222,22 +222,22 @@ export default function Home({ userMaster }) {
                 <TituloLess>¿Por que elegirnos?</TituloLess>
                 <br />
                 <Parrafo>
-                  En Break Koi, combinamos lujo, seguridad y hospitalidad para
-                  ofrecerte una experiencia inigualable en Punta Cana. Nuestras
-                  villas elegantes y exclusivas están diseñadas para brindarte
-                  el máximo confort, con espacios cuidadosamente decorados y
-                  amenidades de primera clase. Además, garantizamos privacidad y
-                  tranquilidad en un entorno paradisíaco, ideal para quienes
-                  buscan una escapada perfecta.
+                  En <b>Break Koi,</b> combinamos lujo, seguridad y hospitalidad
+                  para ofrecerte una experiencia inigualable en Punta Cana.
+                  Nuestras villas elegantes y exclusivas están diseñadas para
+                  brindarte el máximo confort, con espacios cuidadosamente
+                  decorados y amenidades de primera clase. Además, garantizamos
+                  privacidad y tranquilidad en un entorno paradisíaco, ideal
+                  para quienes buscan una escapada perfecta.
                 </Parrafo>
                 <br />
                 <Parrafo>
                   Nos distinguimos por nuestro trato personalizado y atención
-                  cercana a cada huésped. En Break Koi, no solo te ofrecemos un
-                  lugar donde hospedarte, sino un servicio cálido y amigable que
-                  hará que te sientas como en casa. Queremos construir
-                  relaciones a largo plazo, asegurándonos de que cada visita sea
-                  una experiencia única que siempre querrás repetir.
+                  cercana a cada huésped. En <b>Break Koi,</b> no solo te
+                  ofrecemos un lugar donde hospedarte, sino un servicio cálido y
+                  amigable que hará que te sientas como en casa. Queremos
+                  construir relaciones a largo plazo, asegurándonos de que cada
+                  visita sea una experiencia única que siempre querrás repetir.
                 </Parrafo>
                 <br />
               </CajaInterna>
@@ -398,7 +398,7 @@ export default function Home({ userMaster }) {
         </ContainerSemi2>
         <Seccion>
           <TituloSeccion>Envianos un mensaje</TituloSeccion>
-          <FormContact />
+          <FormContact userMaster={userMaster} />
         </Seccion>
       </Container2>
       {/* <Footer /> */}

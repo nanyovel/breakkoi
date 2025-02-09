@@ -7,6 +7,18 @@ export default function BotonQuery(props) {
   const consulta = () => {
     console.log(props);
   };
-  return <BtnSimple onClick={() => consulta()}>Consulta</BtnSimple>;
+  return (
+    <BtnSimple
+      className={theme.config.modoDev ? "modoDev" : ""}
+      onClick={() => consulta()}
+    >
+      Consulta
+    </BtnSimple>
+  );
 }
-const BtnSimple = styled(BtnGeneral)``;
+const BtnSimple = styled(BtnGeneral)`
+  display: none;
+  &.modoDev {
+    display: inline-block;
+  }
+`;

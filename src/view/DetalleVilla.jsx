@@ -98,6 +98,7 @@ export default function DetalleVilla({ userMaster }) {
       {datosParsed && (
         <Container>
           <TituloVilla ref={galeriaRef}>{villaMaster.titulo}</TituloVilla>
+          <Subtitulo>{villaMaster.subTitulo}</Subtitulo>
           <Galeria
             villaMaster={villaMaster}
             setMostrarGaleria={setMostrarGaleria}

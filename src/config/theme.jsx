@@ -42,6 +42,7 @@ export const theme = {
   warning: "#ffc107",
   danger: "#dc3545",
   config: {
+    modoDev: false,
     userMale: ImgMale,
     userFemale: ImgFemale,
     paddingLateral: "200px",

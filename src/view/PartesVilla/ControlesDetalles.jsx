@@ -9,6 +9,7 @@ import {
 import Modal from "../../components/Modal";
 import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
+import { PropsSchema } from "../../model/PropsSchema";
 
 export default function ControlesDetalles({
   hacerScroll,
@@ -18,7 +19,14 @@ export default function ControlesDetalles({
 }) {
   const [listaImagenes, setListaImagenes] = useState([]);
   useEffect(() => {
-    const imgAux = villaMaster.areas.flatMap((areas) => areas.fotos);
+    const imgLista = villaMaster.areas.flatMap((areas) => areas.fotos);
+    const imgAux = [
+      {
+        texto: "Imagen destacada",
+        url: villaMaster.urlFotoDestacada,
+      },
+      ...imgLista,
+    ];
     const imgParsed = imgAux.map((img) => {
       return {
         original: img.url,
