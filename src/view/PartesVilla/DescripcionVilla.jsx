@@ -81,7 +81,13 @@ export default function DescripcionVilla({ villa, hacerScroll, resumido }) {
               <Icono icon={faComment} />
               <Texto5Star>12</Texto5Star>
             </CajitaFlex>
-            <Texto5Star className="review">Reseñas</Texto5Star>
+            <Texto5Star
+              className="review"
+              data-name="resennias"
+              onClick={(e) => hacerScroll(e)}
+            >
+              Reseñas
+            </Texto5Star>
           </ContenedorIntValor>
           <ContenedorIntValor>
             <CajaAnfitrion

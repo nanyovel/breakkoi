@@ -2,15 +2,19 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { theme } from "../../config/theme";
 
-export default function Galeria({ villaMaster }) {
+export default function Galeria({ villaMaster, setMostrarGaleria }) {
   const [imgResumida, setImgResumida] = useState({});
   useEffect(() => {
     const imgResAux = villaMaster.areas.flatMap((areas) => areas.fotos);
     console.log(imgResAux);
     setImgResumida(imgResAux.filter((foto) => foto.resumida));
   }, []);
+
+  const mostrarGallery = () => {
+    setMostrarGaleria(true);
+  };
   return (
-    <CajaGaleriaMain>
+    <CajaGaleriaMain onClick={() => mostrarGallery()}>
       <CajaInt className="der">
         <CajaIntDer>
           <Img
@@ -47,6 +51,7 @@ const CajaGaleriaMain = styled.div`
   /* overflow: hidden; */
   display: flex;
   margin-bottom: 25px;
+  cursor: pointer;
 `;
 const CajaInt = styled.div`
   &.izq {

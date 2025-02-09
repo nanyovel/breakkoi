@@ -4,6 +4,7 @@ import { theme } from "../../config/theme";
 import { ES6AFormat, hoyManniana } from "../../libs/FechaFormat";
 
 export default function Comment({ comment }) {
+  console.log(comment);
   return (
     <Container>
       <Wrap>

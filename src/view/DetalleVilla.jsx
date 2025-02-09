@@ -22,7 +22,7 @@ import { Villas } from "../DB/Villas";
 import BotonQuery from "../components/BotonQuery";
 import { fetchGetDocs, obtenerDocPorId } from "../libs/FetchFirebase";
 
-export default function DetalleVilla() {
+export default function DetalleVilla({ userMaster }) {
   const [villaMaster, setVillaMaster] = useState({});
   const params = useParams();
   const docUser = params.id;
@@ -45,7 +45,7 @@ export default function DetalleVilla() {
     })();
   }, []);
   // /***************RECURSOS GENERALES******* */
-
+  const [mostrarGaleria, setMostrarGaleria] = useState(false);
   const [datosParsed, setDatosParsed] = useState(false);
   useEffect(() => {
     const villaBuscada = Villas.find((villa) => {
@@ -61,7 +61,7 @@ export default function DetalleVilla() {
 
   const hacerScroll = (e) => {
     const nameDataset = e.target.dataset.name;
-    console.log(nameDataset);
+    console.log("nameDataset");
 
     if (nameDataset == "galeria") {
       galeriaRef.current?.scrollIntoView({
@@ -98,9 +98,14 @@ export default function DetalleVilla() {
       {datosParsed && (
         <Container>
           <TituloVilla ref={galeriaRef}>{villaMaster.titulo}</TituloVilla>
-          <Galeria villaMaster={villaMaster} />
+          <Galeria
+            villaMaster={villaMaster}
+            setMostrarGaleria={setMostrarGaleria}
+          />
           <ControlesDetalles
             hacerScroll={hacerScroll}
+            mostrarGaleria={mostrarGaleria}
+            setMostrarGaleria={setMostrarGaleria}
             villaMaster={villaMaster}
           />
           <Seccion className="anchoCompleto sinBorde">
@@ -132,8 +137,8 @@ export default function DetalleVilla() {
             <Location urlMapa={villaMaster.location} />
           </Seccion>
           <Seccion>
-            <Subtitulo ref={resenniasRef}>Ult. Reseñas</Subtitulo>
-            {/* <CajaResennias resennias={villaMaster.resennias} /> */}
+            <Subtitulo ref={resenniasRef}>Reseñas</Subtitulo>
+            <CajaResennias villaMaster={villaMaster} userMaster={userMaster} />
           </Seccion>
           <Seccion className="anchoCompleto">
             <Subtitulo>Anfritrion</Subtitulo>

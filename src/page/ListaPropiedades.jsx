@@ -53,6 +53,7 @@ const CajaVilla = styled.div`
 `;
 const Enlace = styled(NavLink)`
   margin-bottom: 25px;
+  display: inline-block;
   color: auto;
   text-decoration: auto;
   &:active {

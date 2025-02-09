@@ -74,7 +74,10 @@ export default function MasterRoutes({
           path="/propiedades/"
           element={<ListaPropiedades userMaster={userMaster} />}
         />
-        <Route path="/propiedades/:id" element={<DetalleVilla />} />
+        <Route
+          path="/propiedades/:id"
+          element={<DetalleVilla userMaster={userMaster} />}
+        />
         <Route path="/blog/" element={<ListaBlog />} />
         <Route
           path="/blog/*"

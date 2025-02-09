@@ -55,6 +55,39 @@ export default function Home({ userMaster }) {
       setPropiedadesDB(listaProps);
     })();
   }, []);
+
+  const reviewStatic = [
+    {
+      puntuacion: 4,
+      avatarUser: RostroHombre1,
+      nacionalidad: {
+        siglas: "US",
+      },
+      nombre: "Nolan Sandler",
+      texto:
+        "Este sitio me encanta, es la tarcera vez que voy y no sera la ultima.",
+    },
+    {
+      puntuacion: 5,
+      avatarUser: RostroMujer1,
+      nacionalidad: {
+        siglas: "CA",
+      },
+      nombre: "Mirian Smith",
+      texto:
+        "Me encanto el lugar, todo limpio, ordenado, buen ambiente y la ubicacion geografica es lo maravilloso del sitio.",
+    },
+    {
+      puntuacion: 4,
+      avatarUser: RostroMujer2,
+      nacionalidad: {
+        siglas: "GB",
+      },
+      nombre: "Mary Diaz",
+      texto:
+        "Mi esposo y mis hijos quedaron encantado con el lugar y la zona, siempre es un placer visitar Punta Cana.",
+    },
+  ];
   return (
     <>
       {/* <Header absolute={true} userMaster={userMaster} /> */}
@@ -349,25 +382,9 @@ export default function Home({ userMaster }) {
           <Seccion>
             <TituloSeccion>¿Que dicen nuestros clientes?</TituloSeccion>
             <WrapTextoImg>
-              <CardResennia
-                nombre="Mirian Smith"
-                ImgPerson={RostroMujer1}
-                ImgBandera={EEUU}
-                texto="Me encanto el lugar, todo limpio, ordenado, buen ambiente y la
-              ubicacion geografica es lo maravilloso del sitio."
-              />
-              <CardResennia
-                nombre="Nolan Sandler"
-                ImgPerson={RostroHombre1}
-                ImgBandera={ALEMANIA}
-                texto="Este sitio me encanta, es la tarcera vez que voy y no sera la ultima."
-              />
-              <CardResennia
-                nombre="Mary Diaz"
-                ImgPerson={RostroMujer2}
-                ImgBandera={CANADA}
-                texto="Mi esposo y mis hijos quedaron encantado con el lugar y la zona, siempre es un placer visitar Punta Cana."
-              />
+              {reviewStatic.map((card, index) => {
+                return <CardResennia key={index} review={card} />;
+              })}
             </WrapTextoImg>
           </Seccion>
         </ContainerSemi>

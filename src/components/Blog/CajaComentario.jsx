@@ -30,7 +30,7 @@ export default function CajaComentario({ currentPost, userMaster }) {
   useEffect(() => {
     let unsubscribe;
 
-    if (usuario && currentPost) {
+    if (currentPost) {
       // Llamar a la función y obtener la función de limpieza
       unsubscribe = fetchOnSnapLimitadoListen(
         "comentariosPost",
@@ -45,7 +45,7 @@ export default function CajaComentario({ currentPost, userMaster }) {
         unsubscribe(); // Limpiar el escuchador
       }
     };
-  }, [currentPost, usuario]);
+  }, [currentPost]);
 
   // ***********TRAEME LOS USUARIOS DE ESOS COMENTARIOS **************
   const [commentsParsed, setCommentsParsed] = useState([]);
@@ -99,8 +99,6 @@ export default function CajaComentario({ currentPost, userMaster }) {
     }
 
     // Si todo esta correcto
-    console.log(currentPost);
-    console.log(userMaster);
     try {
       const postCargar = {
         ...CommentSchema,
@@ -117,7 +115,8 @@ export default function CajaComentario({ currentPost, userMaster }) {
     }
   };
   const detenerEscucha = () => {
-    fetchOnSnapLimitadoListen();
+    // fetchOnSnapLimitadoListen();
+    setInputValue("");
   };
   const navigate = useNavigate();
   return (
@@ -137,7 +136,7 @@ export default function CajaComentario({ currentPost, userMaster }) {
         <BoxNewComent>
           <Wrap>
             <CajaInternaComentario className="izq">
-              <ImgAvatar src="https://firebasestorage.googleapis.com/v0/b/breakkoi.firebasestorage.app/o/avatars%2Fundefined__27_01_2025%2005%3A43%3A30%3A859%20PM__tUgRjKVfO8VqNAklqvFszI2ki0n1?alt=media&token=a28b8453-5fbd-4101-ad65-2013a03725d7" />
+              <ImgAvatar src={userMaster.urlFotoPerfil} />
             </CajaInternaComentario>
             <CajaInternaComentario className="der">
               <CajaTextArea>

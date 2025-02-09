@@ -6,19 +6,13 @@ import RostroMujer2 from "./../../public/img/rostroMujer2.jpg";
 import RostroHombre1 from "./../../public/img/rostroHombre1.jpg";
 import EEUU from "./../../public/img/estados-unidos.png";
 import ImgStar from "./../../public/img/estrella.png";
+import { generatorIconFlagURL } from "./ListaPaises";
 
-export default function CardResennia({
-  nombre,
-  ImgPerson,
-  ImgBandera,
-  texto,
-  filasDeDos,
-  puntuacion,
-  modal,
-}) {
+export default function CardResennia({ filasDeDos, modal, review }) {
+  console.log(review);
   const qtyEstrella = [];
   let contador = 0;
-  while (contador < puntuacion) {
+  while (contador < review.puntuacion) {
     qtyEstrella.push("");
     contador++;
   }
@@ -31,18 +25,21 @@ export default function CardResennia({
     >
       <CajaInterna className="persona">
         <CajaImg>
-          <Img src={ImgPerson} />
+          <Img src={review.avatarUser} />
         </CajaImg>
         <CajaNombre>
           <CajitaBandera>
-            <Img className="bandera" src={ImgBandera} />
+            <Img
+              className="bandera"
+              src={generatorIconFlagURL(review.nacionalidad.siglas)}
+            />
           </CajitaBandera>
-          <Nombre>{nombre}</Nombre>
+          <Nombre>{review.nombre}</Nombre>
         </CajaNombre>
       </CajaInterna>
       <CajaInterna className="texto">
         <CajaSubtitulo>
-          <Subtitulo>{texto}</Subtitulo>
+          <Subtitulo>{review.texto}</Subtitulo>
         </CajaSubtitulo>
         <CajaPuntuacion>
           {qtyEstrella.map((star, index) => {
@@ -68,6 +65,7 @@ const CajaPersona = styled.article`
   width: 400px;
   background-color: ${theme.primary.turquoise};
   color: white;
+  margin-bottom: 20px;
   &.filasDeDos {
     flex: 1 1 calc(50% - 10px);
     /* margin-bottom: 15px; */
@@ -117,6 +115,7 @@ const CajaNombre = styled.div`
 `;
 const Nombre = styled.h3`
   font-size: 1rem;
+  font-weight: lighter;
 `;
 const CajaSubtitulo = styled.div`
   /* border: 1px solid red; */

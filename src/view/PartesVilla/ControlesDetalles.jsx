@@ -10,12 +10,15 @@ import Modal from "../../components/Modal";
 import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
 
-export default function ControlesDetalles({ hacerScroll, villaMaster }) {
-  const [hasModal, setHasModal] = useState(false);
+export default function ControlesDetalles({
+  hacerScroll,
+  villaMaster,
+  mostrarGaleria,
+  setMostrarGaleria,
+}) {
   const [listaImagenes, setListaImagenes] = useState([]);
   useEffect(() => {
     const imgAux = villaMaster.areas.flatMap((areas) => areas.fotos);
-    console.log(imgAux);
     const imgParsed = imgAux.map((img) => {
       return {
         original: img.url,
@@ -26,6 +29,8 @@ export default function ControlesDetalles({ hacerScroll, villaMaster }) {
     console.log(imgParsed);
     setListaImagenes(imgParsed);
   }, []);
+  //
+
   return (
     <CajaControles>
       <CajitaDetalles>
@@ -34,7 +39,9 @@ export default function ControlesDetalles({ hacerScroll, villaMaster }) {
       </CajitaDetalles>
       <CajitaDetalles>
         <IconoFotos width="1.3rem" />
-        <TituloFunt onClick={() => setHasModal(true)}>Ver mas fotos</TituloFunt>
+        <TituloFunt onClick={() => setMostrarGaleria(true)}>
+          Ver mas fotos
+        </TituloFunt>
       </CajitaDetalles>
       <CajitaDetalles>
         <IconoComida width="1.3rem" />
@@ -43,8 +50,8 @@ export default function ControlesDetalles({ hacerScroll, villaMaster }) {
         </TituloFunt>
       </CajitaDetalles>
 
-      {hasModal && (
-        <Modal setHasModal={setHasModal} titulo={"Imagenes del lugar"}>
+      {mostrarGaleria && (
+        <Modal setHasModal={setMostrarGaleria} titulo={"Imagenes del lugar"}>
           <CajaGaleria>
             <ImageGallery items={listaImagenes} />
           </CajaGaleria>
