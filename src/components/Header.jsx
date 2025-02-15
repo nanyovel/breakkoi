@@ -150,7 +150,7 @@ export default function Header({ userMaster, absolute }) {
               <CajaLog>
                 <Enlaces className={"menu login"} to={"/login"}>
                   <Icono className="user" icon={faUser} />
-                  <TextRegistrarse>Registrarse</TextRegistrarse>
+                  <TextRegistrarse>Iniciar Sesion</TextRegistrarse>
                 </Enlaces>
                 {/* <TextoSingle>Login</TextoSingle> */}
               </CajaLog>
