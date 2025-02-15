@@ -22,6 +22,7 @@ import {
   faAngleRight,
 } from "@fortawesome/free-solid-svg-icons";
 import { faComments, faUser } from "@fortawesome/free-regular-svg-icons";
+import BotonQuery from "./BotonQuery";
 
 export default function MenuLateral() {
   let location = useLocation();
@@ -59,6 +60,13 @@ export default function MenuLateral() {
         icon={faAngleRight}
       />
 
+      <NamePage>
+        <BoxBarsMenu onClick={() => setMenuOpen(!menuOpen)}>
+          <Linea1 className={`${menuOpen ? " activeline1" : ""}`}></Linea1>
+          <Linea2 className={`${menuOpen ? " activeline2" : ""}`}></Linea2>
+          <Linea3 className={`${menuOpen ? " activeline3" : ""}`}></Linea3>
+        </BoxBarsMenu>
+      </NamePage>
       <Container
         className={`
         ${menuOpen ? "open" : ""}
@@ -68,14 +76,6 @@ export default function MenuLateral() {
         onMouseEnter={() => setMenuOpen(true)}
         onMouseLeave={() => setMenuOpen(false)}
       >
-        <NamePage>
-          <BoxBarsMenu onClick={() => setMenuOpen(!menuOpen)}>
-            <Linea1 className={`${menuOpen ? " activeline1" : ""}`}></Linea1>
-            <Linea2 className={`${menuOpen ? " activeline2" : ""}`}></Linea2>
-            <Linea3 className={`${menuOpen ? " activeline3" : ""}`}></Linea3>
-          </BoxBarsMenu>
-        </NamePage>
-
         <CajaOptionMenu>
           <Enlaces to={"/"}>
             <Option>
@@ -83,6 +83,7 @@ export default function MenuLateral() {
                 icon={faHouse}
                 className={`${lugar === "/" ? "iconoSelect" : ""}`}
               />
+
               <TituloMenu className={menuOpen ? "menuOpen" : ""}>
                 Inicio
               </TituloMenu>
@@ -317,8 +318,9 @@ const Icono = styled(FontAwesomeIcon)`
     position: fixed;
     width: 40px;
     height: 40px;
-    z-index: 100;
+    z-index: 550;
     transition: ease all 0.3s;
+    cursor: pointer;
     &.sinOpacity {
       opacity: 0;
     }

@@ -48,6 +48,7 @@ export default function Header({ userMaster, absolute }) {
     linkWhta2:
       "https://api.whatsapp.com/send?phone=+18299069059&text=Hola%20equipo%20BreakKoi,%20quisiera%20por%20favor%20ser%20asistido.",
   };
+  const [menuOpen, setMenuOpen] = useState(false);
   return (
     <>
       <ContenedorHeader className={absolute ? "absolute" : ""}>
@@ -74,34 +75,21 @@ export default function Header({ userMaster, absolute }) {
                 </Ancla>
               </TextoTel>
             </WrapTel>
-            {userMaster && isMovil && (
-              <Enlaces className={"perfil"} to={"/perfil"}>
-                <CajaPerfil>
-                  {userMaster.urlFotoPerfil ? (
-                    <CajaAvatar>
-                      <ImgAvatar src={userMaster.urlFotoPerfil} />
-                    </CajaAvatar>
-                  ) : (
-                    <CajaAvatar>
-                      <ImgAvatar
-                        className="icon"
-                        src={
-                          userMaster.genero == "Femenino"
-                            ? theme.config.userFemale
-                            : theme.config.userMale
-                        }
-                      />
-                    </CajaAvatar>
-                  )}
-
-                  <CajaNombrePerfil>
-                    <NombrePerfil>{userMaster.nombre}</NombrePerfil>
-                  </CajaNombrePerfil>
-                </CajaPerfil>
-              </Enlaces>
-            )}
           </CajaInternaHeader>
-          <CajaInternaHeader className="nav">
+          <CajaInternaHeader className={menuOpen ? "nav open" : "nav"}>
+            {menuOpen && (
+              <BoxBarsMenu
+                onClick={() => setMenuOpen(false)}
+                className="dentro"
+              >
+                <Linea1
+                  className={`${menuOpen ? " activeline1" : ""}`}
+                ></Linea1>
+                <Linea3
+                  className={`${menuOpen ? " activeline3" : ""}`}
+                ></Linea3>
+              </BoxBarsMenu>
+            )}
             <NavList>
               <NavItem>
                 <Enlaces to={"/"} className={"menu"}>
@@ -162,11 +150,12 @@ export default function Header({ userMaster, absolute }) {
               <CajaLog>
                 <Enlaces className={"menu login"} to={"/login"}>
                   <Icono className="user" icon={faUser} />
+                  <TextRegistrarse>Registrarse</TextRegistrarse>
                 </Enlaces>
                 {/* <TextoSingle>Login</TextoSingle> */}
               </CajaLog>
             )}
-            {userMaster && isMovil == false && (
+            {userMaster && (
               <Enlaces className={"perfil"} to={"/perfil"}>
                 <CajaPerfil>
                   {userMaster.urlFotoPerfil ? (
@@ -194,6 +183,13 @@ export default function Header({ userMaster, absolute }) {
             )}
           </CajaInternaHeader>
         </NavBar>
+        {!menuOpen && (
+          <BoxBarsMenu onClick={() => setMenuOpen(true)}>
+            <Linea1></Linea1>
+            <Linea2></Linea2>
+            <Linea3></Linea3>
+          </BoxBarsMenu>
+        )}
       </ContenedorHeader>
     </>
   );
@@ -209,7 +205,7 @@ export default function Header({ userMaster, absolute }) {
 const ContenedorHeader = styled.header`
   /* background-color: ${theme.primary.turquoise}; */
   background-color: rgba(26, 188, 156, 0.8);
-  width: 100%;
+  width: 100vw;
   color: ${theme.primary.white};
   /* padding: 16px; */
   height: 60px;
@@ -232,6 +228,9 @@ const ContenedorHeader = styled.header`
     padding: 10px 0;
     height: auto;
   }
+  @media screen and (max-width: 480px) {
+    padding: 4px 0;
+  }
 `;
 const NavBar = styled.nav`
   display: flex;
@@ -250,8 +249,26 @@ const CajaInternaHeader = styled.div`
   &.nav {
     padding: 8px;
     @media screen and (max-width: 620px) {
-      width: 100%;
-      height: auto;
+      transition: ease all 0.2s;
+      flex-direction: column-reverse;
+      position: fixed;
+      height: 500px;
+      top: 0;
+      right: 0;
+      transform: translate(100%);
+      overflow-x: scroll;
+      background-color: ${theme.primary.turquoise};
+      border: 1px solid black;
+      padding: 0 10px;
+      z-index: 20;
+      /* min-width: 50vw; */
+      min-width: 300px;
+      &.open {
+        transform: translate(0);
+      }
+    }
+    @media screen and (max-width: 720px) {
+      /* padding-left: 45px; */
     }
   }
 `;
@@ -259,6 +276,11 @@ const WrapTel = styled.div`
   @media screen and (max-width: 620px) {
     display: flex;
     gap: 15px;
+  }
+  @media screen and (max-width: 380px) {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
   }
 `;
 
@@ -296,11 +318,10 @@ const NavList = styled.ul`
   padding: 0;
   align-items: center;
   @media screen and (max-width: 620px) {
+    flex-direction: column;
+    gap: 15px;
     width: 100%;
-    overflow-x: scroll;
-    height: 50px;
-    background-color: red;
-    padding: 0 10px;
+    padding: 10px;
   }
 `;
 
@@ -321,12 +342,35 @@ const NavItem = styled.li`
       color: white;
       border-bottom: 3px solid;
     }
+    @media screen and (max-width: 620px) {
+      display: flex;
+      justify-content: center;
+      text-align: center;
+      border-bottom: 1px solid black;
+      /* border-color: black; */
+    }
+  }
+  @media screen and (max-width: 620px) {
+    height: 40px;
+    border: 1px solid black;
+    width: 100%;
+    text-align: center;
   }
 `;
 const CajaLog = styled.div`
   text-align: center;
   display: flex;
   justify-content: center;
+  gap: 5px;
+  border-bottom: 1px solid ${theme.primary.neutral200};
+`;
+const TextRegistrarse = styled.h3`
+  display: none;
+  @media screen and (max-width: 620px) {
+    display: block;
+    font-weight: normal;
+    margin: 6px;
+  }
 `;
 const Icono = styled(FontAwesomeIcon)`
   margin-right: 5px;
@@ -336,6 +380,9 @@ const Icono = styled(FontAwesomeIcon)`
       color: ${theme.primary.sand};
       cursor: pointer;
     }
+  }
+  @media screen and (max-width: 620px) {
+    font-size: 1.4rem;
   }
 `;
 const Img = styled.img`
@@ -348,7 +395,6 @@ const Enlaces = styled(NavLink)`
   &.menu {
     color: white;
     display: block;
-    position: relative;
     transition: color 25ms;
     border-bottom: 3px solid transparent;
     &:hover {
@@ -361,6 +407,8 @@ const Enlaces = styled(NavLink)`
     }
     @media screen and (max-width: 620px) {
       white-space: nowrap;
+      width: 100%;
+      text-align: center;
     }
   }
   &.logo {
@@ -374,6 +422,10 @@ const Enlaces = styled(NavLink)`
   &.perfil {
     color: white;
     text-decoration: none;
+    @media screen and (max-width: 620px) {
+      position: absolute;
+      top: 0;
+    }
     &:hover {
       color: ${theme.primary.sand};
     }
@@ -385,6 +437,8 @@ const Enlaces = styled(NavLink)`
     display: flex;
     justify-content: center;
     padding: 4px;
+    gap: 5px;
+    align-items: center;
   }
 `;
 const CajaLogo = styled.div`
@@ -438,7 +492,7 @@ const CajaPerfil = styled.div`
 
   @media screen and (max-width: 620px) {
     display: flex;
-    flex-direction: row;
+    /* flex-direction: row; */
     border: 1px solid black;
     margin: 5px;
     border-radius: 4px;
@@ -479,3 +533,74 @@ const CajaTopCelMovil = styled.div`
   background-color: ${theme.primary.turquoise};
   /* min-height: 60px; */
 `;
+
+const NamePage = styled.div`
+  padding: 0 30px 0 30px;
+  display: flex;
+
+  width: 100%;
+  border-bottom: 3px solid ${theme.primary.turquoiseBrillante};
+  height: 60px;
+  h2 {
+    margin-bottom: 7px;
+    font-weight: 200;
+  }
+  @media screen and (max-width: 620px) {
+    background-color: transparent;
+  }
+`;
+
+const BoxBarsMenu = styled.div`
+  width: 30px;
+  height: 0px;
+  position: absolute;
+  left: 18px;
+  margin-top: 10px;
+  margin-right: 5px;
+  z-index: 1;
+  &:hover {
+    cursor: pointer;
+  }
+  display: none;
+  @media screen and (max-width: 620px) {
+    display: inline-block;
+    border: 1px solid ${theme.azul2};
+    /* background-color: ${theme.primary.turquoise}; */
+    background-color: ${theme.primary.neutral200};
+    border-radius: 3px;
+    padding: 2px;
+    width: 40px;
+    height: 35px;
+    left: auto;
+    right: 10px;
+    top: 40px;
+    position: absolute;
+  }
+`;
+
+const Linea = styled.span`
+  display: block;
+  width: 100%;
+  height: 3px;
+  background: #000;
+  margin-top: 5px;
+  transform-origin: 0px 100%;
+  transition: all 300ms;
+  &.activeline1 {
+    transform: rotate(42deg) translate(-4px, -3px);
+    margin-left: 5px;
+  }
+
+  &.activeline2 {
+    opacity: 0;
+    margin-left: -30px;
+  }
+
+  &.activeline3 {
+    margin-left: 5px;
+    transform: rotate(-45deg) translate(-5px, 10px);
+  }
+`;
+const Linea1 = styled(Linea)``;
+const Linea2 = styled(Linea)``;
+const Linea3 = styled(Linea)``;

@@ -71,13 +71,21 @@ const Enlaces = styled(NavLink)`
   }
 
   text-decoration: none;
+  @media screen and (max-width: 900px) {
+    font-size: 1.2rem;
+  }
 `;
 const ContenedorFooter = styled.footer`
   height: 500px;
   background-color: ${theme.primary.neutral600};
-  width: 100%;
+  width: 100vw;
   display: flex;
   justify-content: center;
+  @media screen and (max-width: 600px) {
+    flex-direction: column;
+    height: auto;
+    padding: 20px 0;
+  }
 `;
 const CajaInterna = styled.div`
   /* border: 1px solid red; */
@@ -90,6 +98,9 @@ const CajaInterna = styled.div`
   -webkit-box-shadow: -4px 0px 10px -3px #eeeeee5c;
   -moz-box-shadow: -4px 0px 10px -3px #eeeeee5c;
   box-shadow: -4px 0px 10px -3px #eeeeee5c;
+  @media screen and (max-width: 600px) {
+    width: 100%;
+  }
 `;
 const CajitaInterna = styled.div`
   width: 80%;
@@ -117,17 +128,26 @@ const CajaTituloLogo = styled.div`
   justify-content: center;
   align-items: center;
   margin-bottom: 15px;
+  @media screen and (max-width: 750px) {
+    flex-direction: column;
+  }
 `;
 const Img = styled.img`
   width: 60px;
   margin-right: 10px;
   cursor: pointer;
+  @media screen and (max-width: 900px) {
+    width: 40px;
+  }
 `;
 const TituloLogo = styled.div`
   font-size: 3rem;
   color: ${theme.primary.turquoise};
   padding: 0;
   font-weight: lighter;
+  @media screen and (max-width: 900px) {
+    font-size: 2.5rem;
+  }
 `;
 const Span = styled.span`
   color: ${theme.primary.neutral300};
@@ -136,6 +156,9 @@ const Span = styled.span`
 const Subtitulo = styled.h2`
   color: ${theme.secondary.coral};
   margin-bottom: 20px;
+  @media screen and (max-width: 900px) {
+    font-size: 1.1rem;
+  }
 `;
 const CajaRRSS = styled.div`
   /* border: 2px solid black; */
@@ -145,6 +168,15 @@ const CajaRRSS = styled.div`
   display: flex;
   justify-content: center;
   gap: 30px;
+  @media screen and (max-width: 900px) {
+    gap: 20px;
+  }
+  @media screen and (max-width: 800px) {
+    gap: 10px;
+  }
+  @media screen and (max-width: 700px) {
+    gap: 4px;
+  }
 `;
 const Icono = styled(FontAwesomeIcon)`
   font-size: 2rem;
@@ -158,6 +190,9 @@ const Icono = styled(FontAwesomeIcon)`
   &:hover {
     background-color: ${theme.primary.neutral300};
     color: ${theme.primary.neutral600};
+  }
+  @media screen and (max-width: 900px) {
+    font-size: 1.5rem;
   }
 `;
 

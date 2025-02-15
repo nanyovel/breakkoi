@@ -62,7 +62,7 @@ const CajaPersona = styled.article`
   -webkit-box-shadow: 3px 7px 11px 0px rgba(0, 0, 0, 0.75);
   box-shadow: 3px 7px 11px 0px rgba(0, 0, 0, 0.75);
   display: flex;
-  width: 400px;
+  max-width: 400px;
   background-color: ${theme.primary.turquoise};
   color: white;
   margin-bottom: 20px;
@@ -75,11 +75,24 @@ const CajaPersona = styled.article`
     margin-bottom: 15px;
     width: 100%;
   }
+  @media screen and (max-width: 1300px) {
+    flex-direction: column;
+  }
+  @media screen and (max-width: 1200px) {
+    width: 30%;
+  }
+  @media screen and (max-width: 620px) {
+    width: 40%;
+    flex: 1 1 calc(50% - 15px);
+  }
+  @media screen and (max-width: 540px) {
+    width: 80%;
+    flex: 1 calc(80% - 15px);
+  }
 `;
 const CajaInterna = styled.div`
   &.persona {
     width: 150px;
-    /* border: 2px solid blue; */
     text-align: center;
   }
   &.texto {

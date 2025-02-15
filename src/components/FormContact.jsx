@@ -98,6 +98,10 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  @media screen and (max-width: 450px) {
+    min-width: 300px;
+    width: 300px;
+  }
 `;
 const CajaInput = styled.div`
   width: 100%;

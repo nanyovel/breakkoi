@@ -31,6 +31,7 @@ import { Link, useNavigate } from "react-router";
 import { BtnGeneral } from "../components/ElementosGenerales";
 import { Villas } from "../DB/Villas";
 import { fetchGetDocs, fetchGetDocsLimit } from "../libs/FetchFirebase";
+import { useAuth } from "../context/AuthContext";
 
 export default function Home({ userMaster }) {
   const arrayImg = [
@@ -88,9 +89,11 @@ export default function Home({ userMaster }) {
         "Mi esposo y mis hijos quedaron encantado con el lugar y la zona, siempre es un placer visitar Punta Cana.",
     },
   ];
+  const user = useAuth();
+  const currentUser = user.usuario;
   return (
     <>
-      {/* <Header absolute={true} userMaster={userMaster} /> */}
+      <Header userMaster={userMaster} currentUser={currentUser} />
       <Container2>
         <ContainerHeader>
           <ContainerHero>
@@ -171,7 +174,11 @@ export default function Home({ userMaster }) {
               {propiedadesDB.length > 0 &&
                 propiedadesDB.map((prop, index) => {
                   return (
-                    <EnlacePrincipal to={"propiedades/" + prop.url} key={index}>
+                    <EnlacePrincipal
+                      className="cardProps"
+                      to={"propiedades/" + prop.url}
+                      key={index}
+                    >
                       <CardPropiedades prop={prop} />
                     </EnlacePrincipal>
                   );
@@ -181,7 +188,7 @@ export default function Home({ userMaster }) {
           <Seccion>
             <TituloSeccion>Sobre nosotros</TituloSeccion>
 
-            <WrapTextoImg>
+            <WrapTextoImg className="normal">
               <CajaInterna className="texto">
                 <TituloLess>¿Quienes somos?</TituloLess>
                 <br />
@@ -264,7 +271,7 @@ export default function Home({ userMaster }) {
           </Seccion>
           <Seccion>
             <TituloSeccion>Lo que nos hace diferentes</TituloSeccion>
-            <WrapTextoImg className="reverse">
+            <WrapTextoImg className="reverse svgPlaya">
               <CajaInterna className="texto">
                 <CajaRazon>
                   <TituloLess>Factor diferenciador</TituloLess>
@@ -372,14 +379,14 @@ export default function Home({ userMaster }) {
 
                 <br />
               </CajaInterna>
-              <CajaInterna className="cajaImg">
+              <CajaInterna className="cajaImg svgPlaya">
                 <Img src={ImgMujerPlaya} className="svg" />
               </CajaInterna>
             </WrapTextoImg>
           </Seccion>
           <Seccion>
             <TituloSeccion>¿Que dicen nuestros clientes?</TituloSeccion>
-            <WrapTextoImg>
+            <WrapTextoImg className="cardsPerson">
               {reviewStatic.map((card, index) => {
                 return <CardResennia key={index} review={card} />;
               })}
@@ -389,7 +396,7 @@ export default function Home({ userMaster }) {
         <CajaBlog>
           <Seccion>
             <TituloSeccion className="coral">Noticias (Blog)</TituloSeccion>
-            <WrapTextoImg>
+            <WrapTextoImg className="noticias">
               <CardBlog />
             </WrapTextoImg>
           </Seccion>
@@ -399,12 +406,14 @@ export default function Home({ userMaster }) {
           <FormContact userMaster={userMaster} />
         </Seccion>
       </Container2>
-      {/* <Footer /> */}
+      <Footer />
     </>
   );
 }
 
-const Container2 = styled.div``;
+const Container2 = styled.div`
+  width: 100vw;
+`;
 const ContainerSemi = styled.div`
   padding-left: ${theme.config.paddingLateral};
   padding-right: ${theme.config.paddingLateral};
@@ -415,6 +424,22 @@ const ContainerSemi = styled.div`
   @media screen and (max-width: 750px) {
     padding-left: ${theme.config.paddingLateral70};
     padding-right: ${theme.config.paddingLateral70};
+  }
+  @media screen and (max-width: 750px) {
+    padding-left: ${theme.config.paddingLateral70};
+    padding-right: ${theme.config.paddingLateral70};
+  }
+  @media screen and (max-width: 650px) {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+  @media screen and (max-width: 550px) {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+  @media screen and (max-width: 560px) {
+    padding-left: 20px;
+    padding-right: 20px;
   }
 `;
 const CajaBlog = styled.div`
@@ -427,6 +452,14 @@ const CajaBlog = styled.div`
     padding-left: ${theme.config.paddingLateral70};
     padding-right: ${theme.config.paddingLateral70};
   }
+  @media screen and (max-width: 650px) {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+  @media screen and (max-width: 550px) {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
 `;
 // ***** HERO ******
 const ContainerHeader = styled.div`
@@ -435,12 +468,24 @@ const ContainerHeader = styled.div`
   height: 100vh;
   /* margin-bottom: 80px; */
   overflow: hidden;
+  @media screen and (max-width: 620px) {
+    height: 80vh;
+  }
+  @media screen and (max-width: 580px) {
+    height: 75vh;
+  }
+  @media screen and (max-width: 490px) {
+    height: 60vh;
+  }
+  @media screen and (max-width: 460px) {
+    height: 50vh;
+  }
 `;
 const ContainerHero = styled.div`
   width: 100%;
   position: absolute;
   top: 0;
-  height: 100vh;
+  height: 100%;
 `;
 const CajaTitulo = styled.div`
   border: 1px solid red;
@@ -458,12 +503,39 @@ const CajaTitulo = styled.div`
   -webkit-box-shadow: 3px 7px 11px 0px rgba(0, 0, 0, 0.75);
   box-shadow: 3px 7px 11px 0px rgba(0, 0, 0, 0.75);
   padding-left: 15px;
+  @media screen and (max-width: 1300px) {
+    padding: 4px;
+  }
+  @media screen and (max-width: 620px) {
+    top: 40vh;
+    right: auto;
+    left: 40px;
+  }
+
+  @media screen and (max-width: 490px) {
+    top: 20vh;
+  }
+  @media screen and (max-width: 430px) {
+    min-width: 35%;
+    top: 30vh;
+    min-height: auto;
+  }
 `;
 const TituloH1 = styled.h1`
   font-size: 6rem;
   color: ${theme.primary.turquoise};
   padding: 0;
   font-weight: lighter;
+  @media screen and (max-width: 620px) {
+    font-size: 5rem;
+  }
+
+  @media screen and (max-width: 460px) {
+    font-size: 4rem;
+  }
+  @media screen and (max-width: 430px) {
+    font-size: 3.5rem;
+  }
 `;
 const Span = styled.span`
   color: ${theme.primary.white};
@@ -471,6 +543,12 @@ const Span = styled.span`
 `;
 const Subtitulo = styled.h2`
   color: ${theme.secondary.coral};
+  @media screen and (max-width: 460px) {
+    font-size: 1.2rem;
+  }
+  @media screen and (max-width: 430px) {
+    font-size: 1rem;
+  }
 `;
 
 // ***** RESTO CONTENIDO ******
@@ -491,6 +569,16 @@ const TituloPieHero = styled.h2`
   align-content: center;
   font-size: 2.5rem;
   color: white;
+  padding: 0 20px;
+  @media screen and (max-width: 700px) {
+    font-size: 2rem;
+  }
+  @media screen and (max-width: 550px) {
+    font-size: 1.4rem;
+  }
+  @media screen and (max-width: 500px) {
+    font-size: 1.1rem;
+  }
 `;
 const CajaVideo = styled.div`
   min-height: 300px;
@@ -506,6 +594,9 @@ const CajaVideo = styled.div`
     display: flex;
     flex-direction: column;
   }
+  @media screen and (max-width: 620px) {
+    /* background-color: red; */
+  }
 `;
 const CajaInternaVideo = styled.div`
   min-height: 300px;
@@ -516,6 +607,10 @@ const CajaInternaVideo = styled.div`
     overflow-y: scroll;
     @media screen and (max-width: 1350px) {
       overflow: auto;
+    }
+    @media screen and (max-width: 440px) {
+      overflow: auto;
+      padding: 15px 20px;
     }
   }
   &.derecha {
@@ -540,6 +635,18 @@ const FramYT = styled.iframe`
     width: 448px;
     height: 252px;
   }
+  @media screen and (max-width: 620px) {
+    width: 403px;
+    height: 226px;
+  }
+  @media screen and (max-width: 520px) {
+    width: 362px;
+    height: 203px;
+  }
+  @media screen and (max-width: 430px) {
+    width: 325px;
+    height: 183px;
+  }
 `;
 const TituloH2Video = styled.h2`
   text-align: center;
@@ -548,6 +655,9 @@ const TituloH2Video = styled.h2`
   font-size: 2.5rem;
   font-weight: 400;
   margin-bottom: 15px;
+  @media screen and (max-width: 620px) {
+    font-size: 2rem;
+  }
 `;
 const ParrafoVideo = styled.p`
   color: ${theme.primary.neutral600};
@@ -570,6 +680,9 @@ const TituloSeccion = styled.h2`
     color: ${theme.primary.sand};
     color: white;
   }
+  @media screen and (max-width: 620px) {
+    font-size: 2rem;
+  }
 `;
 const SubtituloSeccion = styled.h3`
   color: ${theme.primary.neutral600};
@@ -577,6 +690,12 @@ const SubtituloSeccion = styled.h3`
   width: 100%;
   text-align: center;
   margin-bottom: 20px;
+  @media screen and (max-width: 620px) {
+    font-size: 1.5rem;
+  }
+  @media screen and (max-width: 425px) {
+    font-size: 1.1rem;
+  }
 `;
 const BtnSimple = styled(BtnGeneral)``;
 
@@ -590,12 +709,38 @@ const WrapTextoImg = styled.div`
   gap: 30px;
   &.reverse {
     flex-direction: row-reverse;
+
     @media screen and (max-width: 900px) {
       display: flex;
       justify-content: center;
       flex-direction: column-reverse;
       align-items: center;
     }
+    @media screen and (max-width: 850px) {
+      flex-direction: row;
+      &.svgPlaya {
+        flex-direction: column-reverse;
+      }
+    }
+    @media screen and (max-width: 600px) {
+      flex-direction: column;
+    }
+  }
+  &.normal {
+    /* flex-direction: row-reverse; */
+    @media screen and (max-width: 850px) {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+  &.cardsPerson {
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+  }
+  &.noticias {
+    width: 100%;
   }
 `;
 const CajaInterna = styled.div`
@@ -613,6 +758,12 @@ const CajaInterna = styled.div`
     }
     /* width: 30%; */
     /* width: ; */
+    @media screen and (max-width: 850px) {
+      width: 100%;
+      &.svgPlaya {
+        width: 60%;
+      }
+    }
   }
   @media screen and (max-width: 900px) {
     width: 100%;
@@ -687,6 +838,11 @@ const Seccion = styled.section`
   &.video {
     margin-bottom: 0;
     height: 130%;
+    @media screen and (max-width: 1350px) {
+      display: flex;
+      flex-direction: column;
+      height: auto;
+    }
   }
 `;
 
@@ -697,6 +853,9 @@ const WrapSeccion = styled.div`
   justify-content: center;
   align-items: center;
   margin-bottom: 40px;
+  @media screen and (max-width: 900px) {
+    margin-bottom: 100px;
+  }
 `;
 
 const WrapSeccionInternal = styled.div`
@@ -712,6 +871,16 @@ const WrapSeccionInternal = styled.div`
   padding-right: ${theme.config.paddingLateral};
   @media screen and (max-width: 1350px) {
     height: 90%;
+  }
+  @media screen and (max-width: 1050px) {
+    padding-left: 150px;
+    padding-right: 150px;
+  }
+  @media screen and (max-width: 620px) {
+    padding: 10px;
+  }
+  @media screen and (max-width: 420px) {
+    padding: 0;
   }
 `;
 // Parallax
@@ -747,6 +916,16 @@ const TituloParallax = styled.h2`
   align-content: center;
   font-size: 3rem;
   color: white;
+  padding: 0 15px;
+  @media screen and (max-width: 700px) {
+    font-size: 2rem;
+  }
+  @media screen and (max-width: 550px) {
+    font-size: 1.4rem;
+  }
+  @media screen and (max-width: 500px) {
+    font-size: 1.1rem;
+  }
 `;
 const CajaParallax = styled.div`
   height: 90vh;
@@ -763,7 +942,6 @@ const CajaParallax = styled.div`
 `;
 const EnlacePrincipal = styled(Link)`
   text-decoration: none;
-  /* opacity: 0.5; */
   position: relative;
   color: auto;
   &:visited {
@@ -783,6 +961,25 @@ const EnlacePrincipal = styled(Link)`
     }
     100% {
       opacity: 1;
+    }
+  }
+  &.cardProps {
+    display: inline-block;
+    width: 40%;
+    @media screen and (max-width: 600px) {
+      width: 80%;
+    }
+    @media screen and (max-width: 520px) {
+      width: 85%;
+    }
+    @media screen and (max-width: 490px) {
+      width: 90%;
+    }
+    @media screen and (max-width: 450px) {
+      width: 95%;
+    }
+    @media screen and (max-width: 420px) {
+      width: 100%;
     }
   }
 `;

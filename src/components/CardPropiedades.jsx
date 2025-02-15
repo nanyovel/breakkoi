@@ -21,9 +21,7 @@ export default function CardPropiedades({ prop }) {
   );
 }
 const Container = styled.div`
-  /* height: 200px; */
-
-  width: 400px;
+  width: 100%;
   border: 1px solid ${theme.primary.turquoise};
   border-radius: 5px;
   cursor: pointer;
@@ -70,9 +68,18 @@ const Titulo = styled.h2`
   vertical-align: center;
   align-content: center;
   font-size: 2rem;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
   /* display: inline; */
   &:hover {
     text-decoration: underline;
+  }
+  @media screen and (max-width: 1000px) {
+    font-size: 1.5rem;
+  }
+  @media screen and (max-width: 700px) {
+    font-size: 1.2rem;
   }
 `;
 const Parrafo = styled.p`

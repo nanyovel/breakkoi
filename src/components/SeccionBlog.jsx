@@ -13,55 +13,84 @@ export default function SeccionBlog() {
       setUltimosPost(romo);
     })();
   }, []);
+  const [isMovil, setIsMovil] = useState(false);
+  useEffect(() => {
+    console.log(ultimosPost);
+    const hasMovil = window.screen.width < 620 ? true : false;
+    setIsMovil(hasMovil);
+  }, [window.screen.width, ultimosPost]);
   return (
-    ultimosPost && (
-      <Container>
-        <CajaInterna className="izquieda">
-          <Enlace className="destacada" to={"/blog/" + ultimosPost[1].url}>
-            <CajaImg className="destacada">
-              <Img src={ultimosPost[1].imagenDestacada} />
-            </CajaImg>
-            <CajaTitulo className="destacada">
-              <Titulo>{ultimosPost[1].titulo}</Titulo>
-            </CajaTitulo>
-          </Enlace>
-          <Enlace className="subDestacada" to={"/blog/" + ultimosPost[0].url}>
-            <CajaImg className="subDestacada">
-              <Img src={ultimosPost[0].imagenDestacada} />
-            </CajaImg>
-            <CajaTitulo className="subDestacada">
-              <Titulo>{ultimosPost[0].titulo}</Titulo>
-            </CajaTitulo>
-          </Enlace>
-        </CajaInterna>
-        <CajaInterna className="derecha">
-          <Enlace className="itemsRigt" to={"/blog/" + ultimosPost[2].url}>
-            <CajaImg className="itemsRigt">
-              <Img src={ultimosPost[2].imagenDestacada} />
-            </CajaImg>
-            <CajaTitulo className="itemsRigt">
-              <Titulo>{ultimosPost[2].titulo}</Titulo>
-            </CajaTitulo>
-          </Enlace>
-          <Enlace className="itemsRigt" to={"/blog/" + ultimosPost[3].url}>
-            <CajaImg className="itemsRigt">
-              <Img src={ultimosPost[3].imagenDestacada} />
-            </CajaImg>
-            <CajaTitulo className="itemsRigt">
-              <Titulo>{ultimosPost[3].titulo}</Titulo>
-            </CajaTitulo>
-          </Enlace>
-          <Enlace className="itemsRigt" to={"/blog/" + ultimosPost[4].url}>
-            <CajaImg className="itemsRigt">
-              <Img src={ultimosPost[4].imagenDestacada} />
-            </CajaImg>
-            <CajaTitulo className="itemsRigt">
-              <Titulo>{ultimosPost[4].titulo}</Titulo>
-            </CajaTitulo>
-          </Enlace>
-        </CajaInterna>
-      </Container>
-    )
+    <>
+      {ultimosPost && !isMovil && (
+        <Container>
+          <CajaInterna className="izquieda">
+            <Enlace className="destacada" to={"/blog/" + ultimosPost[1].url}>
+              <CajaImg className="destacada">
+                <Img src={ultimosPost[1].imagenDestacada} />
+              </CajaImg>
+              <CajaTitulo className="destacada">
+                <Titulo>{ultimosPost[1].titulo}</Titulo>
+              </CajaTitulo>
+            </Enlace>
+            <Enlace className="subDestacada" to={"/blog/" + ultimosPost[0].url}>
+              <CajaImg className="subDestacada">
+                <Img src={ultimosPost[0].imagenDestacada} />
+              </CajaImg>
+              <CajaTitulo className="subDestacada">
+                <Titulo>{ultimosPost[0].titulo}</Titulo>
+              </CajaTitulo>
+            </Enlace>
+          </CajaInterna>
+          <CajaInterna className="derecha">
+            <Enlace className="itemsRigt" to={"/blog/" + ultimosPost[2].url}>
+              <CajaImg className="itemsRigt">
+                <Img src={ultimosPost[2].imagenDestacada} />
+              </CajaImg>
+              <CajaTitulo className="itemsRigt">
+                <Titulo>{ultimosPost[2].titulo}</Titulo>
+              </CajaTitulo>
+            </Enlace>
+            <Enlace className="itemsRigt" to={"/blog/" + ultimosPost[3].url}>
+              <CajaImg className="itemsRigt">
+                <Img src={ultimosPost[3].imagenDestacada} />
+              </CajaImg>
+              <CajaTitulo className="itemsRigt">
+                <Titulo>{ultimosPost[3].titulo}</Titulo>
+              </CajaTitulo>
+            </Enlace>
+            <Enlace className="itemsRigt" to={"/blog/" + ultimosPost[4].url}>
+              <CajaImg className="itemsRigt">
+                <Img src={ultimosPost[4].imagenDestacada} />
+              </CajaImg>
+              <CajaTitulo className="itemsRigt">
+                <Titulo>{ultimosPost[4].titulo}</Titulo>
+              </CajaTitulo>
+            </Enlace>
+          </CajaInterna>
+        </Container>
+      )}
+
+      <ContainerMovil>
+        {ultimosPost &&
+          isMovil &&
+          ultimosPost.map((post, index) => {
+            return (
+              <Enlace
+                key={index}
+                className="destacada"
+                to={"/blog/" + post.url}
+              >
+                <CajaImg className="destacada">
+                  <Img src={post.imagenDestacada} />
+                </CajaImg>
+                <CajaTitulo className="destacada">
+                  <Titulo>{post.titulo}</Titulo>
+                </CajaTitulo>
+              </Enlace>
+            );
+          })}
+      </ContainerMovil>
+    </>
   );
 }
 const Container = styled.div`
@@ -206,4 +235,13 @@ const Titulo = styled.h2`
   &:hover {
     text-decoration: underline;
   }
+  @media screen and (max-width: 440px) {
+    font-size: 0.9rem;
+  }
+`;
+
+const ContainerMovil = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 `;

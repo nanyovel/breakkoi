@@ -39,7 +39,7 @@ export default function Carrusel({ arrayImg }) {
 // Contenedor del carrusel y las imágenes
 const CarouselContainer = styled.div`
   width: 100%;
-  height: 100vh;
+  height: 100%;
   overflow: hidden;
   position: relative;
 `;
@@ -47,7 +47,7 @@ const CarouselContainer = styled.div`
 const CarouselWrapper = styled.div`
   display: flex;
   transition: transform 1s ease-in-out;
-  height: 100vh;
+  height: 100%;
 `;
 
 const CarouselImage = styled.img`
@@ -55,6 +55,6 @@ const CarouselImage = styled.img`
   display: inline;
   width: 100vw;
   display: block;
-  height: 100vh;
+  height: 100%;
   /* object-fit: cover; */
 `;

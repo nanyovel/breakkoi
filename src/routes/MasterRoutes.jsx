@@ -55,8 +55,6 @@ export default function MasterRoutes({
 
   return (
     <>
-      <Header userMaster={userMaster} currentUser={currentUser} />
-
       {currentUser ? (
         currentUser.emailVerified == false ? (
           <AvisoTop
@@ -114,7 +112,6 @@ export default function MasterRoutes({
       </Routes>
 
       {currentUser && <MenuLateral />}
-      <Footer />
     </>
   );
 }
