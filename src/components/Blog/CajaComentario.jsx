@@ -178,6 +178,9 @@ const Container = styled.div`
   border: 1px solid ${theme.primary.neutral550};
   border-radius: 10px;
   margin-bottom: 80px;
+  @media screen and (max-width: 900px) {
+    padding: 10px 20px;
+  }
 `;
 
 const Titulo = styled.h2`

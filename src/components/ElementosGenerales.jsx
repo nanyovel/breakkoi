@@ -47,10 +47,7 @@ export const BtnGeneral = styled.button`
     font-size: 0.9rem;
   }
   @media screen and (max-width: 600px) {
-    height: 25px;
-    min-width: 60px;
-    padding: 3px;
-    font-size: 0.8rem;
+    min-width: 70px;
   }
 `;
 export const TituloSeccion = styled.h2`

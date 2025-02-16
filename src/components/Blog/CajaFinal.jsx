@@ -40,4 +40,12 @@ const CajaCard = styled.div`
   padding: 10px;
   display: flex;
   gap: 25px;
+  @media screen and (max-width: 1200px) {
+    gap: 10px;
+    flex-wrap: wrap;
+    min-height: 200px;
+  }
+  @media screen and (max-width: 1100px) {
+    gap: 10px;
+  }
 `;

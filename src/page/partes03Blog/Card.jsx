@@ -45,17 +45,29 @@ const Container = styled.div`
   overflow: hidden;
   display: flex;
   background-color: ${theme.primary.sand};
+  @media screen and (max-width: 520px) {
+    flex-direction: column;
+    height: 350px;
+  }
 `;
 const CajaInterna = styled.div`
   &.izq {
     width: 30%;
     height: 100%;
+    @media screen and (max-width: 520px) {
+      width: 100%;
+      height: 50%;
+    }
   }
   &.der {
     display: flex;
     flex-direction: column;
     width: 70%;
     height: 100%;
+    @media screen and (max-width: 520px) {
+      width: 100%;
+      height: 50%;
+    }
   }
 `;
 const Img = styled.img`
@@ -70,6 +82,9 @@ const CajaTitulo = styled.div`
   justify-content: center;
   width: 100%;
   /* border: 1px solid blue; */
+  @media screen and (max-width: 900px) {
+    min-height: auto;
+  }
 `;
 const Titulo = styled.h2`
   color: ${theme.secondary.coral};
@@ -80,6 +95,9 @@ const Titulo = styled.h2`
   white-space: nowrap;
   overflow: hidden;
   /* border: 1px solid green; */
+  @media screen and (max-width: 900px) {
+    font-size: 1.1rem;
+  }
 `;
 const CajaParrafo = styled.div`
   width: 100%;
@@ -88,6 +106,9 @@ const CajaParrafo = styled.div`
   padding-right: 10px;
   margin-bottom: 25px;
   /* border: 1px solid red; */
+  @media screen and (max-width: 520px) {
+    margin-bottom: 15px;
+  }
 `;
 const Parrafo = styled.p`
   color: ${theme.primary.neutral600};
@@ -104,5 +125,8 @@ const CajaBtn = styled.div`
   text-align: end;
   padding-right: 15px;
   /* padding: 10px; */
+  @media screen and (max-width: 520px) {
+    margin-bottom: 15px;
+  }
 `;
 const BtnSimple = styled(BtnGeneral)``;

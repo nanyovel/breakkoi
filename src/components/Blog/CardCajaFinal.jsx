@@ -28,7 +28,6 @@ const Enlace = styled(NavLink)`
   text-decoration: none;
 `;
 const Card = styled.div`
-  width: 30%;
   /* border: 1px solid ${theme.primary.neutral600}; */
   min-height: 350px;
   background-color: ${theme.primary.sand};
@@ -37,13 +36,28 @@ const Card = styled.div`
   &:hover {
     box-shadow: ${theme.config.sombra};
   }
+  @media screen and (max-width: 1200px) {
+    flex-basis: calc(33.33% - 10px); /* 3 por línea */
+  }
+  @media screen and (max-width: 560px) {
+    flex-basis: calc(50% - 10px); /* 3 por línea */
+  }
+  @media screen and (max-width: 450px) {
+    flex-basis: 100%; /* 3 por línea */
+  }
 `;
 const CajaImgCard = styled.div`
   width: 100%;
   /* margin-bottom: 15px; */
+  height: 200px;
+  @media screen and (max-width: 1200px) {
+    height: 150px;
+  }
 `;
 const Img = styled.img`
   width: 100%;
+  height: 100%;
+  object-fit: cover;
   border-bottom: 1px solid ${theme.primary.neutral500};
 `;
 const CajaDown = styled.div`
@@ -63,6 +77,12 @@ const Texto = styled.h2`
   &:hover {
     color: ${theme.secondary.rojoTerracota};
     /* cursor: pointer; */
+  }
+  @media screen and (max-width: 1200px) {
+    font-size: 1rem;
+  }
+  @media screen and (max-width: 450px) {
+    font-size: 1.1rem;
   }
 `;
 

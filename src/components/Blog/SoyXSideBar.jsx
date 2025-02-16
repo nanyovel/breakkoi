@@ -11,14 +11,14 @@ import {
 import { theme } from "../../config/theme";
 import { BtnGeneral } from "../ElementosGenerales";
 
-export default function SoyXSideBar() {
+export default function SoyXSideBar({ single }) {
   return (
-    <Container>
-      <CajaFoto>
+    <Container className={single ? "single" : ""}>
+      <CajaFoto className={single ? "single" : ""}>
         <BackFoto />
         <Img src="https://a0.muscache.com/im/pictures/user/a177079f-9e70-4575-b089-b39a82ea87a2.jpg?im_w=240&im_format=avif" />
       </CajaFoto>
-      <CajaCopy>
+      <CajaCopy className={single ? "single" : ""}>
         <Parrafo>
           Hola, soy Kostia Kindelan, empresario cubano radicado en la República
           Dominicana.
@@ -31,7 +31,7 @@ export default function SoyXSideBar() {
           propiedades.
         </Parrafo>
       </CajaCopy>
-      <CajaRRSS>
+      <CajaRRSS className={single ? "single" : ""}>
         <Icono icon={faYoutube} />
         <Icono icon={faInstagram} />
         <Icono icon={faLinkedin} />
@@ -45,6 +45,11 @@ const Container = styled.div`
   width: 100%;
   min-height: 400px;
   padding: 15px 5px;
+  &.single {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 `;
 
 const CajaFoto = styled.div`
@@ -53,6 +58,15 @@ const CajaFoto = styled.div`
   display: flex;
   justify-content: center;
   position: relative;
+  &.single {
+    width: 60%;
+    @media screen and (max-width: 520px) {
+      width: 80%;
+    }
+    @media screen and (max-width: 460px) {
+      width: 100%;
+    }
+  }
 `;
 const BackFoto = styled.div`
   background-color: ${theme.primary.turquoise};
@@ -74,6 +88,15 @@ const Img = styled.img`
 const CajaCopy = styled.div`
   margin-top: 45px;
   width: 100%;
+  &.single {
+    width: 60%;
+    @media screen and (max-width: 520px) {
+      width: 80%;
+    }
+    @media screen and (max-width: 460px) {
+      width: 100%;
+    }
+  }
 `;
 const Parrafo = styled.p`
   width: 100%;
@@ -95,6 +118,21 @@ const CajaRRSS = styled.div`
   gap: 30px;
   border: 1px solid black;
   align-items: center;
+  @media screen and (max-width: 1450px) {
+    gap: 10px;
+  }
+  @media screen and (max-width: 1250px) {
+    gap: 5px;
+  }
+  &.single {
+    width: 60%;
+    @media screen and (max-width: 520px) {
+      width: 80%;
+    }
+    @media screen and (max-width: 460px) {
+      width: 100%;
+    }
+  }
 `;
 
 const Icono = styled(FontAwesomeIcon)`

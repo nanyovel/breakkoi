@@ -21,4 +21,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 100px;
+  @media screen and (max-width: 700px) {
+    padding: 15px;
+  }
 `;

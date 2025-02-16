@@ -12,8 +12,10 @@ import Blog3GuiaComida from "./BLOGS/Blog3GuiaComida";
 import Blog4QueEmpacar from "./BLOGS/Blog4QueEmpacar";
 import Blog5ActividadesImperdibles from "./BLOGS/Blog5ActividadesImperdibles";
 import Blog6NocturnoDisco from "./BLOGS/Blog6NocturnoDisco";
+import useWindowWidth from "../components/useWindowWidth";
 
 export default function DetalleBlog2({ userMaster }) {
+  const width = useWindowWidth();
   const usuario = useAuth().usuario;
   const [currentPost, setCurrentPost] = useState(null);
 
@@ -47,6 +49,8 @@ export default function DetalleBlog2({ userMaster }) {
               setCurrentPost={setCurrentPost}
               currentPost={currentPost}
               relacionados={relacionados}
+              width={width}
+              userMaster={userMaster}
             />
           }
         />
@@ -57,6 +61,8 @@ export default function DetalleBlog2({ userMaster }) {
               setCurrentPost={setCurrentPost}
               currentPost={currentPost}
               relacionados={relacionados}
+              width={width}
+              userMaster={userMaster}
             />
           }
         />
@@ -67,6 +73,8 @@ export default function DetalleBlog2({ userMaster }) {
               setCurrentPost={setCurrentPost}
               currentPost={currentPost}
               relacionados={relacionados}
+              width={width}
+              userMaster={userMaster}
             />
           }
         />
@@ -78,6 +86,8 @@ export default function DetalleBlog2({ userMaster }) {
               setCurrentPost={setCurrentPost}
               currentPost={currentPost}
               relacionados={relacionados}
+              width={width}
+              userMaster={userMaster}
             />
           }
         />
@@ -88,6 +98,8 @@ export default function DetalleBlog2({ userMaster }) {
               setCurrentPost={setCurrentPost}
               currentPost={currentPost}
               relacionados={relacionados}
+              width={width}
+              userMaster={userMaster}
             />
           }
         />
@@ -98,25 +110,14 @@ export default function DetalleBlog2({ userMaster }) {
               setCurrentPost={setCurrentPost}
               currentPost={currentPost}
               relacionados={relacionados}
+              width={width}
+              userMaster={userMaster}
             />
           }
         />
       </Routes>
-      {currentPost && (
-        <ContenedorFinal>
-          <CajaComentario currentPost={currentPost} userMaster={userMaster} />
-        </ContenedorFinal>
-      )}
-      {relacionados.length > 0 && (
-        <ContenedorFinal>
-          <CajaFinal relacionados={relacionados} />
-        </ContenedorFinal>
-      )}
+
       {/* <Footer /> */}
     </>
   );
 }
-
-const ContenedorFinal = styled.div`
-  padding: 0 ${theme.config.paddingLateral};
-`;

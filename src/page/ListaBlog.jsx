@@ -29,10 +29,8 @@ export default function ListaBlog() {
   }, []);
   return (
     <>
+      <Header />
       <Container>
-        <CajaQuery>
-          <BotonQuery listaBlog={listaBlog} />
-        </CajaQuery>
         <Titulo>Ultimas entradas</Titulo>
         <WrapBlogs>
           {datosParseados &&
@@ -47,12 +45,11 @@ export default function ListaBlog() {
               })}
         </WrapBlogs>
       </Container>
+      <Footer />
     </>
   );
 }
-const CajaQuery = styled.div`
-  padding-left: 200px;
-`;
+
 const Container = styled.div`
   min-height: 200px;
 `;
@@ -66,4 +63,16 @@ const WrapBlogs = styled.div`
   padding-right: ${theme.config.paddingLateral};
   gap: 25px;
   margin-bottom: 80px;
+  @media screen and (max-width: 1100px) {
+    padding-left: 150px;
+    padding-right: 150px;
+  }
+  @media screen and (max-width: 980px) {
+    padding-left: 70px;
+    padding-right: 70px;
+  }
+  @media screen and (max-width: 620px) {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
 `;

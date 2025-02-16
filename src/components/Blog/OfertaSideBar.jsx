@@ -3,19 +3,23 @@ import styled from "styled-components";
 import { theme } from "../../config/theme";
 import { BtnGeneral } from "../ElementosGenerales";
 
-export default function OfertaSideBar() {
+export default function OfertaSideBar({ single }) {
   return (
-    <Container>
+    <Container className={single ? "single" : ""}>
       <Titulo>OFERTA</Titulo>
-      <WrapSub>
-        <Subtitulo>MARZO</Subtitulo>
-        <Subtitulo>50 OFF</Subtitulo>
-      </WrapSub>
-      <WrapSub>
-        <Subtitulo>ABRIL</Subtitulo>
-        <Subtitulo>30 OFF</Subtitulo>
-      </WrapSub>
-      <Subtitulo>VILLA KOI</Subtitulo>
+      <ContainerWrap className={single ? "single" : ""}>
+        <WrapSub>
+          <Subtitulo>MARZO</Subtitulo>
+          <Subtitulo>50 OFF</Subtitulo>
+        </WrapSub>
+        <WrapSub>
+          <Subtitulo>ABRIL</Subtitulo>
+          <Subtitulo>30 OFF</Subtitulo>
+        </WrapSub>
+        <WrapSub>
+          <Subtitulo>VILLA KOI</Subtitulo>
+        </WrapSub>
+      </ContainerWrap>
       <CajaBtn>
         <BtnSimple>Mas info</BtnSimple>
       </CajaBtn>
@@ -27,6 +31,10 @@ const Container = styled.div`
   width: 100%;
   min-height: 400px;
   padding: 15px 5px;
+  &.single {
+    min-height: 200px;
+    margin-bottom: 15px;
+  }
 `;
 const Titulo = styled.h2`
   width: 100%;
@@ -36,9 +44,17 @@ const Titulo = styled.h2`
 
   font-size: 2.3rem;
 `;
+const ContainerWrap = styled.div`
+  &.single {
+    display: flex;
+    @media screen and (max-width: 560px) {
+      font-size: 1.4rem;
+      flex-direction: column;
+    }
+  }
+`;
 const WrapSub = styled.div`
   width: 100%;
-  /* border: 1px solid red; */
   margin-bottom: 15px;
 `;
 const Subtitulo = styled.h3`
@@ -46,6 +62,9 @@ const Subtitulo = styled.h3`
   width: 100%;
   text-align: center;
   font-size: 2rem;
+  @media screen and (max-width: 560px) {
+    font-size: 1.4rem;
+  }
 `;
 
 const CajaBtn = styled.div`
