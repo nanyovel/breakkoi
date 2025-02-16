@@ -51,6 +51,7 @@ export default function ResetPassword() {
 
   return (
     <>
+      <Header />
       <CajaContenido>
         <Titulo>Reestablecer contraseña</Titulo>
         <Subtitulo>
@@ -113,7 +114,7 @@ export default function ResetPassword() {
             </CajaInternal>
           ))}
       </CajaContenido>
-      {/* <Footer /> */}
+      <Footer />
     </>
   );
 }
@@ -122,6 +123,7 @@ const CajaContenido = styled.div`
   min-height: 200px;
   margin-top: 60px;
   margin-bottom: 80px;
+  padding: 0 25px;
 `;
 const Titulo = styled(TituloSeccion)`
   /* padding-top: 30px; */
@@ -143,6 +145,10 @@ const WrapInputs = styled.div`
   align-items: center;
   margin-bottom: 200px;
   margin-top: 25px;
+  @media screen and (max-width: 600px) {
+    min-width: 200px;
+    width: auto;
+  }
 `;
 const CajaInput = styled.div`
   width: 100%;

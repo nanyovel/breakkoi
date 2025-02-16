@@ -66,6 +66,10 @@ const Container = styled.div`
   padding: 15px;
   flex-wrap: wrap;
   justify-content: center;
+  @media screen and (max-width: 920px) {
+    gap: 10px;
+    padding: 10px;
+  }
 `;
 const Enlace = styled(NavLink)`
   width: 28%;
@@ -76,5 +80,17 @@ const Enlace = styled(NavLink)`
   transition: ease 0.2s all;
   &:hover {
     box-shadow: ${theme.config.sombra};
+  }
+  @media screen and (max-width: 920px) {
+    width: 25%;
+  }
+  @media screen and (max-width: 650px) {
+    width: 30%;
+  }
+  @media screen and (max-width: 560px) {
+    width: 45%;
+  }
+  @media screen and (max-width: 480px) {
+    width: 100%;
   }
 `;

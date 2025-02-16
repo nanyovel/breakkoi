@@ -24,6 +24,8 @@ import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 import { formatoCorreo } from "../libs/StringS";
 import { UserSchema } from "../model/AuthSchema";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 export default function Registrarse({ usuario }) {
   // ************ RECURSOS GENERALES **************
@@ -400,6 +402,7 @@ export default function Registrarse({ usuario }) {
   return (
     datosParseados && (
       <>
+        <Header />
         <BotonQuery datos={datos} validacion={validacion} />
         <CajaContenido>
           <Titulo>Registrarse</Titulo>
@@ -681,6 +684,7 @@ export default function Registrarse({ usuario }) {
           </WrapInputs>
         </CajaContenido>
         {isLoading && <ModalLoading />}
+        <Footer />
       </>
     )
   );
@@ -691,6 +695,7 @@ const Container = styled.div`
 `;
 
 const CajaContenido = styled.div`
+  padding: 0 25px;
   min-height: 200px;
 `;
 const Titulo = styled(TituloSeccion)`
@@ -712,6 +717,10 @@ const WrapInputs = styled.div`
   flex-direction: column;
   align-items: center;
   margin-bottom: 200px;
+  @media screen and (max-width: 600px) {
+    min-width: 200px;
+    width: auto;
+  }
 `;
 const CajaInput = styled.div`
   width: 100%;

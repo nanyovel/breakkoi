@@ -39,6 +39,12 @@ const Container = styled.div`
   width: 100%;
   height: 200px;
   padding: 10px;
+  @media screen and (max-width: 920px) {
+    height: 140px;
+  }
+  @media screen and (max-width: 480px) {
+    height: auto;
+  }
 `;
 const CajaInterna = styled.div`
   width: 100%;
@@ -48,9 +54,19 @@ const CajaInterna = styled.div`
   &.qty {
     height: auto;
   }
+  @media screen and (max-width: 920px) {
+    height: 60px;
+  }
 `;
 const ImgIcon = styled.img`
   height: 75%;
+  @media screen and (max-width: 920px) {
+    /* height: 60%; */
+  }
+  @media screen and (max-width: 480px) {
+    font-size: 2.4rem;
+    height: 90%;
+  }
 `;
 
 const Qty = styled.h2`
@@ -58,8 +74,23 @@ const Qty = styled.h2`
   text-align: center;
   font-size: 2.6rem;
   color: ${theme.secondary.coral};
+  @media screen and (max-width: 920px) {
+    font-size: 2.1rem;
+  }
+  @media screen and (max-width: 480px) {
+    font-size: 2.4rem;
+  }
 `;
 const Titulo = styled.h2`
   font-size: 1.8rem;
   color: ${theme.primary.turquoise};
+  @media screen and (max-width: 920px) {
+    font-size: 1.4rem;
+  }
+  @media screen and (max-width: 820px) {
+    font-size: 1rem;
+  }
+  @media screen and (max-width: 480px) {
+    font-size: 1.5rem;
+  }
 `;

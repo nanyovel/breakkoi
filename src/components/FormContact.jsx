@@ -98,9 +98,13 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  @media screen and (max-width: 450px) {
+  @media screen and (max-width: 600px) {
     min-width: 300px;
     width: 300px;
+  }
+  @media screen and (max-width: 400px) {
+    width: 260px;
+    min-width: 250px;
   }
 `;
 const CajaInput = styled.div`

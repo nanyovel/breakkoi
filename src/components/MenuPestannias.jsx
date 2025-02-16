@@ -9,9 +9,17 @@ export default function MenuPestannias({
   arrayOpciones,
   handlePestannias,
   tab,
+  dashboard,
 }) {
   return (
-    <CajaBarraOpciones className={tab ? "tab" : ""}>
+    <CajaBarraOpciones
+      className={`
+      
+     ${tab ? " tab " : ""}
+     ${dashboard ? " dashboard " : ""}
+      
+      `}
+    >
       <ListaOpciones className={tab ? "tab" : ""}>
         {arrayOpciones.map((opciones, index) => {
           return (
@@ -47,6 +55,9 @@ const CajaBarraOpciones = styled.div`
   &.tab {
     background-color: ${theme.secondary.coral};
   }
+  &.dashboard {
+    overflow-x: scroll;
+  }
 `;
 const ListaOpciones = styled.ul`
   display: flex;
@@ -75,6 +86,10 @@ const OpcionLI = styled.li`
       background-color: ${theme.secondary.coral};
     }
   }
+
+  @media screen and (max-width: 600px) {
+    font-size: 1rem;
+  }
   /* background-color: ${theme.primary.neutral600}; */
 `;
 const AnchorText = styled.a`
@@ -85,6 +100,7 @@ const AnchorText = styled.a`
     color: ${theme.primary.sand};
     &.tab {
       color: ${theme.primary.neutral500};
+      color: white;
     }
   }
 `;

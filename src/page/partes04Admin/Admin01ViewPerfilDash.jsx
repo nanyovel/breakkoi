@@ -185,26 +185,29 @@ export default function Admin01ViewPerfilDash({ dbUsuarios }) {
 }
 
 const Container = styled.div`
-  padding: 15px 10px;
-`;
-const CajaEncabezado = styled.div`
-  padding: 15px;
-`;
-const TituloEncabezado = styled.h2`
-  color: ${theme.secondary.coral};
-  border-bottom: 2px solid;
-  &.sub {
-    border: none;
-    font-size: 1.2rem;
+  padding: 25px ${theme.config.paddingLateral};
+  @media screen and (max-width: 1100px) {
+    padding: 20px 100px;
+  }
+  @media screen and (max-width: 900px) {
+    padding: 20px 80px;
+  }
+  @media screen and (max-width: 600px) {
+    padding: 20px 30px;
+  }
+  @media screen and (max-width: 450px) {
+    padding: 20px 15px;
   }
 `;
-
 const CajaContenido = styled.div`
   display: flex;
   justify-content: center;
   margin-bottom: 25px;
   background-color: ${theme.primary.neutral200};
   padding: 10px;
+  @media screen and (max-width: 940px) {
+    flex-direction: column;
+  }
 `;
 const CajaInterna = styled.div`
   &.izq {
@@ -215,9 +218,17 @@ const CajaInterna = styled.div`
     justify-content: center;
     align-items: center;
     margin-right: 40px;
+    @media screen and (max-width: 940px) {
+      width: 100%;
+      flex-direction: column;
+    }
   }
   &.der {
     width: 60%;
+    @media screen and (max-width: 940px) {
+      width: 100%;
+      flex-direction: column;
+    }
     /* border: 1px solid red; */
   }
 `;
@@ -308,6 +319,7 @@ const CajaHistorico = styled.div`
   background-color: ${theme.primary.sand};
   box-shadow: ${theme.config.sombra};
   border-radius: 10px;
+  overflow-x: scroll;
 `;
 const TituloHistorico = styled.h2`
   width: 100%;
@@ -317,7 +329,10 @@ const TituloHistorico = styled.h2`
   color: ${theme.primary.neutral600};
   /* color: black; */
 `;
-const CajaTabla = styled.div``;
+const CajaTabla = styled.div`
+  width: 100%;
+  overflow-x: scroll;
+`;
 
 // ---------
 const Tabla = styled.table`
@@ -430,3 +445,15 @@ const TextArea = styled(TextAreaGeneral)``;
 
 const CajaAlerta = styled.div``;
 const Parrafo = styled.p``;
+
+const CajaEncabezado = styled.div`
+  padding: 15px;
+`;
+const TituloEncabezado = styled.h2`
+  color: ${theme.secondary.coral};
+  border-bottom: 2px solid;
+  &.sub {
+    border: none;
+    font-size: 1.2rem;
+  }
+`;

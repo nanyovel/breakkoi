@@ -13,6 +13,8 @@ import Admin04Blog from "./partes04Admin/Admin04Blog";
 import Admin02Feedback from "./partes04Admin/Admin02Feedback";
 import Admin03Propiedades from "./partes04Admin/Admin03Propiedades";
 import Admin01Dashboard2 from "./partes04Admin/Admin01Dashboard2";
+import Footer from "../components/Footer";
+import Header from "../components/Header";
 
 export default function Manager({ setDBUsuarios, dbUsuarios }) {
   // ********************* RECURSOS GENERALES *********************
@@ -109,50 +111,55 @@ export default function Manager({ setDBUsuarios, dbUsuarios }) {
   }, []);
 
   return (
-    <Container>
-      <TituloSeccion>Panel de administracion</TituloSeccion>
-      <MainBox>
-        <CajaPestannias>
-          <MenuPestannias
-            arrayOpciones={pestannias}
-            handlePestannias={handlePestannias}
-          />
-        </CajaPestannias>
-        {datosParseados && (
-          <CajaContenido>
-            <Routes>
-              <Route
-                path="/dashboard"
-                element={
-                  <Admin01Dashboard2 stats={stats} dbUsuarios={dbUsuarios} />
-                }
-              />
-              <Route path="/feedback" element={<Admin02Feedback />} />
-              <Route path="/propiedades" element={<Admin03Propiedades />} />
-              <Route path="/blog" element={<Admin04Blog />} />
-              <Route
-                path="/usuarios"
-                element={
-                  <Admin01ListaUser
-                    setDBUsuarios={setDBUsuarios}
-                    dbUsuarios={dbUsuarios}
-                  />
-                }
-              />
-              <Route
-                path="/usuarios/:id"
-                element={
-                  <Admin01ViewPerfilDash
-                    setDBUsuarios={setDBUsuarios}
-                    dbUsuarios={dbUsuarios}
-                  />
-                }
-              />
-            </Routes>
-          </CajaContenido>
-        )}
-      </MainBox>
-    </Container>
+    <>
+      <Header />
+      <Container>
+        <TituloSeccion>Panel de administracion</TituloSeccion>
+        <MainBox>
+          <CajaPestannias>
+            <MenuPestannias
+              arrayOpciones={pestannias}
+              handlePestannias={handlePestannias}
+              dashboard={true}
+            />
+          </CajaPestannias>
+          {datosParseados && (
+            <CajaContenido>
+              <Routes>
+                <Route
+                  path="/dashboard"
+                  element={
+                    <Admin01Dashboard2 stats={stats} dbUsuarios={dbUsuarios} />
+                  }
+                />
+                <Route path="/feedback" element={<Admin02Feedback />} />
+                <Route path="/propiedades" element={<Admin03Propiedades />} />
+                <Route path="/blog" element={<Admin04Blog />} />
+                <Route
+                  path="/usuarios"
+                  element={
+                    <Admin01ListaUser
+                      setDBUsuarios={setDBUsuarios}
+                      dbUsuarios={dbUsuarios}
+                    />
+                  }
+                />
+                <Route
+                  path="/usuarios/:id"
+                  element={
+                    <Admin01ViewPerfilDash
+                      setDBUsuarios={setDBUsuarios}
+                      dbUsuarios={dbUsuarios}
+                    />
+                  }
+                />
+              </Routes>
+            </CajaContenido>
+          )}
+        </MainBox>
+      </Container>
+      <Footer />
+    </>
   );
 }
 
@@ -161,6 +168,18 @@ const Container = styled.div`
   min-height: 300px;
   padding: 0 ${theme.config.paddingLateral};
   margin-bottom: 200px;
+  @media screen and (max-width: 1250px) {
+    padding: 0 100px;
+  }
+  @media screen and (max-width: 1050px) {
+    padding: 0 40px;
+  }
+  @media screen and (max-width: 600px) {
+    padding: 0 15px;
+  }
+  @media screen and (max-width: 370px) {
+    padding: 0 10px;
+  }
 `;
 
 const TituloSeccion = styled.h2`
@@ -171,12 +190,19 @@ const TituloSeccion = styled.h2`
   text-decoration: underline;
   margin-bottom: 40px;
   font-weight: normal;
+  padding-top: 45px;
   &.sinMarginBottom {
     margin-bottom: 0;
   }
   &.coral {
     color: ${theme.primary.sand};
     color: white;
+  }
+  @media screen and (max-width: 450px) {
+    font-size: 2rem;
+  }
+  @media screen and (max-width: 370px) {
+    font-size: 1.8rem;
   }
 `;
 const MainBox = styled.div`

@@ -87,4 +87,6 @@ const CajaMenu = styled.div`
   width: 100%;
   text-align: start;
 `;
-const CajaResult = styled.div``;
+const CajaResult = styled.div`
+  width: 100%;
+`;

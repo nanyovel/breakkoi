@@ -28,6 +28,8 @@ import { signOut } from "firebase/auth";
 import db, { autenticar } from "../firebase/firebaseConfig";
 import { ModalLoading } from "../components/ModalLoading";
 import { doc, updateDoc } from "firebase/firestore";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 export default function Perfil({ userMaster, usuario }) {
   // ************ RECURSOS GENERALES **************
@@ -210,346 +212,356 @@ export default function Perfil({ userMaster, usuario }) {
   };
 
   return (
-    userMaster &&
-    (!modoEditar ? (
-      <Container>
-        <BotonQuery userMaster={userMaster} />
-        <CajaContenido>
-          <CajaInterna className="izq">
-            <CajaFotoPerfil>
-              {userMaster.urlFotoPerfil ? (
-                <FotoPerfil src={userMaster.urlFotoPerfil} />
-              ) : (
-                <FotoPerfil
-                  src={
-                    userMaster.genero == "Femenino"
-                      ? theme.config.userFemale
-                      : theme.config.userMale
+    <>
+      <Header />
+      {userMaster && !modoEditar ? (
+        <Container>
+          <CajaContenido>
+            <CajaInterna className="izq">
+              <CajaFotoPerfil>
+                {userMaster.urlFotoPerfil ? (
+                  <FotoPerfil src={userMaster.urlFotoPerfil} />
+                ) : (
+                  <FotoPerfil
+                    src={
+                      userMaster.genero == "Femenino"
+                        ? theme.config.userFemale
+                        : theme.config.userMale
+                    }
+                  />
+                )}
+              </CajaFotoPerfil>
+              <TituloRRSS>Redes sociales</TituloRRSS>
+
+              <CajaRRSS>
+                <Icono
+                  title={
+                    userMaster.redesSociales.instagram == ""
+                      ? "Cuenta no especificada"
+                      : ""
                   }
-                />
-              )}
-            </CajaFotoPerfil>
-            <TituloRRSS>Redes sociales</TituloRRSS>
-
-            <CajaRRSS>
-              <Icono
-                title={
-                  userMaster.redesSociales.instagram == ""
-                    ? "Cuenta no especificada"
-                    : ""
-                }
-                onClick={() =>
-                  handleRedireccion(userMaster.redesSociales.instagram)
-                }
-                icon={faInstagram}
-                className={`${
-                  userMaster.redesSociales.instagram == "" ? "inactivo" : ""
-                }`}
-              />
-              <Icono
-                title={
-                  userMaster.redesSociales.instagram == ""
-                    ? "Cuenta no especificada"
-                    : ""
-                }
-                className={`${
-                  userMaster.redesSociales.twitter == "" ? "inactivo" : ""
-                }`}
-                onClick={() =>
-                  handleRedireccion(userMaster.redesSociales.twitter)
-                }
-                icon={faTwitter}
-              />
-              <Icono
-                title={
-                  userMaster.redesSociales.instagram == ""
-                    ? "Cuenta no especificada"
-                    : ""
-                }
-                className={`${
-                  userMaster.redesSociales.facebook == "" ? "inactivo" : ""
-                }`}
-                onClick={() =>
-                  handleRedireccion(userMaster.redesSociales.facebook)
-                }
-                icon={faFacebook}
-              />
-            </CajaRRSS>
-          </CajaInterna>
-          <CajaInterna className="der">
-            <CajaDatos>
-              <CajitaInterna>
-                <Nombre>{userMaster.nombre + " " + userMaster.apellido}</Nombre>
-              </CajitaInterna>
-
-              <CajitaInterna className="row">
-                <ImgBandera
-                  src={generatorIconFlagURL(userMaster.nacionalidad.siglas)}
-                />
-                <NombreSubtitulo>
-                  {userMaster.nacionalidad.pais}
-                </NombreSubtitulo>
-              </CajitaInterna>
-              <CajitaInterna>
-                <NombreSubtitulo>{userMaster.correo}</NombreSubtitulo>
-              </CajitaInterna>
-              <CajitaInterna>
-                <NombreSubtitulo>
-                  {CalcularEdad(userMaster.fechaNacimiento).qtyAnnios + " Años"}
-                </NombreSubtitulo>
-              </CajitaInterna>
-              <CajitaInterna>
-                <NombreSubtitulo>{userMaster.textoBiografia}</NombreSubtitulo>
-              </CajitaInterna>
-              <CajitaInterna>
-                <NombreSubtitulo>{userMaster.telefono}</NombreSubtitulo>
-              </CajitaInterna>
-              <CajaBtn>
-                <WrapBtn>
-                  <BtnSimple onClick={() => editar()}>Editar perfil</BtnSimple>
-                  <BtnSimple onClick={() => navigate("/recuperar")}>
-                    Cambiar contraseña
-                  </BtnSimple>
-                  <BtnSimple onClick={() => cerrarSesion()}>
-                    Cerrar sesion
-                  </BtnSimple>
-                </WrapBtn>
-              </CajaBtn>
-            </CajaDatos>
-          </CajaInterna>
-        </CajaContenido>
-        <CajaHistorico>
-          <TituloHistorico>Historico de hospedajes</TituloHistorico>
-
-          <CajaTabla>
-            <Tabla>
-              <thead>
-                <Filas>
-                  <CeldaHead>N°</CeldaHead>
-                  <CeldaHead>Propiedad</CeldaHead>
-                  <CeldaHead>Desde</CeldaHead>
-                  <CeldaHead>Hasta</CeldaHead>
-                  <CeldaHead>Comentar</CeldaHead>
-                  <CeldaHead>Volver a reservar</CeldaHead>
-                </Filas>
-              </thead>
-              <tbody>
-                <Filas>
-                  <CeldasBody>{1}</CeldasBody>
-                  <CeldasBody></CeldasBody>
-                  <CeldasBody></CeldasBody>
-                  <CeldasBody></CeldasBody>
-                  <CeldasBody>
-                    {/* <BtnSimple>Comentar</BtnSimple> */}
-                  </CeldasBody>
-                  <CeldasBody>
-                    {/* <BtnSimple>Reservar</BtnSimple> */}
-                  </CeldasBody>
-                </Filas>
-
-                <Filas>
-                  {/* 
-                  <CeldasBody>{1}</CeldasBody>
-                  <CeldasBody>{"Villa Koi Punta Cana"}</CeldasBody>
-                  <CeldasBody>{"15/06/24"}</CeldasBody>
-                  <CeldasBody>{"22/06/24"}</CeldasBody>
-                  <CeldasBody>
-                    <BtnSimple>Comentar</BtnSimple>
-                  </CeldasBody>
-                  <CeldasBody>
-                    <BtnSimple>Reservar</BtnSimple>
-                  </CeldasBody> */}
-                </Filas>
-              </tbody>
-            </Tabla>
-          </CajaTabla>
-        </CajaHistorico>
-      </Container>
-    ) : (
-      <Container>
-        <BotonQuery
-          userMaster={userMaster}
-          userEditable={userEditable}
-          inpustAux={inpustAux}
-        />
-        <CajaContenido>
-          <CajaInterna className="izq">
-            <CajaFotoPerfil>
-              {userEditable.urlFotoPerfil ? (
-                <FotoPerfil src={userEditable.urlFotoPerfil} />
-              ) : (
-                <FotoPerfil
-                  src={
-                    userEditable.genero == "Femenino"
-                      ? theme.config.userFemale
-                      : theme.config.userMale
+                  onClick={() =>
+                    handleRedireccion(userMaster.redesSociales.instagram)
                   }
+                  icon={faInstagram}
+                  className={`${
+                    userMaster.redesSociales.instagram == "" ? "inactivo" : ""
+                  }`}
                 />
-              )}
-            </CajaFotoPerfil>
-            <TituloRRSS>Redes sociales</TituloRRSS>
-            <CajaRRSS className={modoEditar ? "modoEditar" : ""}>
-              <CajaInput>
-                <TituloInput>Perfil de instagram</TituloInput>
-
-                <Input
-                  value={userEditable.redesSociales.instagram}
-                  name="instagram"
-                  onChange={(e) => handleInput(e)}
-                  type="email"
-                  placeholder="Perfil de instagram"
-                  autoComplete="off"
-                />
-              </CajaInput>
-              <CajaInput>
-                <TituloInput>Perfil de X (Twitter)</TituloInput>
-
-                <Input
-                  value={userEditable.redesSociales.twitter}
-                  name="twitter"
-                  onChange={(e) => handleInput(e)}
-                  type="email"
-                  placeholder="Perfil de X"
-                  autoComplete="off"
-                />
-              </CajaInput>
-              <CajaInput>
-                <TituloInput>Perfil de Facebook</TituloInput>
-
-                <Input
-                  value={userEditable.redesSociales.facebook}
-                  name="facebook"
-                  onChange={(e) => handleInput(e)}
-                  type="email"
-                  placeholder="Perfil de facebook"
-                  autoComplete="off"
-                />
-              </CajaInput>
-            </CajaRRSS>
-          </CajaInterna>
-          <CajaInterna className="der">
-            <CajaDatos>
-              <CajaInput>
-                <TituloInput>Nombres</TituloInput>
-
-                <Input
-                  value={userEditable.nombre}
-                  name="nombre"
-                  onChange={(e) => handleInput(e)}
-                  type="email"
-                  placeholder="Nombres"
-                  autoComplete="off"
-                  className={validacionInputs.nombre == false ? "danger" : ""}
-                />
-              </CajaInput>
-              <CajaInput>
-                <TituloInput>Apellidos</TituloInput>
-
-                <Input
-                  value={userEditable.apellido}
-                  name="apellido"
-                  onChange={(e) => handleInput(e)}
-                  type="email"
-                  placeholder="Apellidos"
-                  autoComplete="off"
-                  className={validacionInputs.apellido == false ? "danger" : ""}
-                />
-              </CajaInput>
-
-              <CajaInput>
-                <TituloInput>Pais de nacimiento</TituloInput>
-
-                <Input
-                  type="text"
-                  value={inpustAux.paisNacimiento}
-                  name="paisNacimiento"
-                  onChange={(e) => handleInput(e)}
-                  placeholder="Nacionalidad"
-                  list="paises"
-                  autoComplete="off"
-                  className={
-                    validacionInputs.paisNacimiento == false ? "danger" : ""
+                <Icono
+                  title={
+                    userMaster.redesSociales.instagram == ""
+                      ? "Cuenta no especificada"
+                      : ""
                   }
-                />
-                <DataListSimple id="paises">
-                  {ListaPaises.map((pais, index) => {
-                    return <Opcion key={index}>{pais.nombre}</Opcion>;
-                  })}
-                </DataListSimple>
-              </CajaInput>
-
-              <CajaInput>
-                <TituloInput>Fecha de nacimiento</TituloInput>
-
-                <Input
-                  value={inpustAux.fechaNacimiento}
-                  name="fechaNacimiento"
-                  onChange={(e) => handleInput(e)}
-                  type="date"
-                  placeholder="Fecha de nacimiento"
-                  autoComplete="off"
-                  className={
-                    validacionInputs.fechaNacimiento == false ? "danger" : ""
+                  className={`${
+                    userMaster.redesSociales.twitter == "" ? "inactivo" : ""
+                  }`}
+                  onClick={() =>
+                    handleRedireccion(userMaster.redesSociales.twitter)
                   }
+                  icon={faTwitter}
                 />
-              </CajaInput>
-
-              <CajitaInterna>
-                <NombreSubtitulo>{userEditable.correo}</NombreSubtitulo>
-              </CajitaInterna>
-
-              <CajaInput>
-                <TituloInput>Cuentanos sobre ti</TituloInput>
-
-                <TextArea
-                  value={userEditable.textoBiografia}
-                  name="textoBiografia"
-                  onChange={(e) => handleInput(e)}
-                  placeholder="Explicanos sobre ti; intereses, datos curiosos etc."
-                  autoComplete="off"
-                  className={
-                    validacionInputs.fechaNacimiento.alerta ? "danger" : ""
+                <Icono
+                  title={
+                    userMaster.redesSociales.instagram == ""
+                      ? "Cuenta no especificada"
+                      : ""
                   }
-                />
-              </CajaInput>
-              <CajaInput>
-                <TituloInput>Numero de telefono</TituloInput>
-
-                <Input
-                  value={userEditable.telefono}
-                  name="telefono"
-                  onChange={(e) => handleInput(e)}
-                  placeholder="Telefono"
-                  autoComplete="off"
-                  className={
-                    validacionInputs.fechaNacimiento.alerta ? "danger" : ""
+                  className={`${
+                    userMaster.redesSociales.facebook == "" ? "inactivo" : ""
+                  }`}
+                  onClick={() =>
+                    handleRedireccion(userMaster.redesSociales.facebook)
                   }
+                  icon={faFacebook}
                 />
-              </CajaInput>
+              </CajaRRSS>
+            </CajaInterna>
+            <CajaInterna className="der">
+              <CajaDatos>
+                <CajitaInterna>
+                  <Nombre>
+                    {userMaster.nombre + " " + userMaster.apellido}
+                  </Nombre>
+                </CajitaInterna>
 
-              <CajaAlerta>
-                <Parrafo>{mensajeAlerta}</Parrafo>
-              </CajaAlerta>
-              <CajaBtn>
-                <WrapBtn>
-                  <BtnSimple onClick={() => cancelarCambios()}>
-                    Cancelar
-                  </BtnSimple>
-                  <BtnSimple onClick={() => guardarCambios()}>
-                    Guardar cambios
-                  </BtnSimple>
-                </WrapBtn>
-              </CajaBtn>
-            </CajaDatos>
-          </CajaInterna>
-        </CajaContenido>
-        {isLoading && <ModalLoading />}
-      </Container>
-    ))
+                <CajitaInterna className="row">
+                  <ImgBandera
+                    src={generatorIconFlagURL(userMaster.nacionalidad.siglas)}
+                  />
+                  <NombreSubtitulo>
+                    {userMaster.nacionalidad.pais}
+                  </NombreSubtitulo>
+                </CajitaInterna>
+                <CajitaInterna>
+                  <NombreSubtitulo>{userMaster.correo}</NombreSubtitulo>
+                </CajitaInterna>
+                <CajitaInterna>
+                  <NombreSubtitulo>
+                    {CalcularEdad(userMaster.fechaNacimiento).qtyAnnios +
+                      " Años"}
+                  </NombreSubtitulo>
+                </CajitaInterna>
+                <CajitaInterna>
+                  <NombreSubtitulo>{userMaster.textoBiografia}</NombreSubtitulo>
+                </CajitaInterna>
+                <CajitaInterna>
+                  <NombreSubtitulo>{userMaster.telefono}</NombreSubtitulo>
+                </CajitaInterna>
+                <CajaBtn>
+                  <WrapBtn>
+                    <BtnSimple onClick={() => editar()}>
+                      Editar perfil
+                    </BtnSimple>
+                    <BtnSimple onClick={() => navigate("/recuperar")}>
+                      Cambiar contraseña
+                    </BtnSimple>
+                    <BtnSimple onClick={() => cerrarSesion()}>
+                      Cerrar sesion
+                    </BtnSimple>
+                  </WrapBtn>
+                </CajaBtn>
+              </CajaDatos>
+            </CajaInterna>
+          </CajaContenido>
+
+          <CajaHistorico>
+            <TituloHistorico>Historico de hospedajes</TituloHistorico>
+
+            <CajaTabla>
+              <Tabla>
+                <thead>
+                  <Filas>
+                    <CeldaHead>N°</CeldaHead>
+                    <CeldaHead>Propiedad</CeldaHead>
+                    <CeldaHead>Desde</CeldaHead>
+                    <CeldaHead>Hasta</CeldaHead>
+                    <CeldaHead>Comentar</CeldaHead>
+                    <CeldaHead>Volver a reservar</CeldaHead>
+                  </Filas>
+                </thead>
+                <tbody>
+                  <Filas>
+                    <CeldasBody>{1}</CeldasBody>
+                    <CeldasBody></CeldasBody>
+                    <CeldasBody></CeldasBody>
+                    <CeldasBody></CeldasBody>
+                    <CeldasBody>
+                      {/* <BtnSimple>Comentar</BtnSimple> */}
+                    </CeldasBody>
+                    <CeldasBody>
+                      {/* <BtnSimple>Reservar</BtnSimple> */}
+                    </CeldasBody>
+                  </Filas>
+
+                  <Filas></Filas>
+                </tbody>
+              </Tabla>
+            </CajaTabla>
+          </CajaHistorico>
+        </Container>
+      ) : (
+        <Container>
+          <BotonQuery
+            userMaster={userMaster}
+            userEditable={userEditable}
+            inpustAux={inpustAux}
+          />
+          <CajaContenido>
+            <CajaInterna className="izq">
+              <CajaFotoPerfil>
+                {userEditable.urlFotoPerfil ? (
+                  <FotoPerfil src={userEditable.urlFotoPerfil} />
+                ) : (
+                  <FotoPerfil
+                    src={
+                      userEditable.genero == "Femenino"
+                        ? theme.config.userFemale
+                        : theme.config.userMale
+                    }
+                  />
+                )}
+              </CajaFotoPerfil>
+              <TituloRRSS>Redes sociales</TituloRRSS>
+              <CajaRRSS className={modoEditar ? "modoEditar" : ""}>
+                <CajaInput>
+                  <TituloInput>Perfil de instagram</TituloInput>
+
+                  <Input
+                    value={userEditable.redesSociales.instagram}
+                    name="instagram"
+                    onChange={(e) => handleInput(e)}
+                    type="email"
+                    placeholder="Perfil de instagram"
+                    autoComplete="off"
+                  />
+                </CajaInput>
+                <CajaInput>
+                  <TituloInput>Perfil de X (Twitter)</TituloInput>
+
+                  <Input
+                    value={userEditable.redesSociales.twitter}
+                    name="twitter"
+                    onChange={(e) => handleInput(e)}
+                    type="email"
+                    placeholder="Perfil de X"
+                    autoComplete="off"
+                  />
+                </CajaInput>
+                <CajaInput>
+                  <TituloInput>Perfil de Facebook</TituloInput>
+
+                  <Input
+                    value={userEditable.redesSociales.facebook}
+                    name="facebook"
+                    onChange={(e) => handleInput(e)}
+                    type="email"
+                    placeholder="Perfil de facebook"
+                    autoComplete="off"
+                  />
+                </CajaInput>
+              </CajaRRSS>
+            </CajaInterna>
+            <CajaInterna className="der">
+              <CajaDatos>
+                <CajaInput>
+                  <TituloInput>Nombres</TituloInput>
+
+                  <Input
+                    value={userEditable.nombre}
+                    name="nombre"
+                    onChange={(e) => handleInput(e)}
+                    type="email"
+                    placeholder="Nombres"
+                    autoComplete="off"
+                    className={validacionInputs.nombre == false ? "danger" : ""}
+                  />
+                </CajaInput>
+                <CajaInput>
+                  <TituloInput>Apellidos</TituloInput>
+
+                  <Input
+                    value={userEditable.apellido}
+                    name="apellido"
+                    onChange={(e) => handleInput(e)}
+                    type="email"
+                    placeholder="Apellidos"
+                    autoComplete="off"
+                    className={
+                      validacionInputs.apellido == false ? "danger" : ""
+                    }
+                  />
+                </CajaInput>
+
+                <CajaInput>
+                  <TituloInput>Pais de nacimiento</TituloInput>
+
+                  <Input
+                    type="text"
+                    value={inpustAux.paisNacimiento}
+                    name="paisNacimiento"
+                    onChange={(e) => handleInput(e)}
+                    placeholder="Nacionalidad"
+                    list="paises"
+                    autoComplete="off"
+                    className={
+                      validacionInputs.paisNacimiento == false ? "danger" : ""
+                    }
+                  />
+                  <DataListSimple id="paises">
+                    {ListaPaises.map((pais, index) => {
+                      return <Opcion key={index}>{pais.nombre}</Opcion>;
+                    })}
+                  </DataListSimple>
+                </CajaInput>
+
+                <CajaInput>
+                  <TituloInput>Fecha de nacimiento</TituloInput>
+
+                  <Input
+                    value={inpustAux.fechaNacimiento}
+                    name="fechaNacimiento"
+                    onChange={(e) => handleInput(e)}
+                    type="date"
+                    placeholder="Fecha de nacimiento"
+                    autoComplete="off"
+                    className={
+                      validacionInputs.fechaNacimiento == false ? "danger" : ""
+                    }
+                  />
+                </CajaInput>
+
+                <CajitaInterna>
+                  <NombreSubtitulo>{userEditable.correo}</NombreSubtitulo>
+                </CajitaInterna>
+
+                <CajaInput>
+                  <TituloInput>Cuentanos sobre ti</TituloInput>
+
+                  <TextArea
+                    value={userEditable.textoBiografia}
+                    name="textoBiografia"
+                    onChange={(e) => handleInput(e)}
+                    placeholder="Explicanos sobre ti; intereses, datos curiosos etc."
+                    autoComplete="off"
+                    className={
+                      validacionInputs.fechaNacimiento.alerta ? "danger" : ""
+                    }
+                  />
+                </CajaInput>
+                <CajaInput>
+                  <TituloInput>Numero de telefono</TituloInput>
+
+                  <Input
+                    value={userEditable.telefono}
+                    name="telefono"
+                    onChange={(e) => handleInput(e)}
+                    placeholder="Telefono"
+                    autoComplete="off"
+                    className={
+                      validacionInputs.fechaNacimiento.alerta ? "danger" : ""
+                    }
+                  />
+                </CajaInput>
+
+                <CajaAlerta>
+                  <Parrafo>{mensajeAlerta}</Parrafo>
+                </CajaAlerta>
+                <CajaBtn>
+                  <WrapBtn>
+                    <BtnSimple onClick={() => cancelarCambios()}>
+                      Cancelar
+                    </BtnSimple>
+                    <BtnSimple onClick={() => guardarCambios()}>
+                      Guardar cambios
+                    </BtnSimple>
+                  </WrapBtn>
+                </CajaBtn>
+              </CajaDatos>
+            </CajaInterna>
+          </CajaContenido>
+          {isLoading && <ModalLoading />}
+        </Container>
+      )}
+      <Footer />
+    </>
   );
 }
 const Container = styled.div`
   padding: 25px ${theme.config.paddingLateral};
+  @media screen and (max-width: 1100px) {
+    padding: 20px 100px;
+  }
+  @media screen and (max-width: 900px) {
+    padding: 20px 80px;
+  }
+  @media screen and (max-width: 600px) {
+    padding: 20px 30px;
+  }
+  @media screen and (max-width: 450px) {
+    padding: 20px 15px;
+  }
 `;
 const CajaContenido = styled.div`
   display: flex;
@@ -557,6 +569,9 @@ const CajaContenido = styled.div`
   margin-bottom: 25px;
   background-color: ${theme.primary.neutral200};
   padding: 10px;
+  @media screen and (max-width: 940px) {
+    flex-direction: column;
+  }
 `;
 const CajaInterna = styled.div`
   &.izq {
@@ -567,9 +582,17 @@ const CajaInterna = styled.div`
     justify-content: center;
     align-items: center;
     margin-right: 40px;
+    @media screen and (max-width: 940px) {
+      width: 100%;
+      flex-direction: column;
+    }
   }
   &.der {
     width: 60%;
+    @media screen and (max-width: 940px) {
+      width: 100%;
+      flex-direction: column;
+    }
     /* border: 1px solid red; */
   }
 `;
@@ -660,6 +683,7 @@ const CajaHistorico = styled.div`
   background-color: ${theme.primary.sand};
   box-shadow: ${theme.config.sombra};
   border-radius: 10px;
+  overflow-x: scroll;
 `;
 const TituloHistorico = styled.h2`
   width: 100%;
@@ -669,7 +693,10 @@ const TituloHistorico = styled.h2`
   color: ${theme.primary.neutral600};
   /* color: black; */
 `;
-const CajaTabla = styled.div``;
+const CajaTabla = styled.div`
+  width: 100%;
+  overflow-x: scroll;
+`;
 
 // ---------
 const Tabla = styled.table`

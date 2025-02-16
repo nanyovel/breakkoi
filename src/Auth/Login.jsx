@@ -93,63 +93,69 @@ export default function Login() {
   };
   return (
     datosParseados && (
-      <CajaContenido>
-        <BotonQuery datos={datos} />
-        <Titulo>Iniciar sesion</Titulo>
-        <form onSubmit={(e) => handleSubmit(e)}>
-          <WrapInputs>
-            <CajaInput>
-              <TituloInput>Correo electronico</TituloInput>
-              <Input
-                value={datos.correo}
-                onChange={(e) => handleInputs(e)}
-                name="correo"
-                placeholder="Email"
-                type="text"
-              />
-            </CajaInput>
-            <CajaInput>
-              <TituloInput>Contraseña</TituloInput>
-              <CajaInternaInput>
-                <Input
-                  value={datos.password}
-                  onChange={(e) => handleInputs(e)}
-                  name="password"
-                  placeholder="Contraseña"
-                  type={showPassword ? "text" : "password"}
-                />
-                <CajaEye>
-                  <IconoEye
-                    icon={showPassword ? faEyeSlash : faEye}
-                    onClick={() => setShowPassword(!showPassword)}
-                  />
-                </CajaEye>
-              </CajaInternaInput>
-            </CajaInput>
-            {hasAlerta && (
-              <CajaErrorAlEnviar>
-                <Parrafo className="danger">{mensajeAlerta}</Parrafo>
-              </CajaErrorAlEnviar>
-            )}
+      <>
+        <Header />
 
-            <CajaInput className="btn">
-              <BtnSimple type="submit" onClick={() => handleSubmit()}>
-                Iniciar sesion
-              </BtnSimple>
-            </CajaInput>
-            <CajaInput className="links">
-              <Enlaces to={"/registro"}>Registrarse</Enlaces>
-              <Enlaces to={"/recuperar"}>Olvide mi contraseña</Enlaces>
-            </CajaInput>
-          </WrapInputs>
-        </form>
-        {isLoading && <ModalLoading />}
-      </CajaContenido>
+        <CajaContenido>
+          <BotonQuery datos={datos} />
+          <Titulo>Iniciar sesion</Titulo>
+          <form onSubmit={(e) => handleSubmit(e)}>
+            <WrapInputs>
+              <CajaInput>
+                <TituloInput>Correo electronico</TituloInput>
+                <Input
+                  value={datos.correo}
+                  onChange={(e) => handleInputs(e)}
+                  name="correo"
+                  placeholder="Email"
+                  type="text"
+                />
+              </CajaInput>
+              <CajaInput>
+                <TituloInput>Contraseña</TituloInput>
+                <CajaInternaInput>
+                  <Input
+                    value={datos.password}
+                    onChange={(e) => handleInputs(e)}
+                    name="password"
+                    placeholder="Contraseña"
+                    type={showPassword ? "text" : "password"}
+                  />
+                  <CajaEye>
+                    <IconoEye
+                      icon={showPassword ? faEyeSlash : faEye}
+                      onClick={() => setShowPassword(!showPassword)}
+                    />
+                  </CajaEye>
+                </CajaInternaInput>
+              </CajaInput>
+              {hasAlerta && (
+                <CajaErrorAlEnviar>
+                  <Parrafo className="danger">{mensajeAlerta}</Parrafo>
+                </CajaErrorAlEnviar>
+              )}
+
+              <CajaInput className="btn">
+                <BtnSimple type="submit" onClick={() => handleSubmit()}>
+                  Iniciar sesion
+                </BtnSimple>
+              </CajaInput>
+              <CajaInput className="links">
+                <Enlaces to={"/registro"}>Registrarse</Enlaces>
+                <Enlaces to={"/recuperar"}>Olvide mi contraseña</Enlaces>
+              </CajaInput>
+            </WrapInputs>
+          </form>
+          {isLoading && <ModalLoading />}
+        </CajaContenido>
+        <Footer />
+      </>
     )
   );
 }
 const CajaContenido = styled.div`
   min-height: 200px;
+  padding: 0 25px;
 `;
 const Titulo = styled(TituloH1)`
   padding-top: 30px;
@@ -170,6 +176,10 @@ const WrapInputs = styled.div`
   flex-direction: column;
   align-items: center;
   margin-bottom: 200px;
+  @media screen and (max-width: 600px) {
+    min-width: 200px;
+    width: auto;
+  }
 `;
 const CajaInput = styled.div`
   width: 100%;
