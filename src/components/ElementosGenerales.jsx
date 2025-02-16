@@ -7,7 +7,6 @@ export const BtnGeneral = styled.button`
   cursor: pointer;
 
   border-radius: 5px;
-  min-width: 100px;
   height: 35px;
   padding: 5px;
   outline: none;
@@ -40,6 +39,18 @@ export const BtnGeneral = styled.button`
       background-color: #f74a4a;
       color: #fff;
     }
+  }
+  @media screen and (max-width: 800px) {
+    height: 30px;
+    min-width: 80px;
+    padding: 4px;
+    font-size: 0.9rem;
+  }
+  @media screen and (max-width: 600px) {
+    height: 25px;
+    min-width: 60px;
+    padding: 3px;
+    font-size: 0.8rem;
   }
 `;
 export const TituloSeccion = styled.h2`

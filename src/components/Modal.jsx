@@ -38,6 +38,19 @@ const CajaModal = styled.div`
   background-color: ${theme.primary.neutral200};
   border-radius: 10px;
   overflow: hidden;
+  border: 1px solid red;
+  @media screen and (max-width: 850px) {
+    width: 65%;
+  }
+  @media screen and (max-width: 650px) {
+    width: 75%;
+  }
+  @media screen and (max-width: 520px) {
+    width: 85%;
+  }
+  @media screen and (max-width: 450px) {
+    width: 95%;
+  }
 `;
 const HeaderModal = styled.div`
   /* height: 50px; */

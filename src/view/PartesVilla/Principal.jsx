@@ -11,19 +11,27 @@ export default function Principal({ principal, resumido }) {
     <Container className={resumido ? "resumido" : ""}>
       <CajaItem className={`${resumido ? " resumido " : ""}`}>
         {!resumido && <Img src={ImgPeople} />}
-        <Titulo>{principal.huespedes.qty + " Huespedes"}</Titulo>
+        <Titulo className={resumido ? "resumido" : ""}>
+          {principal.huespedes.qty + " Huespedes"}
+        </Titulo>
       </CajaItem>
       <CajaItem className={`${resumido ? " resumido " : ""}`}>
         {!resumido && <Img src={ImgHabitacion} />}
-        <Titulo>{principal.habitaciones.qty + " Habitaciones"}</Titulo>
+        <Titulo className={resumido ? "resumido" : ""}>
+          {principal.habitaciones.qty + " Habitaciones"}
+        </Titulo>
       </CajaItem>
       <CajaItem className={`${resumido ? " resumido " : ""}`}>
         {!resumido && <Img src={ImgCama} />}
-        <Titulo>{principal.camas.qty + " Camas"}</Titulo>
+        <Titulo className={resumido ? "resumido" : ""}>
+          {principal.camas.qty + " Camas"}
+        </Titulo>
       </CajaItem>
       <CajaItem className={`${resumido ? " resumido " : ""}`}>
         {!resumido && <Img src={ImgDucha} />}
-        <Titulo>{principal.bannios.qty + " Baños"}</Titulo>
+        <Titulo className={resumido ? "resumido" : ""}>
+          {principal.bannios.qty + " Baños"}
+        </Titulo>
       </CajaItem>
     </Container>
   );
@@ -32,9 +40,11 @@ export default function Principal({ principal, resumido }) {
 const Container = styled.div`
   &.resumido {
     display: flex;
-    /* border: 1px solid blue; */
     border-bottom: 1px solid ${theme.primary.neutral600};
     justify-content: center;
+    @media screen and (max-width: 1300px) {
+      flex-wrap: wrap;
+    }
   }
 `;
 const CajaItem = styled.div`
@@ -50,6 +60,10 @@ const CajaItem = styled.div`
     &.borderRight {
       border-right: 1px solid;
     }
+    @media screen and (max-width: 1300px) {
+      width: 45%;
+      margin-bottom: 4px;
+    }
   }
 `;
 const Img = styled.img`
@@ -58,6 +72,9 @@ const Img = styled.img`
 const Titulo = styled.h2`
   font-size: 1.2rem;
   color: ${theme.primary.neutral600};
-  /* border: 1px solid red; */
-  /* width: 100%; */
+  &.resumido {
+    @media screen and (max-width: 550px) {
+      font-size: 1rem;
+    }
+  }
 `;

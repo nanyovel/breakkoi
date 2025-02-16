@@ -21,8 +21,11 @@ import { useParams } from "react-router";
 import { Villas } from "../DB/Villas";
 import BotonQuery from "../components/BotonQuery";
 import { fetchGetDocs, obtenerDocPorId } from "../libs/FetchFirebase";
+import ImageGallery from "react-image-gallery";
+import useWindowWidth from "../components/useWindowWidth";
 
 export default function DetalleVilla({ userMaster }) {
+  const width = useWindowWidth();
   const [villaMaster, setVillaMaster] = useState({});
   const params = useParams();
   const docUser = params.id;
@@ -91,18 +94,48 @@ export default function DetalleVilla({ userMaster }) {
     }
   };
 
+  const [listaImagenes, setListaImagenes] = useState([]);
+  useEffect(() => {
+    if (villaMaster?.areas) {
+      console.log(villaMaster);
+      const imgLista = villaMaster.areas.flatMap((areas) => areas.fotos);
+      const imgAux = [
+        {
+          texto: "Imagen destacada",
+          url: villaMaster.urlFotoDestacada,
+        },
+        ...imgLista,
+      ];
+      const imgParsed = imgAux.map((img) => {
+        return {
+          original: img.url,
+          thumbnail: img.url,
+          description: img.texto,
+        };
+      });
+      console.log(imgParsed);
+      setListaImagenes(imgParsed);
+    }
+  }, [villaMaster]);
   return (
     <>
-      {/* <Header noFixed={true} /> */}
-      <BotonQuery villaMaster={villaMaster} />
+      <Header noFixed={true} />
       {datosParsed && (
         <Container>
           <TituloVilla ref={galeriaRef}>{villaMaster.titulo}</TituloVilla>
           <Subtitulo>{villaMaster.subTitulo}</Subtitulo>
-          <Galeria
-            villaMaster={villaMaster}
-            setMostrarGaleria={setMostrarGaleria}
-          />
+          {width > 550 && (
+            <Galeria
+              width={width}
+              villaMaster={villaMaster}
+              setMostrarGaleria={setMostrarGaleria}
+            />
+          )}
+          {width <= 550 && (
+            <CajaGaleria>
+              <ImageGallery items={listaImagenes} />
+            </CajaGaleria>
+          )}
           <ControlesDetalles
             hacerScroll={hacerScroll}
             mostrarGaleria={mostrarGaleria}
@@ -114,7 +147,11 @@ export default function DetalleVilla({ userMaster }) {
               {villaMaster.Subtitulo}
             </Subtitulo>
 
-            <DescripcionVilla hacerScroll={hacerScroll} villa={villaMaster} />
+            <DescripcionVilla
+              width={width}
+              hacerScroll={hacerScroll}
+              villa={villaMaster}
+            />
           </Seccion>
           <Seccion>
             <Subtitulo>Principal</Subtitulo>
@@ -143,23 +180,45 @@ export default function DetalleVilla({ userMaster }) {
           </Seccion>
           <Seccion className="anchoCompleto">
             <Subtitulo>Anfritrion</Subtitulo>
-            {/* <CajaAnfritrion anfitrion={villaMaster.anfitrion} /> */}
           </Seccion>
         </Container>
       )}
+      <Footer />
     </>
   );
 }
+const CajaGaleria = styled.div`
+  width: 100%;
+  min-height: 200px;
+  height: 350px;
+  margin-bottom: 25px;
+  height: auto;
+`;
 
 const Container = styled.div`
   position: relative;
   padding: 0 200px;
   margin-bottom: 300px;
+  @media screen and (max-width: 1100px) {
+    padding: 0 60px;
+  }
+  @media screen and (max-width: 960px) {
+    padding: 0 50px;
+  }
+  @media screen and (max-width: 750px) {
+    padding: 0 20px;
+  }
+  @media screen and (max-width: 650px) {
+    padding: 0 10px;
+  }
 `;
 const TituloVilla = styled.h1`
   padding: 20px;
   color: ${theme.primary.turquoise};
   font-size: 1.6rem;
+  @media screen and (max-width: 650px) {
+    padding: 5px;
+  }
 `;
 const Seccion = styled.section`
   margin-bottom: 50px;
@@ -175,6 +234,12 @@ const Seccion = styled.section`
     width: auto;
   }
   height: auto;
+  @media screen and (max-width: 750px) {
+    width: 90%;
+  }
+  @media screen and (max-width: 520px) {
+    width: 100%;
+  }
 `;
 const Subtitulo = styled.h2`
   color: ${theme.secondary.coral};

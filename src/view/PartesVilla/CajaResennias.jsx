@@ -149,7 +149,9 @@ export default function CajaResennias({ villaMaster, userMaster }) {
       {/* <Titulo>Reseñas</Titulo> */}
       <BoxComments>
         {resenniaParsed.map((review, index) => {
-          return <CardResennia key={index} review={review} />;
+          return (
+            <CardResennia key={index} review={review} detalleVilla={true} />
+          );
         })}
         {resenniaParsed.length == 0 && (
           <CajaSinCommentario>
@@ -209,6 +211,9 @@ const Container = styled.div`
   border: 1px solid ${theme.primary.neutral550};
   border-radius: 10px;
   margin-bottom: 80px;
+  @media screen and (max-width: 450px) {
+    padding: 10px 40px;
+  }
 `;
 
 const Titulo = styled.h2`
@@ -222,6 +227,7 @@ const Titulo = styled.h2`
 const BoxComments = styled.div`
   border: 1px solid ${theme.primary.neutral550};
   border-radius: 5px;
+  width: 100%;
   margin-bottom: 35px;
 `;
 

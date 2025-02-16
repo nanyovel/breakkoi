@@ -8,7 +8,12 @@ import ImgStar from "./../../../public/img/estrella.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import BotonQuery from "../../components/BotonQuery";
 
-export default function DescripcionVilla({ villa, hacerScroll, resumido }) {
+export default function DescripcionVilla({
+  villa,
+  hacerScroll,
+  resumido,
+  width,
+}) {
   // const [position, setPosition] = useState("static"); // 'absolute' o 'fixed'
   const [position, setPosition] = useState("absolute"); // 'absolute' o 'fixed'
   // const [top, setTop] = useState("100px"); // Valor de la posición superior
@@ -59,6 +64,7 @@ export default function DescripcionVilla({ villa, hacerScroll, resumido }) {
     }
     setQtyEstrellas(auxQtyEstrellas);
   }, [villa]);
+
   return (
     <ContainerCalDetail className={resumido ? "resumido" : ""}>
       <CajaDetail>
@@ -79,7 +85,7 @@ export default function DescripcionVilla({ villa, hacerScroll, resumido }) {
           <ContenedorIntValor>
             <CajitaFlex>
               <Icono icon={faComment} />
-              <Texto5Star>12</Texto5Star>
+              <Texto5Star>0</Texto5Star>
             </CajitaFlex>
             <Texto5Star
               className="review"
@@ -101,11 +107,15 @@ export default function DescripcionVilla({ villa, hacerScroll, resumido }) {
         </CajaResumenValoraciones>
       </CajaDetail>
       {!resumido && (
-        <CajaBox>
-          <CajaCalendario position={position} top={top} />
+        <CajaBox
+          $position={width > 750 ? position : ""}
+          $top={width > 750 ? top : ""}
+        >
+          <CajaCalendario />
         </CajaBox>
       )}
-      {hasHeaderCal && (
+
+      {hasHeaderCal && width > 550 && (
         <CajaCalHeader>
           <BoxCalendario>
             <TituloCal>Calendario</TituloCal>
@@ -140,18 +150,52 @@ const ContainerCalDetail = styled.div`
   width: 65%;
   &.resumido {
     width: 100%;
-    /* border: 2px solid blue; */
   }
-  /* border: 2px solid blue; */
+  @media screen and (max-width: 750px) {
+    width: 90%;
+  }
+  @media screen and (max-width: 520px) {
+    width: 100%;
+  }
 `;
 const CajaDetail = styled.div`
-  /* width: 70%; */
   width: 100%;
 `;
 const CajaBox = styled.div`
   display: flex;
   justify-content: end;
-  width: 30%;
+  position: ${(props) => props.$position};
+  top: ${(props) => props.$top};
+
+  right: 200px;
+  width: 360px;
+  height: 300px;
+  background-color: #f4a261;
+  @media screen and (max-width: 1400px) {
+    width: 270px;
+    right: 100px;
+  }
+  @media screen and (max-width: 1400px) {
+    right: 70px;
+  }
+  @media screen and (max-width: 930px) {
+    width: 240px;
+    right: 50px;
+    height: 120px;
+  }
+  @media screen and (max-width: 800px) {
+    width: 220px;
+    right: 40px;
+    height: 120px;
+  }
+  @media screen and (max-width: 750px) {
+    position: fixed;
+    bottom: 0;
+    top: auto;
+    width: 100%;
+    right: auto;
+    height: 80px;
+  }
 `;
 const CajaResumenValoraciones = styled.div`
   padding: 10px;
@@ -163,10 +207,12 @@ const CajaResumenValoraciones = styled.div`
   justify-content: center;
   &.resumido {
     padding: 0;
+    @media screen and (max-width: 550px) {
+      justify-content: space-around;
+    }
   }
 `;
 const ContenedorIntValor = styled.div`
-  /* padding: 10px; */
   display: flex;
   text-align: center;
   flex-direction: column;
@@ -176,13 +222,15 @@ const ContenedorIntValor = styled.div`
   &.sinPadding {
     padding: 0;
   }
+  @media screen and (max-width: 750px) {
+    width: 100%;
+  }
 `;
 const CajaEstrellas = styled.div`
   display: inline;
   width: auto;
   &.resumido {
     display: flex;
-    /* margin-right: 200px; */
   }
 `;
 const Texto5Star = styled.h3`
@@ -194,9 +242,15 @@ const Texto5Star = styled.h3`
     font-weight: 400;
     cursor: pointer;
   }
+  @media screen and (max-width: 550px) {
+    font-size: 1.4rem;
+  }
 `;
 const ImgEstrella = styled.img`
   width: 25px;
+  @media screen and (max-width: 550px) {
+    width: 20px;
+  }
 `;
 const Icono = styled(FontAwesomeIcon)``;
 const CajitaFlex = styled.div`
@@ -207,7 +261,6 @@ const CajitaFlex = styled.div`
 `;
 const CajaAnfitrion = styled.div`
   &.resumido {
-    /* border: 1px solid red; */
     display: flex;
     align-items: center;
     padding: 2px;
@@ -217,6 +270,9 @@ const ImgAvatar = styled.img`
   border-radius: 50%;
   width: 60px;
   aspect-ratio: 1/1;
+  @media screen and (max-width: 550px) {
+    width: 40px;
+  }
 `;
 const NombreAnfitrion = styled.p`
   color: black;
@@ -225,7 +281,6 @@ const CajaCalHeader = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  /* background-color: red; */
   background-color: ${theme.primary.turquoise};
   width: 100%;
   min-height: 50px;
@@ -235,9 +290,7 @@ const CajaCalHeader = styled.div`
   justify-content: space-around;
   color: black;
 `;
-const CajaNav = styled.div`
-  /* background-color: green; */
-`;
+const CajaNav = styled.div``;
 const ListaNav = styled.ul`
   display: flex;
   list-style: none;

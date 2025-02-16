@@ -25,7 +25,7 @@ function App() {
 
   useDocById("usuarios", setUserMaster, idUsuario);
   const [datosParseados, setDatosParseados] = useState(false);
-
+  console.log(userMaster);
   useEffect(() => {
     if (userMaster || userMaster == null) {
       setDatosParseados(true);

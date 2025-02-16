@@ -82,12 +82,19 @@ const WrapPropiedades = styled.div`
     -webkit-box-shadow: 3px 7px 11px 0px ${theme.primary.turquoise};
     box-shadow: 3px 7px 11px 0px ${theme.primary.turquoise};
   }
+  @media screen and (max-width: 1050px) {
+    flex-direction: column;
+    height: auto;
+  }
 `;
 const CajaInt = styled.div`
   height: 100%;
   &.izq {
     width: 40%;
-    background-color: blue;
+    @media screen and (max-width: 1050px) {
+      width: 100%;
+      height: 300px;
+    }
   }
   &.der {
     width: 60%;
@@ -95,6 +102,9 @@ const CajaInt = styled.div`
     display: flex;
     flex-direction: column;
     gap: 7px;
+    @media screen and (max-width: 1050px) {
+      width: 100%;
+    }
   }
 `;
 const ImgPrincipal = styled.img`
@@ -107,6 +117,9 @@ const TituloCard = styled.h2`
   text-align: start;
   color: ${theme.primary.neutral600};
   text-decoration: underline;
+  @media screen and (max-width: 550px) {
+    font-size: 1.4rem;
+  }
 `;
 const CajaBtnFinal = styled.div`
   /* border: 1px solid red; */
@@ -128,12 +141,18 @@ const CajaFinal = styled.div`
 `;
 const IconoSimple = styled.img`
   width: 45px;
+  @media screen and (max-width: 550px) {
+    width: 30px;
+  }
 `;
 const SubtituloFinal = styled.h2`
   color: ${theme.secondary.coral};
   border-bottom: 1px solid ${theme.secondary.coral};
   font-size: 1.1rem;
   /* border: 2px solid red; */
+  @media screen and (max-width: 550px) {
+    font-size: 0.9rem;
+  }
 `;
 const CajaCTA = styled.div`
   width: 100%;

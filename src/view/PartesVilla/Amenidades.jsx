@@ -77,7 +77,6 @@ export default function Amenidades({ amenidades, bntOff }) {
                       color={theme.secondary.coral}
                     />
                   )}
-
                   {am.texto}
                 </Item>
               );
@@ -91,6 +90,9 @@ export default function Amenidades({ amenidades, bntOff }) {
 const Container = styled.div`
   width: 65%;
   min-height: 100px;
+  @media screen and (max-width: 500px) {
+    width: 95%;
+  }
 `;
 
 const Lista = styled.ul`
@@ -100,6 +102,10 @@ const Lista = styled.ul`
   &.scroll {
     overflow-y: scroll;
     height: 100%;
+  }
+  @media screen and (max-width: 500px) {
+    padding-left: 15px;
+    width: 100%;
   }
 `;
 const Item = styled.li`

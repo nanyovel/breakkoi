@@ -9,6 +9,7 @@ import { TituloH1 } from "../components/ElementosGenerales";
 import { NavLink } from "react-router";
 import { Villas } from "../DB/Villas";
 import { fetchGetDocs } from "../libs/FetchFirebase";
+import AnchoScreen from "../components/dev/AnchoScreen";
 
 export default function ListaPropiedades() {
   const [listaPropiedades, setListaPropiedades] = useState([]);
@@ -19,9 +20,12 @@ export default function ListaPropiedades() {
       setListaPropiedades(propiedadesAux);
     })();
   }, []);
+  const ancho = window.screen.width;
   return (
     <>
-      {/* <Header /> */}
+      <Header />
+      <AnchoScreen />
+      {/* <AnchoScreen /> */}
       <Container>
         <Titulo>Propiedades</Titulo>
         <CajaVilla>
@@ -33,23 +37,28 @@ export default function ListaPropiedades() {
             );
           })}
         </CajaVilla>
-        {/* <CajaVilla>
-          <CardVillas />
-        </CajaVilla>
-        <CajaVilla>
-          <CardVillas />
-        </CajaVilla> */}
       </Container>
-      {/* <Footer /> */}
+      <Footer />
     </>
   );
 }
 
 const Container = styled.div`
   padding: 20px ${theme.config.paddingLateral};
+  @media screen and (max-width: 850px) {
+    padding: 20px 50px;
+  }
+  @media screen and (max-width: 430px) {
+    padding: 20px 20px;
+  }
 `;
 const CajaVilla = styled.div`
   margin-bottom: 25px;
+  @media screen and (max-width: 850px) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+  }
 `;
 const Enlace = styled(NavLink)`
   margin-bottom: 25px;
@@ -62,6 +71,9 @@ const Enlace = styled(NavLink)`
   }
   &:target {
     color: auto;
+  }
+  @media screen and (max-width: 850px) {
+    min-width: 60%;
   }
 `;
 const Titulo = styled(TituloH1)``;

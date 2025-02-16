@@ -8,7 +8,12 @@ import EEUU from "./../../public/img/estados-unidos.png";
 import ImgStar from "./../../public/img/estrella.png";
 import { generatorIconFlagURL } from "./ListaPaises";
 
-export default function CardResennia({ filasDeDos, modal, review }) {
+export default function CardResennia({
+  filasDeDos,
+  modal,
+  review,
+  detalleVilla,
+}) {
   console.log(review);
   const qtyEstrella = [];
   let contador = 0;
@@ -20,7 +25,9 @@ export default function CardResennia({ filasDeDos, modal, review }) {
     <CajaPersona
       className={`
       ${filasDeDos ? " filasDeDos " : ""}
-      ${modal ? "modal" : ""}
+      ${modal ? " modal " : ""}
+      ${detalleVilla ? " detalleVilla " : ""}
+
       `}
     >
       <CajaInterna className="persona">
@@ -80,6 +87,9 @@ const CajaPersona = styled.article`
   }
   @media screen and (max-width: 1200px) {
     width: 30%;
+    &.detalleVilla {
+      width: 100%;
+    }
   }
   @media screen and (max-width: 620px) {
     width: 40%;
@@ -97,6 +107,13 @@ const CajaInterna = styled.div`
   }
   &.texto {
     height: 100%;
+    min-height: 100px;
+    min-width: 200px;
+    margin-top: 15px;
+    width: 100%;
+  }
+  &.detalleVilla {
+    width: 100%;
   }
 `;
 const CajaImg = styled.div`
@@ -134,10 +151,15 @@ const CajaSubtitulo = styled.div`
   /* border: 1px solid red; */
   height: 80%;
   align-content: center;
+  margin-bottom: 15px;
+  border: 1px solid ${theme.primary.neutral300};
+  min-height: 50px;
+  padding: 4px;
 `;
 const Subtitulo = styled.p``;
 const CajaPuntuacion = styled.div`
   height: 20%;
+  margin-top: 20px;
 `;
 const ImgEstrella = styled.img`
   width: 20px;
